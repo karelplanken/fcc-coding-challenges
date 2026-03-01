@@ -52,7 +52,7 @@ uv run python challenges/<name>.py
 ### Run tests
 
 ```bash
-uv run pytest challenges/<name>.py -v --cov --cov--term=term-missing
+uv run pytest challenges/<name>.py -v --cov --cov--report=term-missing
 ```
 
 ### Type checking
