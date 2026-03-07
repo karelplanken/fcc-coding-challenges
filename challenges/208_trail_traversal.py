@@ -37,25 +37,27 @@
 # Return "RDDRDD".
 from dataclasses import dataclass
 from types import MappingProxyType
+from typing import final
 
 from pytest import mark
 
 
+@final
 @dataclass(frozen=True, slots=True)
-class Coord:
+class Coordinate:
     row: int
     col: int
 
-    def __add__(self, other: 'Coord') -> 'Coord':
-        return Coord(self.row + other.row, self.col + other.col)
+    def __add__(self, other: Coordinate) -> Coordinate:
+        return Coordinate(self.row + other.row, self.col + other.col)
 
 
-MOVES: MappingProxyType[str, Coord] = MappingProxyType(
+MOVES: MappingProxyType[str, Coordinate] = MappingProxyType(
     {
-        'U': Coord(-1, 0),
-        'D': Coord(1, 0),
-        'L': Coord(0, -1),
-        'R': Coord(0, 1),
+        'U': Coordinate(-1, 0),
+        'D': Coordinate(1, 0),
+        'L': Coordinate(0, -1),
+        'R': Coordinate(0, 1),
     }
 )
 
@@ -68,13 +70,13 @@ def navigate_trail(trail_map: list[str]) -> str:
     rows, cols = len(trail_map), len(trail_map[0])
 
     pos = next(
-        Coord(r, c)
+        Coordinate(r, c)
         for r, row in enumerate(trail_map)
         for c, cell in enumerate(row)
         if cell == 'C'
     )
 
-    def neighbours(p: Coord) -> list[tuple[str, Coord]]:
+    def neighbours(p: Coordinate) -> list[tuple[str, Coordinate]]:
         return [
             (direction, nxt)
             for direction, delta in MOVES.items()
