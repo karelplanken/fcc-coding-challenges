@@ -21,6 +21,29 @@ freeCodeCamp's Daily Coding Challenges are short programming puzzles designed to
 
 ---
 
+## How I Solve These Challenges
+
+I treat these challenges as deliberate practice for my own problem-solving skills, so I intentionally avoid AI assistance during the solving phase.
+
+- I start by turning off GitHub Copilot (and similar guardrails)
+- I copy the challenge description from freeCodeCamp and solve it on my own first
+- For harder problems, I sketch pseudocode and think explicitly about:
+	- input and output shape
+	- data structures involved
+	- the transformation steps from input to output
+- While implementing, I run the script repeatedly and use `print` statements to inspect intermediate values
+
+Only after I have a working first solution do I use AI as a review tool, not as a solver.
+
+- I fill in a reusable prompt template (see `PROMPT_TEMPLATE.md`)
+- I paste that prompt into Claude for feedback, grading, and refactoring ideas
+- In most cases, only minor issues come up
+- Most of the time I keep my own solution or use a hybrid of my approach and Claude's suggestions; only rarely do I adopt Claude's full solution
+
+This workflow keeps the focus on becoming a better programmer, rather than optimizing for how well an AI can solve the challenge.
+
+---
+
 ## Code Standards
 
 Every solution in this repo follows the same conventions:
@@ -52,7 +75,7 @@ uv run python challenges/<name>.py
 ### Run tests
 
 ```bash
-uv run pytest challenges/<name>.py -v --cov --cov--report=term-missing
+uv run pytest challenges/<name>.py -v --cov --cov-report=term-missing
 ```
 
 ### Type checking
@@ -72,6 +95,7 @@ fcc-coding-challenges/
 │   ├── <name>.py
 │   └── ...
 ├── pyproject.toml
+├── PROMPT_TEMPLATE.md
 ├── .gitignore
 ├── LICENSE
 └── README.md
