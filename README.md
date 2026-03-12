@@ -105,11 +105,11 @@ uv run mypy --strict challenges/<name>.py
 ```
 fcc-coding-challenges/
 ├── challenges/
-│   ├── <name>.py
-│   ├── <name>.py
+│   ├── 001_vowel_balance.py
+│   ├── 002_base_check.py
 │   └── ...
 ├── pyproject.toml
-├── PROMPT_TEMPLATE.md
+├── PROMPT-TEMPLATE.md
 ├── .gitignore
 ├── LICENSE
 └── README.md
