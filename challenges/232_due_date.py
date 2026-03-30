@@ -22,8 +22,8 @@ def get_due_date(date_str: str) -> str:
     else:
         target_month = dt.month + MONTHS_TO_ADD
         years_to_add = 0
-    
-    target_year = dt.year + years_to_add  
+
+    target_year = dt.year + years_to_add
     _, max_days_month = monthrange(target_year, target_month)
     # Handle cases where the target month has fewer days than the original day:
     days = min(dt.day, max_days_month)
