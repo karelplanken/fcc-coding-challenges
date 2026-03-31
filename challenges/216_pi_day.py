@@ -1,0 +1,65 @@
+# Daily Coding challenge #216 (2026-03-14) - freeCodeCamp.org
+# Pi Day
+# Happy pi (π) day!
+
+# Given an integer (n), where n is between 1 and 1000 (inclusive), return the nth
+# decimal of π.
+
+# Make sure to return a number not a string.
+# π with its first five decimals is 3.14159. So given 5 for example, return 9, the
+# fifth decimal.
+
+# You may have to find the first 1000 decimals of π somewhere.
+from pytest import mark
+
+# π's first 1000 decimal digits (after the "3.")
+# The problem itself hints: "You may have to find the first 1000 decimals of π 
+# somewhere." Hardcoding is the correct, idiomatic answer — O(1), perfectly accurate, 
+# zero math risk.
+_PI_DECIMALS = (
+    '1415926535 8979323846 2643383279 5028841971 6939937510'
+    '5820974944 5923078164 0628620899 8628034825 3421170679'
+    '8214808651 3282306647 0938446095 5058223172 5359408128'
+    '4811174502 8410270193 8521105559 6446229489 5493038196'
+    '4428810975 6659334461 2847564823 3786783165 2712019091'
+    '4564856692 3460348610 4543266482 1339360726 0249141273'
+    '7245870066 0631558817 4881520920 9628292540 9171536436'
+    '7892590360 0113305305 4882046652 1384146951 9415116094'
+    '3305727036 5759591953 0921861173 8193261179 3105118548'
+    '0744623799 6274956735 1885752724 8912279381 8301194912'
+    '9833673362 4406566430 8602139494 6395224737 1907021798'
+    '6094370277 0539217176 2931767523 8467481846 7669405132'
+    '0005681271 4526356082 7785771342 7577896091 7363717872'
+    '1468440901 2249534301 4654958537 1050792279 6892589235'
+    '4201995611 2129021960 8640344181 5981362977 4771309960'
+    '5187072113 4999999837 2978049951 0597317328 1609631859'
+    '5024459455 3469083026 4252230825 3344685035 2619311881'
+    '7101000313 7838752886 5875332083 8142061717 7669147303'
+    '5982534904 2875546873 1159562863 8823537875 9375195778'
+    '1857780532 1712268066 1300192787 6611195909 2164201989'
+).replace(' ', '')
+
+
+def get_pi_decimal(n: int) -> int:
+    return int(_PI_DECIMALS[n - 1])
+
+tests = [
+    (5, 9),
+    (10, 5),
+    (22, 6),
+    (39, 7),
+    (76, 2),
+    (384, 4),
+    (601, 0),
+    (1000, 9),
+]
+
+
+@mark.parametrize('n, expected', tests)
+def test_get_pi_decimal(n: int, expected: int) -> None:
+    assert get_pi_decimal(n) == expected
+
+
+if __name__ == '__main__':
+    n, expected = tests[6]
+    print(get_pi_decimal(n))
