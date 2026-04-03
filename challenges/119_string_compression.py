@@ -49,8 +49,8 @@
 
 
 # Option 3: Generator expression (memory efficient)
+from collections.abc import Iterator
 from itertools import groupby
-from typing import Iterator
 
 from pytest import mark
 

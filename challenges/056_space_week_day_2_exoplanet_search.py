@@ -72,4 +72,4 @@ def test_has_exoplanet(readings: str, expected: bool) -> None:
 
 if __name__ == '__main__':
     readings, expected = tests[0]
-    print(has_exoplanet((readings)))
+    print(has_exoplanet(readings))

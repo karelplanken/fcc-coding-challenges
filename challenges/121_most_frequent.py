@@ -4,11 +4,8 @@
 
 # There will always be a single most frequent element.
 from collections import Counter
-from typing import TypeVar
 
 from pytest import mark
-
-T = TypeVar('T')
 
 # def most_frequent(arr: list[T]) -> T:
 #     count = Counter(arr)
@@ -21,7 +18,7 @@ T = TypeVar('T')
 #     return most_common_element
 
 
-def most_frequent(arr: list[T]) -> T:
+def most_frequent[T](arr: list[T]) -> T:
     return Counter(arr).most_common(1)[0][0]
 
 
@@ -40,7 +37,7 @@ tests = [
 
 
 @mark.parametrize('arr,expected', tests)
-def test_most_frequent(arr: list[T], expected: T) -> None:
+def test_most_frequent[T](arr: list[T], expected: T) -> None:
     assert most_frequent(arr) == expected
 
 
