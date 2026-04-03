@@ -18,7 +18,8 @@ def flatten(arr: list) -> list:
 
 
 # Generator version:
-# from typing import Any, Iterator
+# from collections.abc import Iterator
+# from typing import Any
 # def flatten(arr: list) -> list:
 #     def _flatten_gen(items: list) -> Iterator[Any]:
 #         for el in items:

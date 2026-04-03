@@ -13,7 +13,7 @@
 # Note that the starting numbers are part of the sequence.
 
 # Generator version (memory efficient for very long sequences)
-from typing import Generator
+from collections.abc import Generator
 
 from pytest import mark
 
@@ -37,7 +37,6 @@ def fibonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
 
 
 # Return the generator itself, use as: list(fibonacci_generator(input_data, length))
-
 
 # def fibonacci_generator(
 #     start_sequence: list[int], length: int

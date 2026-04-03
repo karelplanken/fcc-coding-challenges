@@ -8,13 +8,13 @@
 # because the day number (27) is an odd number.
 # Note that the problem description does not specify a timezone, the tests, however,
 # require using UTC...
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from pytest import mark
 
 
 def odd_or_even_day(timestamp: int) -> str:
-    day = datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc).day
+    day = datetime.fromtimestamp(timestamp / 1000, tz=UTC).day
     return 'even' if day % 2 == 0 else 'odd'
 
 
