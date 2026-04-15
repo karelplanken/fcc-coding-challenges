@@ -1,4 +1,4 @@
-# Daily Coding challenge #246 (2026-04-13) - freeCodeCamp.org
+# Daily Coding challenge #247 (2026-04-14) - freeCodeCamp.org
 # Last Letter
 # Given a string, return the letter from the string that appears last in the alphabet.
 
