@@ -20,6 +20,7 @@ def do_math(s: str) -> int:
     numbers = [int(n) for n in re.findall(r'\d+', s)]
     separators = re.split(r'\d+', s)[1:-1]  # trim edges
 
+    # Return a signed sum
     return numbers[0] + sum(
         num if len(sep) % 2 == 0 else -num for sep, num in zip(separators, numbers[1:])
     )
