@@ -4,7 +4,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/karelplanken/fcc-coding-challenges?color=orange)
 ![License](https://img.shields.io/github/license/karelplanken/fcc-coding-challenges?color=success)
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
-![Challenges](https://img.shields.io/badge/Challenges-233-brightgreen)
+![Challenges](https://img.shields.io/badge/Challenges-263-brightgreen)
 ![freeCodeCamp](https://img.shields.io/badge/freeCodeCamp-solutions-0a0a23?logo=freecodecamp&logoColor=white)
 
 Personal repository of my Python solutions to the
