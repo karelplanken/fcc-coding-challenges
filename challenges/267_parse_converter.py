@@ -1,4 +1,4 @@
-# Daily Coding challenge #266 (2026-05-03) - freeCodeCamp.org
+# Daily Coding challenge #267 (2026-05-03) - freeCodeCamp.org
 # Parsec Converter
 # In a distant galaxy, parsecs are used to measure both time and distance. Given an
 # integer number of parsecs, return its equivalent in time or distance.
