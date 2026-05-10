@@ -1,4 +1,4 @@
-# Daily Coding challenge #273 (2026-05-09) - freeCodeCamp.org
+# Daily Coding challenge #272 (2026-05-09) - freeCodeCamp.org
 # Transposed Matrix
 # Given a matrix (an array of arrays), return the transposed version of it.
 # To transpose the matrix, swap the rows and columns. E.g: a value at index [0, 1]
