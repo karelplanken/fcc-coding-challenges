@@ -26,6 +26,14 @@ def get_pizzas_to_order(hours_worked: list[int]) -> int:
     return ceil(total_slices / SLICES_PER_PIZZA)
 
 
+# One-liner solution:
+# def get_pizzas_to_order(hours_worked: list[int]) -> int:
+#     return ceil(
+#         sum(max(ceil(hours / HOURS_PER_SLICE), MIN_SLICES) for hours in hours_worked)
+#         / SLICES_PER_PIZZA
+#     )
+
+
 tests = [
     ([8, 8, 8], 2),
     ([10, 9, 8, 2, 2, 6, 10], 3),
