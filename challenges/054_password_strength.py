@@ -12,21 +12,25 @@
 # Return "weak" if the password meets fewer than two of the rules. Return "medium" if
 # the password meets 2 or 3 of the rules. Return "strong" if the password meets all
 # 4 rules.
+from collections.abc import Callable
+
 from pytest import mark
 
 SPECIAL_CHARS = {'!', '@', '#', '$', '%', '^', '&', '*'}
 
+PASSWORD_RULES: list[Callable[[str], bool]] = [
+    lambda password: len(password) >= 8,
+    lambda password: (
+        any(char.isupper() for char in password)
+        and any(char.islower() for char in password)
+    ),
+    lambda password: any(char.isdigit() for char in password),
+    lambda password: any(char in SPECIAL_CHARS for char in password),
+]
+
 
 def check_strength(password: str) -> str:
-    PASSWORD_RULES = [
-        lambda: len(password) >= 8,
-        lambda: any(char.isupper() for char in password)
-        and any(char.islower() for char in password),
-        lambda: any(char.isdigit() for char in password),
-        lambda: any(char in SPECIAL_CHARS for char in password),
-    ]
-
-    rules_met = sum(rule() for rule in PASSWORD_RULES)
+    rules_met = sum(rule(password) for rule in PASSWORD_RULES)
 
     if rules_met == len(PASSWORD_RULES):
         return 'strong'
