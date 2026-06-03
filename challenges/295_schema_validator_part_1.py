@@ -12,7 +12,7 @@ USERNAME = 'username'
 
 
 def is_valid_schema(obj: dict[str, object]) -> bool:
-    return isinstance(obj.get(USERNAME), str)
+    return type(obj.get(USERNAME)) is str
 
 
 tests: list[tuple[dict[str, object], bool]] = [
