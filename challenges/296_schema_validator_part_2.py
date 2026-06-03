@@ -8,7 +8,7 @@
 #   verified: boolean
 # }
 # Extra keys are allowed
-from collections.abc import Callable, Mapping
+from collections.abc import Callable
 from types import MappingProxyType
 
 from pytest import mark
@@ -17,12 +17,10 @@ USERNAME = 'username'
 POSTS = 'posts'
 VERIFIED = 'verified'
 
-RULES: Mapping[str, Callable[[dict[str, object]], bool]] = MappingProxyType({
-    USERNAME: lambda d: isinstance(d.get(USERNAME), str),
-    POSTS: lambda d: (
-        isinstance(d.get(POSTS), int) and not isinstance(d.get(POSTS), bool)
-    ),
-    VERIFIED: lambda d: isinstance(d.get(VERIFIED), bool),
+RULES: MappingProxyType[str, Callable[[dict[str, object]], bool]] = MappingProxyType({
+    USERNAME: lambda d: type(d.get(USERNAME)) is str,
+    POSTS: lambda d: type(d.get(POSTS)) is int,
+    VERIFIED: lambda d: type(d.get(VERIFIED)) is bool,
 })
 
 
