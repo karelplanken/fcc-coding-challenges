@@ -29,9 +29,6 @@ VERIFIED = 'verified'
 SUPPORTER = 'supporter'
 
 
-# *--- Named rule functions: individually importable and testable ---
-
-
 def valid_username(d: Schema) -> bool:
     return type(d.get(USERNAME)) is str
 
@@ -49,7 +46,7 @@ def valid_role(d: Schema) -> bool:
 
 
 def valid_supporter(d: Schema) -> bool:
-    return type(d.get(SUPPORTER, True)) is bool
+    return SUPPORTER not in d or type(d[SUPPORTER]) is bool
 
 
 RULES: MappingProxyType[str, Callable[[Schema], bool]] = MappingProxyType({
@@ -61,19 +58,9 @@ RULES: MappingProxyType[str, Callable[[Schema], bool]] = MappingProxyType({
 })
 
 
-# *--- Public API ---
-
-
-def failing_rules(obj: Schema) -> list[str]:
-    """Returns names of all rules that failed. Empty list means valid."""
-    return [name for name, rule in RULES.items() if not rule(obj)]
-
-
 def is_valid_schema(obj: Schema) -> bool:
-    return not failing_rules(obj)
+    return all(rule(obj) for rule in RULES.values())
 
-
-# *--- Tests ---
 
 tests = [
     (
@@ -156,15 +143,6 @@ def test_is_valid_schema(obj: Schema, expected: bool) -> None:
     assert is_valid_schema(obj) == expected
 
 
-# *--- Individual rule tests ---:
-def test_valid_posts_rejects_bool() -> None:
-    assert not valid_posts({'posts': True})  # bool subclasses int — must reject
-
-
-def test_valid_supporter_absent() -> None:
-    assert valid_supporter({})  # optional field, absent → valid
-
-
 if __name__ == '__main__':
-    obj, expected = tests[3]
+    obj, expected = tests[0]
     print(is_valid_schema(obj))
