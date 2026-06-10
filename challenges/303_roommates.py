@@ -1,4 +1,4 @@
-# Daily Coding challenge #302 (2026-06-08) - freeCodeCamp.org
+# Daily Coding challenge #303 (2026-06-09) - freeCodeCamp.org
 # Roommates
 # Given an array of people and their roommate group, return the room assignments for a
 # hotel stay using the following rules:
