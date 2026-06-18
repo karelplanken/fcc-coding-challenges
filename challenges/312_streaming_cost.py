@@ -30,16 +30,19 @@ DISCOUNT = {
 
 
 # * NOTE: Decimal arithmetic fails this challenge despite being the correct approach
-# for currency calculations. Two test cases land on exact 0.5 rounding boundaries:
+# for currency calculations. Three test cases land on exact 0.5 rounding boundaries:
 #
 #   [HD rent, HD buy] premium:
 #   (3.99 + 12.99) * 0.75 = 12.735  → expected $12.73 (not $12.74)
 #
+#   [4K buy, 4K buy] premium:
+#   (19.99 + 19.99) * 0.75 = 29.985  → expected $29.98 (not $29.99)
+#
 #   [HD rent, 4K rent, HD buy, 4K buy, HD buy] basic:
 #   (3.99 + 5.99 + 12.99 + 19.99 + 12.99) * 0.90 = 50.355 → expected $50.36 (not $50.35)
 #
-# The first rounds down, the second rounds up — no single Decimal rounding mode
-# satisfies both. The expected outputs were generated with float, whose binary
+# The first two round down, the third rounds up — no single Decimal rounding mode
+# satisfies all three. The expected outputs were generated with float, whose binary
 # representation errors push each boundary in opposite directions by accident.
 # float is therefore the required implementation here, not a shortcut.
 #
@@ -47,6 +50,7 @@ DISCOUNT = {
 # For test 6, Python float yields $50.36 (passes locally) but JavaScript float
 # yields $50.35 (fails in the IDE) — same IEEE 754 standard, different accumulated
 # representation errors. The challenge is effectively broken for that test case.
+# See also: https://github.com/freeCodeCamp/freeCodeCamp/issues/68045
 #
 def get_streaming_bill(cart: list[dict[str, str]], subscription: str) -> str:
     # list[dict[str, str]] is a code smell; TypedDict or dataclass would be better,
