@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+extract_new_file() {
+    local process_output="$1"
+    local new_file_path
+
+    new_file_path="$(
+        sed -nE 's/^.* saved to (.+)$/\1/p' <<< "$process_output"
+    )"
+
+    if [[ -z "$new_file_path" ]]; then
+        printf 'Error: failed to determine created challenge file\n' >&2
+        exit 1
+    fi
+
+    printf '%s\n' "$new_file_path"
+}
+
+SCRIPT_DIR="$(cd -- "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+
+if [[ -z "${RUFFTOML:-}" ]]; then
+    printf 'Error: RUFFTOML is not set.\n' >&2
+    exit 1
+fi
+
+download_url="$(uv run "$SCRIPT_DIR/get_challenge_url.py" "$@")"
+
+temp_file="$(mktemp)"
+trap 'rm -f -- "$temp_file"' EXIT
+
+if ! curl -fsSL "$download_url" -o "$temp_file"; then
+    printf 'Error: failed to download challenge markdown\n' >&2
+    exit 1
+fi
+
+process_output="$(uv run "$SCRIPT_DIR/process_challenge_md.py" "$temp_file")"
+new_file_relative="$(extract_new_file "$process_output")"
+
+if [[ "$new_file_relative" = /* ]]; then
+    new_file="$new_file_relative"
+else
+    new_file="$REPO_DIR/$new_file_relative"
+fi
+
+if [[ ! -f "$new_file" ]]; then
+    printf 'Error: created challenge file not found: %s\n' "$new_file" >&2
+    exit 1
+fi
+
+uvx ruff format "$new_file" --config "$RUFFTOML"
+
+printf '%s\n' "$process_output"

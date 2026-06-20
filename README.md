@@ -43,7 +43,8 @@ skills, so I intentionally avoid AI assistance during the solving phase.
 
 Only after I have a working first solution do I use AI as a review tool, not as a solver.
 
-- I fill in a reusable prompt template (see [PROMPT-TEMPLATE.md](PROMPT-TEMPLATE.md))
+- I run `fb-fcc-dcc` to assemble my solution into a reusable feedback prompt
+  (the template lives in [`scripts/assemble_prompt_for_feedback_on_fccdcc.py`](scripts/assemble_prompt_for_feedback_on_fccdcc.py))
 - I paste that prompt into Claude for feedback, grading, and refactoring ideas
 - In most cases, only minor issues come up
 - Most of the time I keep my own solution or use a hybrid of my approach and
@@ -100,19 +101,78 @@ uv run mypy --strict challenges/<name>.py
 
 ---
 
+## Automation Scripts
+
+Two small tools remove the repetitive parts of the daily routine — fetching a fresh challenge file and assembling a review prompt. Full usage details live in [`scripts/scripts-README.md`](scripts/scripts-README.md).
+
+```bash
+get-fcc-dcc                       # fetch & assemble today's challenge file
+fb-fcc-dcc <challenge-file.py>    # assemble a review prompt, copy to clipboard
+```
+
+### How they were built
+
+Both scripts were built through a deliberate division of labor:
+
+- **Claude (Sonnet 4.6)** — planning, architecture decisions, and writing the exact prompts handed to Copilot
+- **GitHub Copilot (GPT-5.4)** — generating the actual code from those prompts, inside VS Code
+- **Me** — the detective work, the decisions, the testing, the corrections, and the final say on every design choice
+
+Neither tool wrote code unsupervised. Every prompt was reviewed before being run, and every generated script was tested and corrected by hand before being accepted.
+
+**`fb-fcc-dcc`** replaced a manual habit — copying the challenge description and a finished solution into Notepad, wrapping them in a fixed template, pasting into Claude. The fix split the work into a pure Python parser (reads the `.py` file, prints the assembled prompt to stdout) and a thin bash wrapper (resolves the file, calls Python, pipes the result to `clip.exe`). Prompts: [`01-part-1-fb-fcc-dcc-python-script.md`](documentation/automate-fetch-and-feedback-project-prompts/01-part-1-fb-fcc-dcc-python-script.md), [`02-part-2-fb-fcc-dcc-bash-script.md`](documentation/automate-fetch-and-feedback-project-prompts/02-part-2-fb-fcc-dcc-bash-script.md).
+
+**`get-fcc-dcc`** took real detective work before any code got written. The starting question was simple — *can a new challenge file be generated automatically instead of copy-pasting from the browser?* — but freeCodeCamp's daily-challenge page is fully client-side rendered, so a plain `curl` of the page returns nothing but an empty shell and JavaScript bundles. The content had to be found elsewhere:
+
+- The challenge content lives in freeCodeCamp's **public GitHub repo**, but each file is named after a MongoDB ObjectId (e.g. `6a0dcc730cb92a616f86f0c5.md`) — not derivable from a date or challenge number.
+- ObjectIds encode a creation timestamp in their first 4 bytes, which looked promising — until decoding it showed the *seeding* date, not the challenge's scheduled date. Dead end.
+- The actual link turned out to be in each file's frontmatter: a `dashedName: challenge-NNN` field, directly tied to the challenge number.
+- Challenge numbers are just an offset from a known start date (`2025-08-11` = challenge #1), so any date trivially maps to a number.
+- The **GitHub Search API** can look up a file by searching for `dashedName: challenge-NNN`, returning two results (JS and Python versions) to filter between.
+- The Search API result only gives a file *path* — the download link comes from a second call to the **GitHub Contents API**, whose JSON response includes a ready-to-use `download_url` field.
+
+That chain — date → number → search → path → contents → download URL — was proven manually with `curl` and `jq` before any script was written. With the data flow confirmed, the build followed the same bash-orchestrates-Python pattern, split into three focused, independently testable pieces: `get_challenge_url.py` resolves a challenge identifier to a download URL, `process_challenge_md.py` parses the markdown and writes the `.py` template, and `get-fcc-dcc` ties them together — `curl`s the download, runs `ruff format` on the result, reports success.
+
+Prompts: [`03-part-1-get-fcc-dcc-python-script-1.md`](documentation/automate-fetch-and-feedback-project-prompts/03-part-1-get-fcc-dcc-python-script-1.md), [`04-part-2-get-fcc-dcc-python-script-2.md`](documentation/automate-fetch-and-feedback-project-prompts/04-part-2-get-fcc-dcc-python-script-2.md), [`05-part-3-get-fcc-dcc-patching-bash-script.md`](documentation/automate-fetch-and-feedback-project-prompts/05-part-3-get-fcc-dcc-patching-bash-script.md).
+
+### Design principles followed throughout
+
+- **Bash orchestrates, Python processes.** Each script does one job; bash never parses data, Python never touches the network or the shell.
+- **Errors are owned by whoever detects them.** Python scripts print clear errors to stderr and exit non-zero; bash stops on failure without adding redundant commentary.
+- **No hardcoded paths.** Scripts resolve their own location via `$(dirname "$0")` and rely on environment variables (`GITHUB_TOKEN`, `RUFFTOML`) for configuration.
+- **Standard library first.** Both Python scripts avoid third-party dependencies, so they run anywhere `uv` and Python are available.
+
+---
+
 ## Repository Structure
 
 ```
 fcc-coding-challenges/
-├── challenges/
+├── LICENSE
+├── README.md
+├── challenges
 │   ├── 001_vowel_balance.py
 │   ├── 002_base_check.py
 │   └── ...
+├── documentation
+│   ├── automate-fetch-and-feedback-project-prompts
+│   │   ├── 01-part-1-fb-fcc-dcc-python-script.md
+│   │   ├── 02-part-2-fb-fcc-dcc-bash-script.md
+│   │   ├── 03-part-1-get-fcc-dcc-python-script-1.md
+│   │   ├── 04-part-2-get-fcc-dcc-python-script-2.md
+│   │   ├── 05-part-3-get-fcc-dcc-patching-bash-script.md
+│   │   └── 06-part-4-get-fcc-dcc-update-readme.md
+│   ├── git-workflow.md
+│   └── hard-challenges.md
 ├── pyproject.toml
-├── PROMPT-TEMPLATE.md
-├── .gitignore
-├── LICENSE
-└── README.md
+├── scripts
+│   ├── assemble_prompt_for_feedback_on_fccdcc.py
+│   ├── fb-fcc-dcc
+│   ├── get-fcc-dcc
+│   ├── get_challenge_url.py
+│   ├── process_challenge_md.py
+│   └── scripts-README.md
+└── uv.lock
 ```
 
 ---
@@ -125,6 +185,8 @@ This repo follows a branch-per-month workflow to keep `main` clean:
   each month
 - Each day's solution gets its own commit
 - At month-end, a PR is opened and squash-merged into `main`
+
+Full details, including the `gh` CLI commands used for branching and merging, are in [`documentation/git-workflow.md`](documentation/git-workflow.md). A running list of challenges I found particularly hard — worth revisiting later — is kept in [`documentation/hard-challenges.md`](documentation/hard-challenges.md).
 
 ---
 
