@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    printf 'Usage: %s <challenge-file>\n' "$(basename -- "$0")" >&2
+}
+
+extract_challenge_name() {
+    local challenge_path="$1"
+    local header_line
+    local description_line
+    local header_name
+
+    IFS= read -r header_line < "$challenge_path"
+    header_name="$(
+        sed -nE \
+            's/^# Daily Coding challenge #[0-9]+ \([0-9]{4}-[0-9]{2}-[0-9]{2}\)( (.+))? - freeCodeCamp\.org$/\2/p' \
+            <<< "$header_line"
+    )"
+
+    if [[ -n "$header_name" ]]; then
+        printf '%s\n' "$header_name"
+        return 0
+    fi
+
+    description_line="$(sed -n '2p' "$challenge_path")"
+    description_line="${description_line#\#}"
+    description_line="${description_line# }"
+
+    if [[ -n "$description_line" ]]; then
+        printf '%s\n' "$description_line"
+        return 0
+    fi
+
+    printf 'Unknown challenge\n'
+}
+
+if [[ "$#" -ne 1 ]]; then
+    usage
+    exit 1
+fi
+
+challenge_arg="$1"
+challenge_filename="$(basename -- "$challenge_arg")"
+default_challenge_path="$HOME/python-projects/fcc-coding-challenges/challenges/$challenge_filename"
+
+if [[ -f "$default_challenge_path" ]]; then
+    challenge_path="$default_challenge_path"
+elif [[ -f "$challenge_arg" ]]; then
+    challenge_path="$challenge_arg"
+else
+    printf 'Error: challenge file not found: %s\n' "$challenge_arg" >&2
+    exit 1
+fi
+
+script_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
+prompt="$(
+    uv run "$script_dir/assemble_prompt_for_feedback_on_fccdcc.py" "$challenge_path"
+)"
+
+printf '%s' "$prompt" | clip.exe
+
+challenge_name="$(extract_challenge_name "$challenge_path")"
+printf '✓ Prompt for "%s" copied to clipboard — paste into Claude\n' "$challenge_name"
