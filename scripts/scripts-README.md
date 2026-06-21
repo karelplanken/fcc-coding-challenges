@@ -79,7 +79,9 @@ echo -e "\n# Ruff config file for formatting the generated challenge file" >> ~/
 echo 'export RUFFTOML=~/python-projects/fcc-coding-challenges/.ruff.toml' >> ~/.bashrc && source ~/.bashrc
 ```
 
-This will set `RUFFTOML` so `get-fcc-dcc` can format the generated file.
+This will set `RUFFTOML` so `get-fcc-dcc` can validate the Ruff config,
+`process_challenge_md.py` can reuse Ruff's `line-length` for comment wrapping,
+and `get-fcc-dcc` can format the generated file.
 
 ### 5. Verify
 
@@ -99,7 +101,8 @@ echo $RUFFTOML
 - `uv` — used to run the Python scripts (`uv run`).
 - `curl` — used by `get-fcc-dcc` to download the upstream challenge markdown.
 - `GITHUB_TOKEN` — required by `get_challenge_url.py` for GitHub API access.
-- `RUFFTOML` — path to the Ruff config file used by `get-fcc-dcc`.
+- `RUFFTOML` — path to the Ruff config file used by `get-fcc-dcc` and
+  `process_challenge_md.py`.
 - `ruff` — run via `uvx ruff format` after a new challenge file is created.
 - `clip.exe` — available by default in WSL2, no setup needed.
 - Python standard library only — no third-party packages required.
@@ -117,8 +120,9 @@ get_challenge_url.py   resolves a challenge number (from today's date, a given
 get-fcc-dcc             curl downloads that URL to a temp file
    ↓
 process_challenge_md.py parses the markdown's frontmatter, description, seed
-                        code, and hint-derived test cases, then writes a
-                        ready-to-solve .py file under challenges/
+                        code, and hint-derived test cases, reads `line-length`
+                        from `RUFFTOML`, and writes a ready-to-solve .py file
+                        under challenges/
    ↓
 get-fcc-dcc             runs `uvx ruff format` on the new file and prints the
                         success message produced by process_challenge_md.py

@@ -181,7 +181,7 @@ fcc-coding-challenges/
 
 This repo follows a branch-per-month workflow to keep `main` clean:
 
-- A new branch `chore/challenges-<month>-<year>` is created at the start of
+- A new branch `chore/cc-<month>-<year>` is created at the start of
   each month
 - Each day's solution gets its own commit
 - At month-end, a PR is opened and squash-merged into `main`

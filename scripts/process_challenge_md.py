@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import ast
+import os
 import re
 import sys
+import tomllib
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
+from textwrap import TextWrapper
 from typing import Final
 
 SERIES_START: Final[date] = date(2025, 8, 11)
@@ -30,6 +33,8 @@ DESCRIPTION_MARKER: Final[str] = '# --description--'
 HINTS_MARKER: Final[str] = '# --hints--'
 SEED_MARKER: Final[str] = '# --seed--'
 SOLUTIONS_MARKER: Final[str] = '# --solutions--'
+COMMENT_PREFIX: Final[str] = '# '
+RUFF_CONFIG_ENV_VAR: Final[str] = 'RUFFTOML'
 
 
 @dataclass(frozen=True)
@@ -47,12 +52,41 @@ class ParsedTestCase:
     expected_literal: str
 
 
+@dataclass(frozen=True)
+class SeedFunction:
+    name: str
+    parameter_names: list[str]
+
+
 def normalize_newlines(text: str) -> str:
     return text.replace('\r\n', '\n').replace('\r', '\n')
 
 
 def challenge_date_from_number(number: int) -> date:
     return SERIES_START + timedelta(days=number - 1)
+
+
+def load_comment_line_width() -> int:
+    ruff_config_value = os.environ.get(RUFF_CONFIG_ENV_VAR)
+    if ruff_config_value is None or ruff_config_value == '':
+        raise ValueError(f'{RUFF_CONFIG_ENV_VAR} is not set')
+
+    ruff_config_path = Path(ruff_config_value).expanduser()
+    try:
+        with ruff_config_path.open('rb') as config_file:
+            config = tomllib.load(config_file)
+    except FileNotFoundError as error:
+        raise ValueError(f'ruff.toml not found: {ruff_config_path}') from error
+    except OSError as error:
+        raise ValueError(f'failed to read ruff.toml: {ruff_config_path}') from error
+    except tomllib.TOMLDecodeError as error:
+        raise ValueError(f'ruff.toml is invalid: {ruff_config_path}') from error
+
+    line_length = config.get('line-length')
+    if not isinstance(line_length, int) or line_length < len(COMMENT_PREFIX):
+        raise ValueError('ruff.toml does not define a valid line-length')
+
+    return line_length
 
 
 def parse_frontmatter(contents: str) -> tuple[ChallengeMetadata, str]:
@@ -177,8 +211,8 @@ def format_args_literal(argument_sources: list[str]) -> str:
     if not argument_sources:
         return '()'
     if len(argument_sources) == 1:
-        return f'({argument_sources[0]},)'
-    return f'({", ".join(argument_sources)})'
+        return f'{argument_sources[0]}'
+    return f'{", ".join(argument_sources)}'
 
 
 def normalize_hint_assertion_line(line: str) -> str:
@@ -237,7 +271,7 @@ def extract_test_cases(body: str) -> list[ParsedTestCase]:
     return test_cases
 
 
-def extract_seed_function_name(seed_code: str) -> str:
+def parse_seed_function(seed_code: str) -> SeedFunction:
     try:
         module = ast.parse(seed_code)
     except SyntaxError as error:
@@ -245,7 +279,20 @@ def extract_seed_function_name(seed_code: str) -> str:
 
     for statement in module.body:
         if isinstance(statement, ast.FunctionDef):
-            return statement.name
+            if statement.args.kwonlyargs:
+                raise ValueError(
+                    'seed function keyword-only parameters are not supported'
+                )
+            if statement.args.vararg is not None or statement.args.kwarg is not None:
+                raise ValueError('seed function variadic parameters are not supported')
+            positional_parameters = [
+                *statement.args.posonlyargs,
+                *statement.args.args,
+            ]
+            return SeedFunction(
+                name=statement.name,
+                parameter_names=[parameter.arg for parameter in positional_parameters],
+            )
     raise ValueError('seed code does not define a function')
 
 
@@ -260,8 +307,55 @@ def validate_test_function_names(
             )
 
 
-def render_description(description: str) -> str:
-    return '\n'.join(f'# {line}' if line else '#' for line in description.splitlines())
+def extract_argument_count(args_literal: str) -> int:
+    try:
+        parsed = ast.parse(f'f({args_literal})')
+    except SyntaxError as error:
+        raise ValueError(f'malformed test case arguments: {args_literal}') from error
+
+    call = parsed.body[0]
+    if not isinstance(call, ast.Expr) or not isinstance(call.value, ast.Call):
+        raise ValueError(f'malformed test case arguments: {args_literal}')
+    return len(call.value.args)
+
+
+def validate_test_case_arity(
+    test_cases: list[ParsedTestCase], parameter_names: list[str]
+) -> None:
+    for test_case in test_cases:
+        argument_count = extract_argument_count(test_case.args_literal)
+        if argument_count != len(parameter_names):
+            raise ValueError(
+                'hint argument count does not match seed function signature: '
+                f'{test_case.function_call}'
+            )
+
+
+def render_description(description: str, comment_line_width: int) -> str:
+    rendered_lines: list[str] = []
+
+    for line in description.splitlines():
+        if line == '':
+            rendered_lines.append('#')
+            continue
+
+        initial_prefix = COMMENT_PREFIX
+        subsequent_prefix = COMMENT_PREFIX
+        if line.startswith('- '):
+            initial_prefix = '# - '
+            subsequent_prefix = '#   '
+            line = line[2:]
+
+        wrapper = TextWrapper(
+            width=comment_line_width,
+            initial_indent=initial_prefix,
+            subsequent_indent=subsequent_prefix,
+            break_long_words=False,
+            break_on_hyphens=False,
+        )
+        rendered_lines.extend(wrapper.wrap(line))
+
+    return '\n'.join(rendered_lines)
 
 
 def render_tests_block(test_cases: list[ParsedTestCase]) -> str:
@@ -271,18 +365,25 @@ def render_tests_block(test_cases: list[ParsedTestCase]) -> str:
     )
 
 
+def render_test_parameter_names(parameter_names: list[str]) -> str:
+    return ', '.join([*parameter_names, 'expected'])
+
+
 def render_output_file(
     metadata: ChallengeMetadata,
     description: str,
     seed_code: str,
-    function_name: str,
+    seed_function: SeedFunction,
     test_cases: list[ParsedTestCase],
+    comment_line_width: int,
 ) -> str:
+    test_parameter_names = render_test_parameter_names(seed_function.parameter_names)
+    function_arguments = ', '.join(seed_function.parameter_names)
     return (
         f'# Daily Coding challenge #{metadata.number:03d} '
         f'({metadata.challenge_date.isoformat()}) - freeCodeCamp.org\n'
         f'# {metadata.title}\n'
-        f'{render_description(description)}\n'
+        f'{render_description(description, comment_line_width)}\n'
         'from pytest import mark\n'
         '\n\n'
         f'{seed_code}\n'
@@ -291,13 +392,13 @@ def render_output_file(
         f'{render_tests_block(test_cases)}\n'
         ']\n'
         '\n\n'
-        "@mark.parametrize('args, expected', tests)\n"
-        f'def test_{function_name}(args, expected):\n'
-        f'    assert {function_name}(*args) == expected\n'
+        f"@mark.parametrize('{test_parameter_names}', tests)\n"
+        f'def test_{seed_function.name}({test_parameter_names}):\n'
+        f'    assert {seed_function.name}({function_arguments}) == expected\n'
         '\n\n'
         "if __name__ == '__main__':\n"
-        '    args, expected = tests[0]\n'
-        f'    print({function_name}(*args))\n'
+        f'    {test_parameter_names} = tests[0]\n'
+        f'    print({seed_function.name}({function_arguments}))\n'
     )
 
 
@@ -315,21 +416,24 @@ def main(argv: list[str]) -> int:
     input_path = Path(argv[1])
 
     try:
+        comment_line_width = load_comment_line_width()
         raw_contents = input_path.read_text(encoding='utf-8')
         metadata, body = parse_frontmatter(raw_contents)
         output_path = output_path_for(metadata)
         prompt_for_overwrite(output_path)
         description = extract_description(body)
         seed_code = extract_seed_code(body)
-        seed_function_name = extract_seed_function_name(seed_code)
+        seed_function = parse_seed_function(seed_code)
         test_cases = extract_test_cases(body)
-        validate_test_function_names(test_cases, seed_function_name)
+        validate_test_function_names(test_cases, seed_function.name)
+        validate_test_case_arity(test_cases, seed_function.parameter_names)
         rendered_output = render_output_file(
             metadata=metadata,
             description=description,
             seed_code=seed_code,
-            function_name=seed_function_name,
+            seed_function=seed_function,
             test_cases=test_cases,
+            comment_line_width=comment_line_width,
         )
         write_output(output_path, rendered_output)
     except FileNotFoundError:

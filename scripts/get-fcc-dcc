@@ -25,6 +25,11 @@ if [[ -z "${RUFFTOML:-}" ]]; then
     exit 1
 fi
 
+if [[ ! -f "$RUFFTOML" ]]; then
+    printf 'Error: ruff.toml not found: %s\n' "$RUFFTOML" >&2
+    exit 1
+fi
+
 download_url="$(uv run "$SCRIPT_DIR/get_challenge_url.py" "$@")"
 
 temp_file="$(mktemp)"
