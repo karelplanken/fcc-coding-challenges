@@ -119,9 +119,6 @@ def parse_frontmatter(contents: str) -> tuple[ChallengeMetadata, str]:
         raise ValueError('frontmatter title does not match "Challenge NNN: Title"')
 
     challenge_number = int(title_match.group('number'))
-    # challenge_title = '_'.join(
-    #     word.lower() for word in title_match.group('title').split()
-    # )
     challenge_title = title_match.group('title')
 
     return (
