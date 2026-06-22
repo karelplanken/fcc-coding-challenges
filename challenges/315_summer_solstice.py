@@ -1,5 +1,5 @@
 # Daily Coding challenge #315 (2026-06-21) - freeCodeCamp.org
-# summer_solstice
+# Summer Solstice
 # Today is the summer solstice, the longest day of the year in the Northern Hemisphere
 # and the shortest in the Southern. Given a latitude, return a string representing
 # daytime and nighttime hours.
@@ -30,10 +30,15 @@ def get_daytime_hours(latitude: float) -> str:
     sunrise = (HOURS_PER_DAY - daytime_hours) // 2
     sunset = sunrise + daytime_hours
 
-    return (
-        NIGHTTIME_SYMBOL * sunrise
-        + DAYTIME_SYMBOL * daytime_hours
-        + NIGHTTIME_SYMBOL * (HOURS_PER_DAY - sunset)
+    # return (
+    #     NIGHTTIME_SYMBOL * sunrise
+    #     + DAYTIME_SYMBOL * daytime_hours
+    #     + NIGHTTIME_SYMBOL * (HOURS_PER_DAY - sunset)
+    # )
+
+    return ''.join(
+        DAYTIME_SYMBOL if sunrise <= hour < sunset else NIGHTTIME_SYMBOL
+        for hour in range(HOURS_PER_DAY)
     )
 
 
