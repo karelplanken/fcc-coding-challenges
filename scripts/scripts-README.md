@@ -76,7 +76,7 @@ This will set `GITHUB_TOKEN` so `get_challenge_url.py` can query the GitHub API
 
 ```bash
 echo -e "\n# Ruff config file for formatting the generated challenge file" >> ~/.bashrc && \
-echo 'export RUFFTOML=~/python-projects/fcc-coding-challenges/.ruff.toml' >> ~/.bashrc && source ~/.bashrc
+echo 'export RUFFTOML=<path_to_your_ruff_config>' >> ~/.bashrc && source ~/.bashrc
 ```
 
 This will set `RUFFTOML` so `get-fcc-dcc` can validate the Ruff config,
