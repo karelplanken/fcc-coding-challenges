@@ -30,16 +30,17 @@ def get_daytime_hours(latitude: float) -> str:
     sunrise = (HOURS_PER_DAY - daytime_hours) // 2
     sunset = sunrise + daytime_hours
 
+    return ''.join(
+        DAYTIME_SYMBOL if sunrise <= hour < sunset else NIGHTTIME_SYMBOL
+        for hour in range(HOURS_PER_DAY)
+    )
+
+    # Alternative following the specification more closely:
     # return (
     #     NIGHTTIME_SYMBOL * sunrise
     #     + DAYTIME_SYMBOL * daytime_hours
     #     + NIGHTTIME_SYMBOL * (HOURS_PER_DAY - sunset)
     # )
-
-    return ''.join(
-        DAYTIME_SYMBOL if sunrise <= hour < sunset else NIGHTTIME_SYMBOL
-        for hour in range(HOURS_PER_DAY)
-    )
 
 
 tests = [
