@@ -132,8 +132,9 @@ def parse_frontmatter(contents: str) -> tuple[ChallengeMetadata, str]:
 
 
 def output_path_for(metadata: ChallengeMetadata) -> Path:
+    title_snake_case = re.sub(r'[^a-zA-Z0-9]+', '_', metadata.title).strip('_').lower()
     return OUTPUT_DIR / OUTPUT_NAME_TEMPLATE.format(
-        number=metadata.number, title=metadata.title
+        number=metadata.number, title=title_snake_case
     )
 
 
