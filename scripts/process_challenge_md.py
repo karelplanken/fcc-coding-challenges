@@ -26,7 +26,11 @@ SEED_BLOCK_PATTERN: Final[re.Pattern[str]] = re.compile(
     r'## --seed-contents--\n\n```py\n(?P<code>.*?)\n```',
     re.DOTALL,
 )
-ASSERT_METHOD_NAMES: Final[frozenset[str]] = frozenset({'assertEqual', 'assertIs'})
+ASSERT_METHOD_NAMES: Final[frozenset[str]] = frozenset({
+    'assertEqual',
+    'assertIs',
+    'assertIn',
+})
 DESCRIPTION_MARKER: Final[str] = '# --description--'
 HINTS_MARKER: Final[str] = '# --hints--'
 SEED_MARKER: Final[str] = '# --seed--'
