@@ -164,9 +164,9 @@ def get_periodic_spelling(word: str) -> list[str]:
     return backtrack(0) or []
 
 
-# # The compositions approach is not efficient in the sense that it doesn't short-circuit,
-# # it explores all paths even after finding the first solution, but returns all valid
-# # spellings as a result.
+# # The compositions approach is not efficient in the sense that it doesn't 
+# # short-circuit, it explores all paths even after finding the first solution, but 
+# # returns all valid spellings as a result.
 # from functools import lru_cache
 #
 # @lru_cache(None)
