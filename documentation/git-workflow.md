@@ -10,7 +10,7 @@ branch. This is clean and professional.
 **Create remote GitHub repo and link local**
 ```bash
 gh repo create <repo-name> <--private/--public>
-git remote add origin git@github_ssh_connection:karelplanken/<repo-name>.git
+git remote add origin git@github:karelplanken/<repo-name>.git
 git push -u origin main
 ```
 
