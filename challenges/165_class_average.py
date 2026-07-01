@@ -19,43 +19,6 @@
 # below 60	"F"
 # Calculate the average by adding all scores in the array and dividing by the total
 # number of scores.
-
-# # Initial solution using namedtuple for clarity
-# from bisect import bisect_right
-# from collections import namedtuple
-# from operator import attrgetter
-
-# from pytest import mark
-
-# LetterGrade = namedtuple('LetterGrade', ['score', 'letter'])
-
-# LETTER_GRADES = [
-#     LetterGrade(0, 'F'),
-#     LetterGrade(60, 'D-'),
-#     LetterGrade(63, 'D'),
-#     LetterGrade(67, 'D+'),
-#     LetterGrade(70, 'C-'),
-#     LetterGrade(73, 'C'),
-#     LetterGrade(77, 'C+'),
-#     LetterGrade(80, 'B-'),
-#     LetterGrade(83, 'B'),
-#     LetterGrade(87, 'B+'),
-#     LetterGrade(90, 'A-'),
-#     LetterGrade(93, 'A'),
-#     LetterGrade(97, 'A+'),
-# ]
-
-# SCORE_GETTER = attrgetter('score')
-
-
-# def get_average_grade(scores: list[int]) -> str:
-#     avg_score = sum(scores) / len(scores)
-#     return LETTER_GRADES[
-#         bisect_right(LETTER_GRADES, avg_score, key=SCORE_GETTER) - 1
-#     ].letter
-
-
-# Alternative: even more readable with dataclass
 from bisect import bisect_right  # Left-inclusive ranges are used
 from dataclasses import dataclass
 from operator import attrgetter
@@ -87,10 +50,12 @@ GRADE_SCALE = [
 
 SCORE_GETTER = attrgetter('score')
 
+
 def get_average_grade(scores: list[int]) -> str:
     avg_score = sum(scores) / len(scores)
     idx = bisect_right(GRADE_SCALE, avg_score, key=SCORE_GETTER) - 1
     return GRADE_SCALE[idx].letter
+
 
 tests = [
     ([92, 91, 90, 94, 89, 93], 'A-'),

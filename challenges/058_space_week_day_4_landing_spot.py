@@ -20,12 +20,17 @@
 #   [2, 0]
 # ]
 # Return [0, 1], the indices for the 0 in the first array.
-from collections import namedtuple
 from operator import attrgetter
+from typing import NamedTuple
 
 from pytest import mark
 
-LandingSpot = namedtuple('LandingSpot', ['row', 'col', 'total_danger'])
+
+class LandingSpot(NamedTuple):
+    row: int
+    col: int
+    total_danger: int
+
 
 TOTAL_DANGER_GETTER = attrgetter('total_danger')
 
