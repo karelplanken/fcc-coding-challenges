@@ -16,14 +16,19 @@
 # 3 days	$3.99	$2.99
 # 7 days	$2.99	$0.99
 # Return the total cost rounded to two decimal places in the format "$D.CC".
-from collections import namedtuple
 from datetime import UTC, datetime, time, timedelta
+from typing import NamedTuple
 
 from pytest import mark
 
 RENTAL_DUE_TIME = time(hour=12, minute=0, second=0, microsecond=0, tzinfo=UTC)
 
-RentalPrice = namedtuple('RentalPrice', ['tier', 'base_cost', 'late_fee_per_day'])
+
+class RentalPrice(NamedTuple):
+    tier: int
+    base_cost: float
+    late_fee_per_day: float
+
 
 rental_prices = [
     RentalPrice(tier=1, base_cost=4.99, late_fee_per_day=3.99),

@@ -98,6 +98,3 @@ def test_resolution_streak(days: list[list[int]], expected: str) -> None:
 if __name__ == '__main__':
     days, expected = tests[1]
     print(resolution_streak(days))
-
-# from collections import namedtuple
-# DayTotals = namedtuple('DayTotals', ['steps', 'screen_time', 'pages'])

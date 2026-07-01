@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/github/license/karelplanken/fcc-coding-challenges?color=success)
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
 ![Challenges](https://img.shields.io/badge/Challenges-294-brightgreen)
-![freeCodeCamp](https://img.shields.io/badge/freeCodeCamp-solutions-0a0a23?logo=freecodecamp&logoColor=white)
+![freeCodeCamp](https://img.shields.io/badge/freeCodeCamp-solutions-0a0a23?logo=freecodecamp&logoColor=white&color=purple)
 
 Personal repository of my Python solutions to the
 [freeCodeCamp Daily Coding Challenges](https://www.freecodecamp.org/learn/daily-coding-challenge/archive).

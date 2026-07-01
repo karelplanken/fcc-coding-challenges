@@ -14,12 +14,16 @@
 # "M": 0 K - 3,699 K
 # Return the classification of the given star.
 from bisect import bisect_right
-from collections import namedtuple
 from operator import attrgetter
+from typing import NamedTuple
 
 from pytest import mark
 
-StarClass = namedtuple('StarClass', ['threshold', 'classification'])
+
+class StarClass(NamedTuple):
+    threshold: int
+    classification: str
+
 
 CLASSES = [
     StarClass(0, 'M'),
