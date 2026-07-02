@@ -139,7 +139,7 @@ Prompts: [`03-part-1-get-fcc-dcc-python-script-1.md`](documentation/automate-fet
 
 - **Bash orchestrates, Python processes.** Each script does one job; bash never parses data, Python never touches the network or the shell.
 - **Errors are owned by whoever detects them.** Python scripts print clear errors to stderr and exit non-zero; bash stops on failure without adding redundant commentary.
-- **No hardcoded paths.** Scripts resolve their own location via `$(dirname "$0")` and rely on environment variables (`GITHUB_TOKEN`, `RUFFTOML`) for configuration.
+- **No hardcoded paths.** Scripts resolve their own location via `$(dirname "$0")` and rely on environment variables (`FCC_GITHUB_TOKEN`, `RUFFTOML`) for configuration.
 - **Standard library first.** Both Python scripts avoid third-party dependencies, so they run anywhere `uv` and Python are available.
 
 ---

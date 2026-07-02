@@ -67,10 +67,10 @@ chmod 700 ~/python-projects/fcc-coding-challenges/scripts/fb-fcc-dcc
 
 ```bash
 echo -e "\n# Personal access token (classic) 'Token to get the daily coding challenge from fCC repo' with public_repo scope" >> ~/.bashrc && \
-echo 'export GITHUB_TOKEN=your_token_here' >> ~/.bashrc && source ~/.bashrc
+echo 'export FCC_GITHUB_TOKEN=your_token_here' >> ~/.bashrc && source ~/.bashrc
 ```
 
-This will set `GITHUB_TOKEN` so `get_challenge_url.py` can query the GitHub API
+This will set `FCC_GITHUB_TOKEN` so `get_challenge_url.py` can query the GitHub API
 
 ### 4. Add your Ruff config file path to your environment variables
 
@@ -90,7 +90,7 @@ which get-fcc-dcc
 # Should print: /home/<you>/python-projects/fcc-coding-challenges/scripts/get-fcc-dcc
 which fb-fcc-dcc
 # Should print: /home/<you>/python-projects/fcc-coding-challenges/scripts/fb-fcc-dcc
-echo $GITHUB_TOKEN
+echo $FCC_GITHUB_TOKEN
 # Should print your token
 echo $RUFFTOML
 # Should print the path to your Ruff config file
@@ -100,7 +100,7 @@ echo $RUFFTOML
 
 - `uv` — used to run the Python scripts (`uv run`).
 - `curl` — used by `get-fcc-dcc` to download the upstream challenge markdown.
-- `GITHUB_TOKEN` — required by `get_challenge_url.py` for GitHub API access.
+- `FCC_GITHUB_TOKEN` — required by `get_challenge_url.py` for GitHub API access.
 - `RUFFTOML` — path to the Ruff config file used by `get-fcc-dcc` and
   `process_challenge_md.py`.
 - `ruff` — run via `uvx ruff format` after a new challenge file is created.
