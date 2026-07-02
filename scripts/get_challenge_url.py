@@ -4,7 +4,7 @@ import re
 import sys
 import urllib.request
 from datetime import UTC, date, datetime, timedelta, timezone
-from typing import Final
+from typing import Final, cast
 
 SERIES_START: Final[date] = date(2025, 8, 11)
 DATE_PATTERN: Final[re.Pattern[str]] = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -18,7 +18,7 @@ GITHUB_CONTENTS_URL_TEMPLATE: Final[str] = (
 )
 
 PYTHON_CHALLENGE_PATH_SEGMENT: Final[str] = 'daily-coding-challenges-python'
-USAGE: Final[str] = ('Usage: uv run scripts/get_challenge_url.py [YYYY-MM-DD|NUMBER]')
+USAGE: Final[str] = 'Usage: uv run scripts/get_challenge_url.py [YYYY-MM-DD|NUMBER]'
 CENTRAL_STANDARD_OFFSET: Final[timedelta] = timedelta(hours=-6)
 CENTRAL_DAYLIGHT_OFFSET: Final[timedelta] = timedelta(hours=-5)
 
@@ -98,18 +98,18 @@ def parse_target_number(argv: list[str]) -> int:
     return target_number
 
 
-def get_github_token() -> str:
-    github_token = os.environ.get('GITHUB_TOKEN')
-    if github_token is None or github_token == '':
-        raise ValueError('Error: GITHUB_TOKEN is not set.')
-    return github_token
+def get_fcc_fcc_github_token() -> str:
+    fcc_github_token = os.environ.get('FCC_GITHUB_TOKEN')
+    if fcc_github_token is None or fcc_github_token == '':
+        raise ValueError('Error: FCC_GITHUB_TOKEN is not set.')
+    return fcc_github_token
 
 
-def read_json_response(url: str, github_token: str) -> object:
+def read_json_response(url: str, fcc_github_token: str) -> object:
     request = urllib.request.Request(
         url,
         headers={
-            'Authorization': f'token {github_token}',
+            'Authorization': f'token {fcc_github_token}',
             'Accept': 'application/vnd.github+json',
         },
     )
@@ -120,15 +120,18 @@ def read_json_response(url: str, github_token: str) -> object:
 def extract_python_challenge_path(response_data: object) -> str:
     if not isinstance(response_data, dict):
         raise ValueError('Error: unexpected response from GitHub search API.')
+    data = cast(dict[str, object], response_data)
 
-    items = response_data.get('items')
-    if not isinstance(items, list):
+    items_raw = data.get('items')
+    if not isinstance(items_raw, list):
         raise ValueError('Error: unexpected response from GitHub search API.')
+    items = cast(list[object], items_raw)
 
     for item in items:
         if not isinstance(item, dict):
             continue
-        path = item.get('path')
+        item_data = cast(dict[str, object], item)
+        path = item_data.get('path')
         if isinstance(path, str) and PYTHON_CHALLENGE_PATH_SEGMENT in path:
             return path
 
@@ -138,8 +141,9 @@ def extract_python_challenge_path(response_data: object) -> str:
 def extract_download_url(response_data: object) -> str:
     if not isinstance(response_data, dict):
         raise ValueError('Error: unexpected response from GitHub contents API.')
+    data = cast(dict[str, object], response_data)
 
-    download_url = response_data.get('download_url')
+    download_url = data.get('download_url')
     if not isinstance(download_url, str) or download_url == '':
         raise ValueError('Error: missing download URL in GitHub contents API response.')
 
@@ -149,12 +153,12 @@ def extract_download_url(response_data: object) -> str:
 def main(argv: list[str]) -> int:
     try:
         target_number = parse_target_number(argv)
-        github_token = get_github_token()
+        fcc_github_token = get_fcc_fcc_github_token()
         search_url = GITHUB_SEARCH_URL_TEMPLATE.format(number=target_number)
-        response_data = read_json_response(search_url, github_token)
+        response_data = read_json_response(search_url, fcc_github_token)
         challenge_path = extract_python_challenge_path(response_data)
         contents_url = GITHUB_CONTENTS_URL_TEMPLATE.format(path=challenge_path)
-        contents_response = read_json_response(contents_url, github_token)
+        contents_response = read_json_response(contents_url, fcc_github_token)
         download_url = extract_download_url(contents_response)
     except ValueError as error:
         print('ValueError')

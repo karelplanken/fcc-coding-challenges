@@ -36,12 +36,12 @@ Parse the JSON response and extract the `download_url` field. Print that value t
 
 **Authentication:**
 
-Read the GitHub token from the environment variable `GITHUB_TOKEN`. If not set, print a clear error to stderr and exit with code 1.
+Read the GitHub token from the environment variable `FCC_GITHUB_TOKEN`. If not set, print a clear error to stderr and exit with code 1.
 
 Set these headers on all requests:
 ```python
 {
-    "Authorization": f"token {GITHUB_TOKEN}",
+    "Authorization": f"token {FCC_GITHUB_TOKEN}",
     "Accept": "application/vnd.github.raw",
 }
 ```
