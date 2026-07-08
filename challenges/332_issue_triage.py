@@ -14,6 +14,7 @@ from pytest import mark
 
 SEVEN_DAY_THRESHOLD = timedelta(days=7)
 
+
 def triage_issue(ms: int, message: str) -> str:
     elapsed = timedelta(milliseconds=ms)
     if elapsed < SEVEN_DAY_THRESHOLD:
