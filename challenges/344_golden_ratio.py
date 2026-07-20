@@ -9,7 +9,8 @@ from math import isclose, sqrt
 from pytest import mark
 
 GOLDEN_RATIO = (1 + sqrt(5)) / 2
-TOLERANCE = 0.01
+ABS_TOL = 0.01
+RE_TOL = 0.0
 
 
 def is_golden_ratio(a: int, b: int) -> bool:
@@ -17,9 +18,9 @@ def is_golden_ratio(a: int, b: int) -> bool:
     ratio +/- tolerance (TOLERANCE), both defined as global constants, irrespective of
     params order.
 
-    Assumes that both params 'a' and 'b' are positive integers. The golden ratio, 
-    assigned to the constant GOLDEN_RATIO, is calculated from an analytical expression
-    because that shows its origin unlike a magic floating point number.
+    The golden ratio, assigned to the constant GOLDEN_RATIO, is calculated from an
+    analytical expression because that shows its origin unlike a magic floating point
+    number.
 
     Args:
         a: integer value
@@ -28,8 +29,11 @@ def is_golden_ratio(a: int, b: int) -> bool:
     Returns:
         True if a / b or b / a falls in the range else False
     """
-    smaller, larger = min(a, b), max(a, b)
-    return isclose(larger / smaller, GOLDEN_RATIO, abs_tol=TOLERANCE)
+    if a <= 0 or b <= 0:
+        return False
+
+    smaller, larger = (a, b) if a < b else (a, b)
+    return isclose(larger / smaller, GOLDEN_RATIO, rel_tol=RE_TOL, abs_tol=ABS_TOL)
 
 
 tests = [
