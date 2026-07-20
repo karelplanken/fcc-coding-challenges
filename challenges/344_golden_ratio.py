@@ -17,9 +17,9 @@ def is_golden_ratio(a: int, b: int) -> bool:
     ratio +/- tolerance (TOLERANCE), both defined as global constants, irrespective of
     params order.
 
-    Assumes that both params 'a' and 'b' are positive integers. The golden ratio is for
-    the constant GOLDEN_RATIO is calculated exactly because it is fun, I'm a know it
-    all, and I want to show off.
+    Assumes that both params 'a' and 'b' are positive integers. The golden ratio, 
+    assigned to the constant GOLDEN_RATIO, is calculated from an analytical expression
+    because that shows its origin unlike a magic floating point number.
 
     Args:
         a: integer value
