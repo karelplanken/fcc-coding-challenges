@@ -19,6 +19,7 @@
 # Extra keys are allowed
 from collections.abc import Callable, Mapping
 from types import MappingProxyType
+from typing import cast
 
 from pytest import mark
 
@@ -54,9 +55,13 @@ def valid_supporter(d: Schema) -> bool:
 
 
 def valid_badges(d: Schema) -> bool:
-    return type(badges := d.get(BADGES)) is list and all(
-        type(badge) is str for badge in badges
-    )
+    badges = d.get(BADGES)
+    if type(badges) is not list:
+        return False
+    # Schema guarantees badges is list[object] at this point; cast because
+    # `type(x) is list` narrows to list[Unknown], not list[object].
+    badges = cast(list[object], badges)
+    return all(type(badge) is str for badge in badges)
 
 
 RULES: MappingProxyType[str, Callable[[Schema], bool]] = MappingProxyType({
@@ -73,7 +78,7 @@ def is_valid_schema(obj: Schema) -> bool:
     return all(rule(obj) for rule in RULES.values())
 
 
-tests = [
+tests: list[tuple[dict[str, str | int | bool | list[str | int]], bool]] = [
     (
         {
             'username': 'gill',

@@ -52,18 +52,19 @@ class Coordinate:
         return Coordinate(self.row + other.row, self.col + other.col)
 
 
-MOVES: MappingProxyType[str, Coordinate] = MappingProxyType(
-    {
-        'U': Coordinate(-1, 0),
-        'D': Coordinate(1, 0),
-        'L': Coordinate(0, -1),
-        'R': Coordinate(0, 1),
-    }
-)
+MOVES: MappingProxyType[str, Coordinate] = MappingProxyType({
+    'U': Coordinate(-1, 0),
+    'D': Coordinate(1, 0),
+    'L': Coordinate(0, -1),
+    'R': Coordinate(0, 1),
+})
 
-REVERSE: MappingProxyType[str, str] = MappingProxyType(
-    {'U': 'D', 'D': 'U', 'L': 'R', 'R': 'L'}
-)
+REVERSE: MappingProxyType[str, str] = MappingProxyType({
+    'U': 'D',
+    'D': 'U',
+    'L': 'R',
+    'R': 'L',
+})
 
 
 def navigate_trail(trail_map: list[str]) -> str:
@@ -98,6 +99,10 @@ def navigate_trail(trail_map: list[str]) -> str:
                     break
                 case 'G':
                     return ''.join(path + [direction])
+                case '-':
+                    continue
+                case other:
+                    raise ValueError(f'Unexpected trail character {other!r} at {nxt}')
 
 
 tests = [
