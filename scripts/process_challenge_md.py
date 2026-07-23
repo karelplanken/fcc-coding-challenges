@@ -424,9 +424,13 @@ def render_description(description: str, comment_line_width: int) -> str:
         if line == '':
             rendered_lines.append('#')
             continue
+        # Remove backticks used in the markdown description, since they are not needed
+        # in the Python comment
+        line = line.replace('`', '')
 
         initial_prefix = COMMENT_PREFIX
         subsequent_prefix = COMMENT_PREFIX
+        
         if line.startswith('- '):
             initial_prefix = '# - '
             subsequent_prefix = '#   '
