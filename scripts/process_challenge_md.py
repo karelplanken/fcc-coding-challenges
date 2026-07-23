@@ -1,8 +1,10 @@
 import ast
+import functools
 import os
 import re
 import sys
 import tomllib
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
@@ -55,6 +57,18 @@ class ParsedTestCase:
 
 
 @dataclass(frozen=True)
+class TestCaseAndWrapperTemplate:
+    test_case: ParsedTestCase
+    wrapper_template: str
+
+
+@dataclass(frozen=True)
+class TestCaseCollection:
+    test_cases: list[ParsedTestCase]
+    wrapper_template: str
+
+
+@dataclass(frozen=True)
 class SeedFunction:
     name: str
     parameter_names: list[str]
@@ -80,7 +94,7 @@ def load_comment_line_width() -> int:
     except FileNotFoundError as error:
         raise ValueError(f'ruff.toml not found: {ruff_config_path}') from error
     except OSError as error:
-        raise ValueError(f'failed to read ruff.toml: {ruff_config_path}') from error
+        raise ValueError(f'Failed to read ruff.toml: {ruff_config_path}') from error
     except tomllib.TOMLDecodeError as error:
         raise ValueError(f'ruff.toml is invalid: {ruff_config_path}') from error
 
@@ -94,7 +108,7 @@ def load_comment_line_width() -> int:
 def parse_frontmatter(contents: str) -> tuple[ChallengeMetadata, str]:
     match = FRONTMATTER_PATTERN.fullmatch(normalize_newlines(contents))
     if match is None:
-        raise ValueError('input is missing valid frontmatter')
+        raise ValueError('Input is missing valid frontmatter')
 
     frontmatter = match.group('frontmatter')
     title_value: str | None = None
@@ -102,25 +116,25 @@ def parse_frontmatter(contents: str) -> tuple[ChallengeMetadata, str]:
     for line in frontmatter.splitlines():
         key, separator, value = line.partition(':')
         if separator == '':
-            raise ValueError(f'malformed frontmatter line: {line}')
+            raise ValueError(f'Malformed frontmatter line: {line}')
         if key.strip() == 'title':
             try:
                 parsed_value = ast.literal_eval(value.strip())
             except (SyntaxError, ValueError) as error:
                 raise ValueError(
-                    'frontmatter title is not a valid quoted string'
+                    'Frontmatter title is not a valid quoted string'
                 ) from error
             if not isinstance(parsed_value, str):
-                raise ValueError('frontmatter title is not a string')
+                raise ValueError('Frontmatter title is not a string')
             title_value = parsed_value
             break
 
     if title_value is None:
-        raise ValueError('frontmatter is missing title')
+        raise ValueError('Frontmatter is missing title')
 
     title_match = TITLE_PATTERN.fullmatch(title_value)
     if title_match is None:
-        raise ValueError('frontmatter title does not match "Challenge NNN: Title"')
+        raise ValueError('Frontmatter title does not match "Challenge NNN: Title"')
 
     challenge_number = int(title_match.group('number'))
     challenge_title = title_match.group('title')
@@ -156,24 +170,24 @@ def prompt_for_overwrite(output_path: Path) -> None:
         answer = input()
     except EOFError as error:
         raise ValueError(
-            f'output file already exists: {output_path.relative_to(OUTPUT_DIR.parent)}'
+            f'Output file already exists: {output_path.relative_to(OUTPUT_DIR.parent)}'
         ) from error
 
     if answer.strip().lower() not in {'y', 'yes'}:
         raise ValueError(
-            f'output file already exists: {output_path.relative_to(OUTPUT_DIR.parent)}'
+            f'Output file already exists: {output_path.relative_to(OUTPUT_DIR.parent)}'
         )
 
 
 def extract_section(text: str, start_marker: str, end_marker: str) -> str:
     start_index = text.find(start_marker)
     if start_index == -1:
-        raise ValueError(f'missing section marker: {start_marker}')
+        raise ValueError(f'Mssing section marker: {start_marker}')
 
     content_start = start_index + len(start_marker)
     end_index = text.find(end_marker, content_start)
     if end_index == -1:
-        raise ValueError(f'missing section marker: {end_marker}')
+        raise ValueError(f'Missing section marker: {end_marker}')
 
     return text[content_start:end_index].strip()
 
@@ -190,14 +204,14 @@ def extract_seed_code(body: str) -> str:
     seed_section = extract_section(body, SEED_MARKER, SOLUTIONS_MARKER)
     match = SEED_BLOCK_PATTERN.search(seed_section)
     if match is None:
-        raise ValueError('seed section is missing a Python code block')
+        raise ValueError('Seed section is missing a Python code block')
     return match.group('code').strip()
 
 
 def source_segment(source: str, node: ast.AST) -> str:
     segment = ast.get_source_segment(source, node)
     if segment is None:
-        raise ValueError('could not extract source segment from hint')
+        raise ValueError('Could not extract source segment from hint')
     return segment
 
 
@@ -205,7 +219,7 @@ def extract_called_function_name(function_call: ast.Call) -> str:
     function = function_call.func
     if isinstance(function, ast.Name):
         return function.id
-    raise ValueError('hint assertion does not call a plain function name')
+    raise ValueError('Hint assertion does not call a plain function name')
 
 
 def format_args_literal(argument_sources: list[str]) -> str:
@@ -224,68 +238,139 @@ def normalize_hint_assertion_line(line: str) -> str:
     return line
 
 
-def parse_hint_assertion(line: str) -> ParsedTestCase:
+def stop_at_exp(node: ast.AST) -> bool:
+    return not isinstance(node, ast.Call)
+
+
+def stop_at_seed_call(node: ast.AST, seed_function_name: str) -> bool:
+    return (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == seed_function_name
+    )
+
+
+def unwrap_call(
+    node: ast.AST, stop_at: Callable[[ast.AST], bool]
+) -> tuple[ast.AST, str]:
+    # Base case:
+    if stop_at(node):
+        return node, '{}'
+
+    if not isinstance(node, ast.Call):
+        raise ValueError('Expected a function call in hint assertion')
+    if not isinstance(node.func, ast.Name):
+        raise ValueError('Expected a plain function name in hint assertion')
+    if len(node.args) != 1:
+        raise ValueError('Expected a single argument in hint assertion function call')
+    if node.keywords:
+        raise ValueError('Hint assertions with keyword arguments are not supported')
+
+    # Recursive case:
+    inner_node, inner_template = unwrap_call(node.args[0], stop_at)
+    return inner_node, f'{node.func.id}({inner_template})'
+
+
+def parse_hint_assertion(
+    line: str, seed_function_name: str
+) -> TestCaseAndWrapperTemplate:
     try:
         parsed = ast.parse(line)
     except SyntaxError as error:
-        raise ValueError(f'malformed hint assertion line: {line}') from error
+        raise ValueError(f'Malformed hint assertion line: {line}') from error
 
     if len(parsed.body) != 1 or not isinstance(parsed.body[0], ast.Expr):
-        raise ValueError(f'malformed hint assertion line: {line}')
+        raise ValueError(f'Malformed hint assertion line: {line}')
 
     assertion = parsed.body[0].value
     if not isinstance(assertion, ast.Call):
-        raise ValueError(f'malformed hint assertion line: {line}')
+        raise ValueError(f'Malformed hint assertion line: {line}')
     if not isinstance(assertion.func, ast.Attribute):
-        raise ValueError(f'malformed hint assertion line: {line}')
+        raise ValueError(f'Malformed hint assertion line: {line}')
     if assertion.func.attr not in ASSERT_METHOD_NAMES:
         raise ValueError(f'unsupported unittest assertion in hint line: {line}')
     if len(assertion.args) != 2 or assertion.keywords:
-        raise ValueError(f'malformed unittest assertion in hint line: {line}')
+        raise ValueError(f'Malformed unittest assertion in hint line: {line}')
 
-    function_call = assertion.args[0]
+    function_call, function_wrapper_template = unwrap_call(
+        assertion.args[0],
+        functools.partial(stop_at_seed_call, seed_function_name=seed_function_name),
+    )
+
+    expected, expected_wrapper_template = unwrap_call(assertion.args[1], stop_at_exp)
+
+    # Check to keep mypy satisfied about the type of function_call
     if not isinstance(function_call, ast.Call):
-        raise ValueError(f'hint assertion does not call the challenge function: {line}')
+        raise ValueError(f'Hint assertion does not call the challenge function: {line}')
+    # Needed because nowhere checks on keywords is done in the unwrap_call function
     if function_call.keywords:
-        raise ValueError('hint assertions with keyword arguments are not supported')
+        raise ValueError('Hint assertions with keyword arguments are not supported')
 
     argument_sources = [
         source_segment(line, argument) for argument in function_call.args
     ]
-    return ParsedTestCase(
-        function_name=extract_called_function_name(function_call),
-        function_call=source_segment(line, function_call),
-        args_literal=format_args_literal(argument_sources),
-        expected_literal=source_segment(line, assertion.args[1]),
+
+    if function_wrapper_template != expected_wrapper_template:
+        raise ValueError(
+            'Hint assertion function call and expected value must have the same '
+            f'wrapping: {line}'
+        )
+
+    return TestCaseAndWrapperTemplate(
+        test_case=ParsedTestCase(
+            function_name=extract_called_function_name(function_call),
+            function_call=source_segment(line, function_call),
+            args_literal=format_args_literal(argument_sources),
+            expected_literal=source_segment(line, expected),
+        ),
+        wrapper_template=function_wrapper_template,
     )
 
 
-def extract_test_cases(body: str) -> list[ParsedTestCase]:
+def extract_test_cases(body: str, seed_function_name: str) -> TestCaseCollection:
     hints_block = extract_hints_block(body)
-    test_cases = [
-        parse_hint_assertion(normalize_hint_assertion_line(stripped_line))
+    test_cases_wrapper_templates = [
+        parse_hint_assertion(
+            normalize_hint_assertion_line(stripped_line), seed_function_name
+        )
         for raw_line in hints_block.splitlines()
         if (stripped_line := raw_line.strip()).startswith('TestCase().assert')
     ]
-    if not test_cases:
-        raise ValueError('no hint assertions found')
-    return test_cases
+
+    if not test_cases_wrapper_templates:
+        raise ValueError('No hint assertions found')
+
+    test_cases = [test.test_case for test in test_cases_wrapper_templates]
+
+    wrapper_templates = [test.wrapper_template for test in test_cases_wrapper_templates]
+
+    wrapper_templates = set(wrapper_templates)
+
+    if len(wrapper_templates) != 1:
+        raise ValueError(
+            'All hint assertions function call and expected value must have the same '
+            'wrapping'
+        )
+
+    return TestCaseCollection(
+        test_cases=test_cases, wrapper_template=next(iter(wrapper_templates))
+    )
 
 
 def parse_seed_function(seed_code: str) -> SeedFunction:
     try:
         module = ast.parse(seed_code)
     except SyntaxError as error:
-        raise ValueError('seed code is not valid Python') from error
+        raise ValueError('Seed code is not valid Python') from error
 
     for statement in module.body:
         if isinstance(statement, ast.FunctionDef):
             if statement.args.kwonlyargs:
                 raise ValueError(
-                    'seed function keyword-only parameters are not supported'
+                    'Seed function keyword-only parameters are not supported'
                 )
             if statement.args.vararg is not None or statement.args.kwarg is not None:
-                raise ValueError('seed function variadic parameters are not supported')
+                raise ValueError('Seed function variadic parameters are not supported')
             positional_parameters = [
                 *statement.args.posonlyargs,
                 *statement.args.args,
@@ -294,7 +379,7 @@ def parse_seed_function(seed_code: str) -> SeedFunction:
                 name=statement.name,
                 parameter_names=[parameter.arg for parameter in positional_parameters],
             )
-    raise ValueError('seed code does not define a function')
+    raise ValueError('Seed code does not define a function')
 
 
 def validate_test_function_names(
@@ -303,7 +388,7 @@ def validate_test_function_names(
     for test_case in test_cases:
         if test_case.function_name != seed_function_name:
             raise ValueError(
-                'hint assertion function name does not match seed function: '
+                'Hint assertion function name does not match seed function: '
                 f'{test_case.function_call}'
             )
 
@@ -312,11 +397,11 @@ def extract_argument_count(args_literal: str) -> int:
     try:
         parsed = ast.parse(f'f({args_literal})')
     except SyntaxError as error:
-        raise ValueError(f'malformed test case arguments: {args_literal}') from error
+        raise ValueError(f'Malformed test case arguments: {args_literal}') from error
 
     call = parsed.body[0]
     if not isinstance(call, ast.Expr) or not isinstance(call.value, ast.Call):
-        raise ValueError(f'malformed test case arguments: {args_literal}')
+        raise ValueError(f'Malformed test case arguments: {args_literal}')
     return len(call.value.args)
 
 
@@ -327,7 +412,7 @@ def validate_test_case_arity(
         argument_count = extract_argument_count(test_case.args_literal)
         if argument_count != len(parameter_names):
             raise ValueError(
-                'hint argument count does not match seed function signature: '
+                'Hint argument count does not match seed function signature: '
                 f'{test_case.function_call}'
             )
 
@@ -339,9 +424,13 @@ def render_description(description: str, comment_line_width: int) -> str:
         if line == '':
             rendered_lines.append('#')
             continue
+        # Remove backticks used in the markdown description, since they are not needed
+        # in the Python comment
+        line = line.replace('`', '')
 
         initial_prefix = COMMENT_PREFIX
         subsequent_prefix = COMMENT_PREFIX
+        
         if line.startswith('- '):
             initial_prefix = '# - '
             subsequent_prefix = '#   '
@@ -376,6 +465,7 @@ def render_output_file(
     seed_code: str,
     seed_function: SeedFunction,
     test_cases: list[ParsedTestCase],
+    wrapper_template: str,
     comment_line_width: int,
 ) -> str:
     test_parameter_names = render_test_parameter_names(seed_function.parameter_names)
@@ -395,7 +485,9 @@ def render_output_file(
         '\n\n'
         f"@mark.parametrize('{test_parameter_names}', tests)\n"
         f'def test_{seed_function.name}({test_parameter_names}):\n'
-        f'    assert {seed_function.name}({function_arguments}) == expected\n'
+        f'    assert '
+        f'{wrapper_template.format(f"{seed_function.name}({function_arguments})")} == '
+        f'{wrapper_template.format("expected")}\n'
         '\n\n'
         "if __name__ == '__main__':\n"
         f'    {test_parameter_names} = tests[0]\n'
@@ -425,15 +517,20 @@ def main(argv: list[str]) -> int:
         description = extract_description(body)
         seed_code = extract_seed_code(body)
         seed_function = parse_seed_function(seed_code)
-        test_cases = extract_test_cases(body)
-        validate_test_function_names(test_cases, seed_function.name)
-        validate_test_case_arity(test_cases, seed_function.parameter_names)
+        test_case_collection = extract_test_cases(body, seed_function.name)
+        validate_test_function_names(
+            test_case_collection.test_cases, seed_function.name
+        )
+        validate_test_case_arity(
+            test_case_collection.test_cases, seed_function.parameter_names
+        )
         rendered_output = render_output_file(
             metadata=metadata,
             description=description,
             seed_code=seed_code,
             seed_function=seed_function,
-            test_cases=test_cases,
+            test_cases=test_case_collection.test_cases,
+            wrapper_template=test_case_collection.wrapper_template,
             comment_line_width=comment_line_width,
         )
         write_output(output_path, rendered_output)
