@@ -87,11 +87,11 @@ def parse_target_number(argv: list[str]) -> int:
 
     if target_number < 1:
         raise ValueError(
-            f'Error: challenge must be on or after {SERIES_START.isoformat()}.'
+            f'challenge must be on or after {SERIES_START.isoformat()}.'
         )
     if target_number > maximum_number:
         raise ValueError(
-            'Error: challenge is not available yet. '
+            'challenge is not available yet. '
             f'Maximum available challenge number is {maximum_number}.'
         )
 
@@ -101,7 +101,7 @@ def parse_target_number(argv: list[str]) -> int:
 def get_fcc_fcc_github_token() -> str:
     fcc_github_token = os.environ.get('FCC_GITHUB_TOKEN')
     if fcc_github_token is None or fcc_github_token == '':
-        raise ValueError('Error: FCC_GITHUB_TOKEN is not set.')
+        raise ValueError('FCC_GITHUB_TOKEN is not set.')
     return fcc_github_token
 
 
@@ -119,12 +119,12 @@ def read_json_response(url: str, fcc_github_token: str) -> object:
 
 def extract_python_challenge_path(response_data: object) -> str:
     if not isinstance(response_data, dict):
-        raise ValueError('Error: unexpected response from GitHub search API.')
+        raise ValueError('unexpected response from GitHub search API.')
     data = cast(dict[str, object], response_data)
 
     items_raw = data.get('items')
     if not isinstance(items_raw, list):
-        raise ValueError('Error: unexpected response from GitHub search API.')
+        raise ValueError('unexpected response from GitHub search API.')
     items = cast(list[object], items_raw)
 
     for item in items:
@@ -135,17 +135,17 @@ def extract_python_challenge_path(response_data: object) -> str:
         if isinstance(path, str) and PYTHON_CHALLENGE_PATH_SEGMENT in path:
             return path
 
-    raise ValueError('Error: no Python challenge result found.')
+    raise ValueError('unexpected response from GitHub search API.')
 
 
 def extract_download_url(response_data: object) -> str:
     if not isinstance(response_data, dict):
-        raise ValueError('Error: unexpected response from GitHub contents API.')
+        raise ValueError('unexpected response from GitHub contents API.')
     data = cast(dict[str, object], response_data)
 
     download_url = data.get('download_url')
     if not isinstance(download_url, str) or download_url == '':
-        raise ValueError('Error: missing download URL in GitHub contents API response.')
+        raise ValueError('unexpected response from GitHub contents API.')
 
     return download_url
 
