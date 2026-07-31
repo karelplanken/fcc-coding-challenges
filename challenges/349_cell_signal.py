@@ -27,13 +27,13 @@ def find_signal(grid: list[list[int]]) -> list[int]:
     - only one solution exists
 
     Args:
-        grid: map of tower signals
+        grid: A matrix of tower signals.
 
     Raises:
-        ValueError: if no solution is found to guarantee valid return
+        ValueError: If no solution is found to guarantee valid return.
 
     Returns:
-        location of the phone as [row, col]
+        The location of the phone as [row, col].
     """
     rows, cols = len(grid), len(grid[0])
     candidate_coords: list[tuple[int, int]] = []

@@ -21,13 +21,13 @@ def is_pronic(n: int) -> bool:
 #     """Determine whether n is a pronic number: k * (k + 1) for some integer k >= 0.
 
 #     Args:
-#         n: non-negative integer to test.
+#         n: Non-negative integer to test.
 
 #     Returns:
 #         True if n is pronic, else False.
 
 #     Raises:
-#         ValueError: if n is negative.
+#         ValueError: Error if n is negative.
 #     """
 #     if n < 0:
 #         raise ValueError('n must be a non-negative integer')

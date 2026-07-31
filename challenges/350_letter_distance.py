@@ -43,14 +43,12 @@ def letter_distance(str1: str, str2: str) -> int:
     Assumes str1 and str2 are of equal non-zero length. It inherits the
     "lowercase ascii letters only" assumption made by get_shortest_letter_distance.
 
-     - should a docstring (google style) have \n after openening three double qoutes?
+    Args:
+        str1: First string.
+        str2: Second string.
 
-        Args:
-            str1: first string
-            str2: second string
-
-        Returns:
-            the sum of shortest distances between each letter pair of str1 and str2
+    Returns:
+        The sum of shortest distances between each letter pair of str1 and str2.
     """
     return sum(
         get_shortest_letter_distance(l1, l2) for l1, l2 in zip(str1, str2, strict=True)
