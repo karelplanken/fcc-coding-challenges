@@ -62,7 +62,7 @@ def is_valid_schema(obj: Schema) -> bool:
     return all(rule(obj) for rule in RULES.values())
 
 
-tests = [
+tests: list[tuple[dict[str, str | int], bool]] = [
     (
         {
             'username': 'vivian',

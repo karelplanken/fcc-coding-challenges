@@ -86,7 +86,7 @@ tests = [
 
 
 @mark.parametrize('times, expected', tests)
-def test_get_fastest_speed(times: list, expected: str) -> None:
+def test_get_fastest_speed(times: list[float], expected: str) -> None:
     assert get_fastest_speed(times) == expected
 
 
