@@ -14,7 +14,7 @@ from pytest import mark
 
 
 def explode_step(s: str) -> str:
-    result = []
+    result: list[str] = []
     for idx, char in enumerate(s, start=1):
         if idx % 15 == 0:
             result.append('fizzbuzz')
@@ -33,7 +33,7 @@ def explode_fizzbuzz(target_z_count: int) -> int:
         s = explode_step(s)
         if s.count('z') >= target_z_count:
             return step
-    raise ValueError(f"Could not reach {target_z_count} z's in 100 steps")
+    raise ValueError(f"could not reach {target_z_count} z's in 100 steps")
 
 
 # Solution using a lists instead of strings:

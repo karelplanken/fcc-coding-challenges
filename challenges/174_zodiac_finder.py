@@ -61,10 +61,10 @@ def get_sign(date_str: str) -> str:
                 if i + 1 < len(ZODIACS):
                     return ZODIACS[i + 1].name
                 # This should never happen with valid data
-                raise ValueError(f'No zodiac found for {date_str}')
+                raise ValueError(f'no zodiac found for {date_str}')
 
     # Also should never happen
-    raise ValueError(f'Invalid month in date: {date_str}')
+    raise ValueError(f'invalid month in date: {date_str}')
 
 
 tests = [

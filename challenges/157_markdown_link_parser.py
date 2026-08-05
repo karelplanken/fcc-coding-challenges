@@ -20,7 +20,7 @@ def parse_link(markdown: str) -> str:
     match = re.match(r'^\[(.+?)\]\((https?://[^\s)]+)\)$', markdown)
 
     if not match:
-        raise ValueError(f'Invalid markdown link: {markdown}')
+        raise ValueError(f'invalid markdown link: {markdown}')
 
     text, url = match.groups()
     return f'<a href="{url}">{text}</a>'
@@ -34,7 +34,7 @@ def parse_link(markdown: str) -> str:
 #         return f'<a href="{url}">{text}</a>'
 #     result = re.sub(pattern, replacer, markdown)
 #     if result == markdown:
-#         raise ValueError(f'Invalid markdown link: {markdown}')
+#         raise ValueError(f'invalid markdown link: {markdown}')
 #     return result
 
 

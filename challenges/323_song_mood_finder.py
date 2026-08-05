@@ -47,7 +47,7 @@ def get_mood(genre: str, bpm: int) -> str:
     try:
         entries = _SONG_MOOD_TABLE[genre]
     except KeyError:
-        raise ValueError(f'Unknown {genre=}.') from None
+        raise ValueError(f'unknown {genre=}.') from None
 
     for entry in entries:
         if bpm in entry.bpm_range:

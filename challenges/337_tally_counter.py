@@ -21,7 +21,7 @@ def is_valid_tally(groups: list[str]) -> bool:
 def get_tally_count(s: str) -> int:
     groups = s.split()
     if not is_valid_tally(groups):
-        raise ValueError('Invalid tally string')
+        raise ValueError('invalid tally string')
     return sum(5 if g == '||||/' else len(g) for g in groups)
 
 

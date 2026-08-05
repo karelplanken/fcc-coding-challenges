@@ -57,7 +57,7 @@ def find_signal(grid: list[list[int]]) -> list[int]:
         if freq == TOWERS:
             return [*coord]
 
-    raise ValueError('No solution found')
+    raise ValueError('no solution found')
 
 
 tests = [

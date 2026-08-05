@@ -56,15 +56,18 @@ LETTER_SEPARATOR = ' '
 
 
 def decode_word(word: str) -> str:
-    """Decodes a single space-separated Morse word into letters."""
-    return ''.join(MORSE_TABLE[letter] for letter in word.split(LETTER_SEPARATOR))
+    """Decodes a single space-separated Morse word into letters.
+    
+    Raises:
+            KeyError: If an invalid Morse code token is encountered.
+    """
+    return ''.join(MORSE_TABLE[token] for token in word.split(LETTER_SEPARATOR))
 
 
 def decode_morse(code: str) -> str:
     """Translates a Morse code string into a readable message.
 
     See MORSE_TABLE, WORD_SEPARATOR, LETTER_SEPARATOR for the encoding rules.
-    Invalid tokens raise KeyError (by design — see decode_word).
 
     Args:
         code: Morse code, letters separated by one space, words by three.

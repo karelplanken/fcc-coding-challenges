@@ -43,7 +43,7 @@ def get_missing_node(grid: list[list[int]]) -> Node:
     candidate_count = len(missing_node_candidates)
     if candidate_count != 1:
         raise ValueError(
-            f"Grid must contain exactly one '0' node, found {candidate_count}"
+            f"grid must contain exactly one '0' node, found {candidate_count}"
         )
 
     return missing_node_candidates.pop()
@@ -57,7 +57,7 @@ def get_magic_number(grid: list[list[int]], missing_node: Node) -> int:
             sums.append(sum(grid[node.row][node.col] for node in nodes))
 
     if len(set(sums)) != 1:
-        raise HasNoSolution('Grid rows and columns do not add up to the same number')
+        raise HasNoSolution('grid rows and columns do not add up to the same number')
 
     return sums.pop()
 
@@ -83,7 +83,7 @@ def get_missing_number(
         )
 
     if len(set(candidates)) != 1:
-        raise HasNoSolution('No single number satisfies summing to the magic number')
+        raise HasNoSolution('no single number satisfies summing to the magic number')
 
     return candidates.pop()
 

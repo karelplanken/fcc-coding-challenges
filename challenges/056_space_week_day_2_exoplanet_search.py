@@ -36,7 +36,7 @@ def has_exoplanet(readings: str) -> bool:
 #     if char.isalpha() and char.isupper():
 #         return ord(char) - ord(base) + offset
 
-#     raise ValueError(f"Invalid character '{char}': expected 0-9 or A-Z")
+#     raise ValueError(f"invalid character '{char}': expected 0-9 or A-Z")
 
 
 # def has_exoplanet(readings: str) -> bool:

@@ -30,7 +30,7 @@ PET_AGE_FACTOR = MappingProxyType({
 def pet_years(pet: str, age: int) -> int:
     factor = PET_AGE_FACTOR.get(pet)
     if factor is None:
-        raise ValueError(f'Pet {pet} does not exist.')
+        raise ValueError(f'pet {pet} does not exist.')
     return factor * age
 
 

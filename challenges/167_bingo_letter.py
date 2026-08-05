@@ -15,7 +15,7 @@ from pytest import mark
 # Simpler solution since the ranges are uniform.
 def get_bingo_letter(n: int) -> str:
     if not 1 <= n <= 75:
-        raise ValueError('Number must be in range 1-75')
+        raise ValueError('number must be in range 1-75')
 
     letters = 'BINGO'
     return letters[(n - 1) // 15]
