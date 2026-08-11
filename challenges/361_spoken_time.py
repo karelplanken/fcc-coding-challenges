@@ -94,11 +94,11 @@ def get_time_string(hours: int, minutes: int) -> str:
         hours: The hour component of the time (1-12).
         minutes: The minute component of the time (0-59).
 
-    Raises:
-        ValueError: If the time components are not valid.
-
     Returns:
         The time in spoken English.
+
+    Raises:
+        ValueError: If the time components are not valid.
     """
     next_hour = hours % HOURS_ON_CLOCK + 1  # 1-11 -> +1; 12 -> 0 -> 1
 

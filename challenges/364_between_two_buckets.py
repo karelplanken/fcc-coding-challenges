@@ -30,11 +30,11 @@ def mix_paint(bucket1: Bucket, bucket2: Bucket) -> list[int]:
         bucket1: First bucket's color and fullness.
         bucket2: Second bucket's color and fullness.
 
-    Raises:
-        ZeroDivisionError: if both buckets' fullness is 0.
-
     Returns:
         The mixed RGB color as [r, g, b].
+
+    Raises:
+        ZeroDivisionError: if both buckets' fullness is 0.
     """
     w1, w2 = bucket1['fullness'], bucket2['fullness']
     total = w1 + w2

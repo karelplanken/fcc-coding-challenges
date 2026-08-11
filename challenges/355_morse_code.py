@@ -59,7 +59,7 @@ def decode_word(word: str) -> str:
     """Decodes a single space-separated Morse word into letters.
     
     Raises:
-            KeyError: If an invalid Morse code token is encountered.
+        KeyError: If an invalid Morse code token is encountered.
     """
     return ''.join(MORSE_TABLE[token] for token in word.split(LETTER_SEPARATOR))
 

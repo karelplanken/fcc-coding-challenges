@@ -27,14 +27,14 @@ def get_loan_schedule(
         annual_rate: annual interest rate percentage
         monthly_payment: fixed monthly payment in dollars
 
+    Returns:
+        list[int]: remaining balances after each monthly payment
+
     Raises:
         ValueError: if loan_amount is not positive
         ValueError: if annual_rate is negative
         ValueError: if monthly_payment is not positive
         ValueError: if loan will never be repaid
-
-    Returns:
-        list[int]: remaining balances after each monthly payment
     """
     if loan_amount <= 0:
         raise ValueError('loan_amount must be positive')

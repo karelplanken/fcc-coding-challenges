@@ -38,11 +38,11 @@ def get_spoken_duration(seconds: int) -> str:
     Args:
         seconds: A positive integer representing the number of seconds.
 
-    Raises:
-        DurationError: If seconds is not a positive integer.
-
     Returns:
         A string representation of the duration, e.g. '1 hour, 2 minutes and 3 seconds'.
+    
+    Raises:
+        DurationError: If seconds is not a positive integer.
     """
     if seconds <= 0:
         raise DurationError('seconds must be a positive integer')

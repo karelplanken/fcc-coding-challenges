@@ -23,11 +23,11 @@ def calculate_handicap(scores: list[int], pars: list[int]) -> float:
         scores: Golf scores per round.
         pars: Course par values per round, same length as scores.
 
-    Raises:
-        ValueError: If scores and pars have different lengths, or if either is empty.
-
     Returns:
         Handicap index rounded to one decimal place.
+    
+    Raises:
+        ValueError: If scores and pars have different lengths, or if either is empty.
     """
     if len(scores) != len(pars):
         raise ValueError(
