@@ -1,4 +1,4 @@
-# Daily Coding challenge #363 (2026-08-08) - freeCodeCamp.org
+"""Daily Coding challenge #363 (2026-08-08) - freeCodeCamp.org."""
 # Bucket Fill 2
 # Given a 2D grid of single-letter color strings and a target color, return the minimum
 # number of flood fill "clicks" needed to make the entire grid the target color.
@@ -14,8 +14,7 @@ DELTAS = ((-1, 0), (0, 1), (1, 0), (0, -1))
 
 
 def bucket_fill(grid: list[list[str]], target_color: str) -> int:
-    """Returns the minimum number of clicks required to change the entire grid to
-    the target color.
+    """Returns the minimum number of clicks to change the entire grid color.
 
     Each click recolors a full connected region to the target color, so the answer is
     simply the count of connected regions (4-directionally adjacent, same original
@@ -92,6 +91,7 @@ tests: list[tuple[list[list[str]], str, int]] = [
 
 @mark.parametrize('grid, target_color, expected', tests)
 def test_bucket_fill(grid: list[list[str]], target_color: str, expected: int) -> None:
+    """Test bucket_fill function."""
     assert bucket_fill(grid, target_color) == expected
 
 
