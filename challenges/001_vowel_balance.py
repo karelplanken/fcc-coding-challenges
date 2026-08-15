@@ -1,4 +1,4 @@
-# Daily Coding challenge #1 (2025-08-11) - freeCodeCamp.org
+"""Daily Coding challenge #1 (2025-08-11) - freeCodeCamp.org."""
 # Vowel Balance
 # Given a string, determine whether the number of vowels in the first half of the
 # string is equal to the number of vowels in the second half.
@@ -11,9 +11,15 @@ from pytest import mark
 
 VOWELS = frozenset('aeiouAEIOU')
 
+
 def is_balanced(s: str) -> bool:
-    """Returns True if the number of vowels in the first half of the string is equal
-    to the number of vowels in the second half.
+    """Check whether the number of vowels in the first half equals the second half.
+
+    Args:
+        s: The input string to check.
+
+    Returns:
+        True when the vowel counts match, otherwise False.
     """
     total = len(s)
     first_half_end = total // 2
@@ -37,6 +43,7 @@ tests = [
 
 @mark.parametrize('s, expected', tests)
 def test_is_balanced(s: str, expected: bool) -> None:
+    """Test the is_balanced function."""
     assert is_balanced(s) == expected
 
 

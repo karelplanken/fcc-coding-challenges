@@ -1,4 +1,4 @@
-# Daily Coding challenge #2 (2025-08-12) - freeCodeCamp.org
+"""Daily Coding challenge #2 (2025-08-12) - freeCodeCamp.org."""
 # Base Check
 # Given a string representing a number, and an integer base from 2 to 36, determine
 # whether the number is valid in that base.
@@ -14,18 +14,37 @@
 # Base 16: 0-9 and A-F
 # Base 36: 0-9 and A-Z
 import string
+from types import MappingProxyType
 
 from pytest import mark
 
 # Pre-computed sets (fastest for multiple calls)
-# _VALID_CHARS = string.digits + string.ascii_lowercase
-# _BASE_SETS = {base: set(_VALID_CHARS[:base]) for base in range(2, 37)}
+_VALID_CHARS = string.digits + string.ascii_lowercase
+_VALID_DIGITS_FOR_BASE = MappingProxyType({
+    base: frozenset(_VALID_CHARS[:base]) for base in range(2, 37)
+})
 
 
 def is_valid_number(n: str, base: int) -> bool:
-    given = {number.lower() for number in n}
-    allowed = {char for char in (string.digits + string.ascii_lowercase)[:base]}
-    return not given - allowed
+    """Check if the given number string is valid in the specified base.
+
+    Args:
+        n: The number string to check.
+        base: The base in which to check the number.
+
+    Returns:
+        True if every character in `n` is a valid digit for `base`, False otherwise.
+
+    Raises:
+        ValueError: If the number string is empty or the base is not between 2 and 36.
+    """
+    if not n:
+        raise ValueError('Number must be a non-empty string.')
+    if not (2 <= base <= 36):
+        raise ValueError('Base must be between 2 and 36.')
+
+    valid_digits = _VALID_DIGITS_FOR_BASE[base]
+    return all(char in valid_digits for char in n.lower())
 
 
 tests = [
@@ -50,6 +69,7 @@ tests = [
 
 @mark.parametrize('n, base, expected', tests)
 def test_is_valid_number(n: str, base: int, expected: bool) -> None:
+    """Test the is_valid_number function."""
     assert is_valid_number(n, base) == expected
 
 

@@ -1,4 +1,4 @@
-# Daily Coding challenge #3 (2025-08-13) - freeCodeCamp.org
+"""Daily Coding challenge #3 (2025-08-13) - freeCodeCamp.org."""
 # Fibonacci Sequence
 # The Fibonacci sequence is a series of numbers where each number is the sum of the
 # two preceding ones. When starting with 0 and 1, the first 10 numbers in the sequence
@@ -11,55 +11,61 @@
 # Your function should handle sequences of any length greater than or equal to zero.
 # If the length is zero, return an empty array.
 # Note that the starting numbers are part of the sequence.
-
-# Generator version (memory efficient for very long sequences)
-from collections.abc import Generator
+from collections.abc import Iterator
+from itertools import islice
 
 from pytest import mark
 
 
+def _fibonacci_stream(start_sequence: list[int]) -> Iterator[int]:
+    """Yield an unbounded Fibonacci sequence continuing from the given seed.
+
+    Assumes that the two numbers in start_sequence are two consecutive numbers in the
+    Fibonacci sequence.
+
+    Args:
+        start_sequence: The first two numbers of the Fibonacci sequence.
+
+    Yields:
+        The next number in the Fibonacci sequence.
+    """
+    yield from start_sequence
+
+    prev, curr = start_sequence[-2], start_sequence[-1]
+    while True:
+        prev, curr = curr, prev + curr
+        yield curr
+
+
 def fibonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
-    if length == 0:
-        return []
+    """Generate a Fibonacci sequence from given seed values.
 
-    if length <= len(start_sequence):
-        return start_sequence[:length]
+    Starts from the seed values in ``start_sequence`` and extends the
+    sequence to the requested length.
 
-    def fib_gen() -> Generator:
-        yield from start_sequence
-        prev, curr = start_sequence[-2], start_sequence[-1]
-        for _ in range(len(start_sequence), length):
-            next_val = prev + curr
-            yield next_val
-            prev, curr = curr, next_val
+    Args:
+        start_sequence: A list containing the first two numbers of the
+            Fibonacci sequence.
+        length: The total length of the desired Fibonacci sequence.
 
-    return list(fib_gen())
+    Returns:
+        A list containing the Fibonacci sequence starting with the given
+        numbers and of the specified length.
 
+    Raises:
+        ValueError: If the start sequence is None or does not contain at least two
+        numbers or if the length is negative.
+    """
+    if not start_sequence or len(start_sequence) < 2:
+        raise ValueError('Start sequence must contain at least two numbers.')
 
-# Return the generator itself, use as: list(fibonacci_generator(input_data, length))
+    if length < 0:
+        raise ValueError('Length must be greater than or equal to zero.')
 
-# def fibonacci_generator(
-#     start_sequence: list[int], length: int
-# ) -> Generator[int, None, None]:
-#     if length == 0:
-#         return
-
-#     # Yield initial elements
-#     for i, val in enumerate(start_sequence):
-#         if i >= length:
-#             break
-#         yield val
-
-#     # Generate remaining if needed
-#     if length > len(start_sequence):
-#         prev, curr = start_sequence[-2], start_sequence[-1]
-#         for _ in range(len(start_sequence), length):
-#             next_val = prev + curr
-#             yield next_val
-#             prev, curr = curr, next_val
+    return list(islice(_fibonacci_stream(start_sequence), length))
 
 
-tests = [
+tests: list[tuple[list[int], int, list[int]]] = [
     (
         [0, 1],
         20,
@@ -101,6 +107,7 @@ tests = [
 def test_fibonacci_sequence(
     start_sequence: list[int], length: int, expected: list[int]
 ) -> None:
+    """Test the fibonacci_sequence function."""
     assert fibonacci_sequence(start_sequence, length) == expected
 
 

@@ -1,4 +1,5 @@
-# Daily Coding challenge #4 (2025-08-14) - freeCodeCamp.org
+"""Daily Coding challenge #4 (2025-08-14) - freeCodeCamp.org."""
+
 # S P A C E J A M
 # Given a string, remove all spaces from the string, insert two spaces between every
 # character, convert all alphabetical letters to uppercase, and return the result.
@@ -7,7 +8,15 @@ from pytest import mark
 
 
 def space_jam(s: str) -> str:
-    return '  '.join(char.upper() for char in s if char != ' ')
+    """Returns a capitalized string with double spaces between each char.
+
+    Args:
+        s: The input string.
+
+    Returns:
+        The processed string.
+    """
+    return '  '.join(s.replace(' ', '').upper())
 
 
 # # More explicit filter
@@ -15,9 +24,9 @@ def space_jam(s: str) -> str:
 #     no_spaces = filter(lambda c: c != ' ', s)
 #     return '  '.join(char.upper() for char in no_spaces)
 
-# Method chaining
+# Comprehension
 # def space_jam(s: str) -> str:
-#     return '  '.join(s.replace(' ', '').upper())
+#     # return '  '.join(char.upper() for char in s if char != ' ')
 
 
 tests = [
@@ -31,6 +40,7 @@ tests = [
 
 @mark.parametrize('s, expected', tests)
 def test_space_jam(s: str, expected: str) -> None:
+    """Test the space_jam function."""
     assert space_jam(s) == expected
 
 
