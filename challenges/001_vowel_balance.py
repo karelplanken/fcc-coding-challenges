@@ -1,4 +1,5 @@
 """Daily Coding challenge #1 (2025-08-11) - freeCodeCamp.org."""
+
 # Vowel Balance
 # Given a string, determine whether the number of vowels in the first half of the
 # string is equal to the number of vowels in the second half.

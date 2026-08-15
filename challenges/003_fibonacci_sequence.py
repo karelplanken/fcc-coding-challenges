@@ -1,4 +1,5 @@
 """Daily Coding challenge #3 (2025-08-13) - freeCodeCamp.org."""
+
 # Fibonacci Sequence
 # The Fibonacci sequence is a series of numbers where each number is the sum of the
 # two preceding ones. When starting with 0 and 1, the first 10 numbers in the sequence
@@ -57,10 +58,12 @@ def fibonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
         numbers or if the length is negative.
     """
     if not start_sequence or len(start_sequence) < 2:
-        raise ValueError('Start sequence must contain at least two numbers.')
+        msg = 'start sequence must contain at least two numbers'
+        raise ValueError(msg)
 
     if length < 0:
-        raise ValueError('Length must be greater than or equal to zero.')
+        msg = 'length must be greater than or equal to zero'
+        raise ValueError(msg)
 
     return list(islice(_fibonacci_stream(start_sequence), length))
 

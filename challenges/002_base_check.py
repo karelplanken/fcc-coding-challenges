@@ -1,4 +1,5 @@
 """Daily Coding challenge #2 (2025-08-12) - freeCodeCamp.org."""
+
 # Base Check
 # Given a string representing a number, and an integer base from 2 to 36, determine
 # whether the number is valid in that base.
@@ -39,9 +40,11 @@ def is_valid_number(n: str, base: int) -> bool:
         ValueError: If the number string is empty or the base is not between 2 and 36.
     """
     if not n:
-        raise ValueError('Number must be a non-empty string.')
+        msg = 'number must be a non-empty string'
+        raise ValueError(msg)
     if not (2 <= base <= 36):
-        raise ValueError('Base must be between 2 and 36.')
+        msg = 'base must be between 2 and 36'
+        raise ValueError(msg)
 
     valid_digits = _VALID_DIGITS_FOR_BASE[base]
     return all(char in valid_digits for char in n.lower())
