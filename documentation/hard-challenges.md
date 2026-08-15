@@ -26,6 +26,7 @@ I think that the challenges below are harder than the average challenge containe
 - Trail Traversal (#208)
 - Parentheses Combinations (#294) (Catalan numbers)
 - Itinerary Arrangements (#304)
+- The Last Challenge: Bucket Fill 3 (#365) (flood fill algorithm, graph traversal, and combinatorial optimization)
 
 ## Tests
 
