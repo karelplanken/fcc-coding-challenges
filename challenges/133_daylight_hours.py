@@ -44,7 +44,7 @@ LATITUDE_HOURS = {
 
 def daylight_hours(latitude: int) -> int:
     if latitude < -90 or latitude > 90:
-        raise ValueError(f'Latitude must be between -90 and 90, got {latitude}')
+        raise ValueError(f'latitude must be between -90 and 90, got {latitude}')
     return LATITUDE_HOURS[15 * round(latitude / 15)]
 
 

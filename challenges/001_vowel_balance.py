@@ -9,14 +9,18 @@
 # If there's an odd number of characters in the string, ignore the center character.
 from pytest import mark
 
+VOWELS = frozenset('aeiouAEIOU')
 
 def is_balanced(s: str) -> bool:
-    vowels = 'aeiouAEIOU'
-    n = len(s)
-    mid = n // 2
+    """Returns True if the number of vowels in the first half of the string is equal
+    to the number of vowels in the second half.
+    """
+    total = len(s)
+    first_half_end = total // 2
+    second_half_start = first_half_end + (total % 2)
 
-    return sum(c in vowels for c in s[:mid]) == sum(
-        c in vowels for c in s[mid + n % 2 :]
+    return sum(c in VOWELS for c in s[:first_half_end]) == sum(
+        c in VOWELS for c in s[second_half_start:]
     )
 
 

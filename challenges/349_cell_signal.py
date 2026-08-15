@@ -29,11 +29,11 @@ def find_signal(grid: list[list[int]]) -> list[int]:
     Args:
         grid: A matrix of tower signals.
 
-    Raises:
-        ValueError: If no solution is found to guarantee valid return.
-
     Returns:
         The location of the phone as [row, col].
+
+    Raises:
+        ValueError: If no solution is found to guarantee valid return.
     """
     rows, cols = len(grid), len(grid[0])
     candidate_coords: list[tuple[int, int]] = []
@@ -57,7 +57,7 @@ def find_signal(grid: list[list[int]]) -> list[int]:
         if freq == TOWERS:
             return [*coord]
 
-    raise ValueError('No solution found')
+    raise ValueError('no solution found')
 
 
 tests = [

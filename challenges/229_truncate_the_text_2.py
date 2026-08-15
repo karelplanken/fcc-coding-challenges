@@ -39,7 +39,7 @@ def char_width(char: str) -> int:
     try:
         return CHAR_WIDTHS[char]
     except KeyError:
-        raise ValueError(f'Width for character {char!r} is unknown')
+        raise ValueError(f'width for character {char!r} is unknown')
 
 
 def text_width(s: str) -> int:

@@ -24,7 +24,7 @@ _STRAIGHT_RUNS = [{1, 2, 3, 4}, {2, 3, 4, 5}, {3, 4, 5, 6}]
 
 def five_dice(dice: list[int]) -> str:
     if len(dice) != 5 or not all(1 <= d <= 6 for d in dice):
-        raise ValueError(f'Expected 5 dice with values 1-6, got {dice!r}')
+        raise ValueError(f'expected 5 dice with values 1-6, got {dice!r}')
 
     counts = Counter(dice)
     freq = sorted(counts.values(), reverse=True)  # e.g. [3, 2] for full house

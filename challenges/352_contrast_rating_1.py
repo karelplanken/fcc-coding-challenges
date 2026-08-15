@@ -42,7 +42,7 @@ def get_contrast_rating(ratio: str, is_large_text: bool) -> str:
     idx = bisect_right(breakpoints, contrast_ratio) - 1
     if idx < 0:
         raise ValueError(
-            f'Rating cannot be determined for {ratio=} and {is_large_text=}'
+            f'rating cannot be determined for {ratio=} and {is_large_text=}'
         )
     return labels[idx]
 

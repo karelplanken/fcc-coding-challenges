@@ -102,7 +102,7 @@ def navigate_trail(trail_map: list[str]) -> str:
                 case '-':
                     continue
                 case other:
-                    raise ValueError(f'Unexpected trail character {other!r} at {nxt}')
+                    raise ValueError(f'unexpected trail character {other!r} at {nxt}')
 
 
 tests = [
