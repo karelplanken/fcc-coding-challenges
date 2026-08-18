@@ -2,63 +2,106 @@
 set -euo pipefail
 
 usage() {
-    printf 'Usage: %s <challenge-file>\n' "$(basename -- "$0")" >&2
+    printf 'Usage: %s <challenge-file|number>\n' "$(basename -- "$0")" >&2
+}
+
+resolve_challenge_path() {
+    local challenge_arg="$1"
+    local challenges_dir="$HOME/python-projects/fcc-coding-challenges/challenges"
+
+    if [[ "$challenge_arg" =~ ^[0-9]+$ ]]; then
+        local padded_number matches
+        printf -v padded_number '%03d' "$challenge_arg"
+        matches=("$challenges_dir"/cc_"$padded_number"_*.py)
+
+        if [[ ! -e "${matches[0]}" ]]; then
+            printf 'Error: no challenge file found for number %s\n' "$challenge_arg" >&2
+            return 1
+        fi
+
+        if [[ "${#matches[@]}" -gt 1 ]]; then
+            printf 'Error: multiple challenge files match number %s\n' "$challenge_arg" >&2
+            return 1
+        fi
+
+        printf '%s\n' "${matches[0]}"
+        return 0
+    fi
+
+    local challenge_filename default_challenge_path
+    challenge_filename="$(basename -- "$challenge_arg")"
+    default_challenge_path="$challenges_dir/$challenge_filename"
+
+    if [[ -f "$default_challenge_path" ]]; then
+        printf '%s\n' "$default_challenge_path"
+    elif [[ -f "$challenge_arg" ]]; then
+        printf '%s\n' "$challenge_arg"
+    else
+        printf 'Error: challenge file not found: %s\n' "$challenge_arg" >&2
+        return 1
+    fi
+}
+
+validate_challenge_file() {
+    local challenge_path="$1"
+    local line1 line2 line3
+
+    line1="$(sed -n '1p' "$challenge_path")"
+    line2="$(sed -n '2p' "$challenge_path")"
+    line3="$(sed -n '3p' "$challenge_path")"
+
+    if [[ ! "$line1" =~ ^\"\"\".+\.\"\"\"$ ]]; then
+        printf 'Error: %s: line 1 is not a valid module docstring\n' "$challenge_path" >&2
+        return 1
+    fi
+
+    if [[ -n "$line2" ]]; then
+        printf 'Error: %s: line 2 is not blank\n' "$challenge_path" >&2
+        return 1
+    fi
+
+    if [[ ! "$line3" =~ ^#\  ]]; then
+        printf 'Error: %s: line 3 does not start with "# "\n' "$challenge_path" >&2
+        return 1
+    fi
 }
 
 extract_challenge_name() {
     local challenge_path="$1"
-    local header_line
     local description_line
-    local header_name
 
-    IFS= read -r header_line < "$challenge_path"
-    header_name="$(
-        sed -nE \
-            's/^# Daily Coding challenge #[0-9]+ \([0-9]{4}-[0-9]{2}-[0-9]{2}\)( (.+))? - freeCodeCamp\.org$/\2/p' \
-            <<< "$header_line"
-    )"
-
-    if [[ -n "$header_name" ]]; then
-        printf '%s\n' "$header_name"
-        return 0
-    fi
-
-    description_line="$(sed -n '2p' "$challenge_path")"
-    description_line="${description_line#\#}"
-    description_line="${description_line# }"
-
-    if [[ -n "$description_line" ]]; then
-        printf '%s\n' "$description_line"
-        return 0
-    fi
-
-    printf 'Unknown challenge\n'
+    description_line="$(sed -n '3p' "$challenge_path")"
+    printf '%s\n' "${description_line#\# }"
 }
 
-if [[ "$#" -ne 1 ]]; then
-    usage
-    exit 1
+main() {
+    if [[ "$#" -ne 1 ]]; then
+        usage
+        exit 1
+    fi
+
+    local challenge_arg="$1"
+    local challenge_path
+    challenge_path="$(resolve_challenge_path "$challenge_arg")" || exit 1
+
+    validate_challenge_file "$challenge_path" || exit 1
+
+    local challenge_name
+    challenge_name="$(extract_challenge_name "$challenge_path")"
+
+    local script_dir
+    script_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
+
+    local prompt
+    prompt="$(
+        uv run "$script_dir/assemble_prompt_for_feedback_on_fccdcc.py" "$challenge_path"
+    )"
+
+    printf '%s' "$prompt" | clip.exe
+
+    printf '✓ Prompt for "%s" copied to clipboard — paste into Claude\n' "$challenge_name"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
 fi
-
-challenge_arg="$1"
-challenge_filename="$(basename -- "$challenge_arg")"
-default_challenge_path="$HOME/python-projects/fcc-coding-challenges/challenges/$challenge_filename"
-
-if [[ -f "$default_challenge_path" ]]; then
-    challenge_path="$default_challenge_path"
-elif [[ -f "$challenge_arg" ]]; then
-    challenge_path="$challenge_arg"
-else
-    printf 'Error: challenge file not found: %s\n' "$challenge_arg" >&2
-    exit 1
-fi
-
-script_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
-prompt="$(
-    uv run "$script_dir/assemble_prompt_for_feedback_on_fccdcc.py" "$challenge_path"
-)"
-
-printf '%s' "$prompt" | clip.exe
-
-challenge_name="$(extract_challenge_name "$challenge_path")"
-printf '✓ Prompt for "%s" copied to clipboard — paste into Claude\n' "$challenge_name"

@@ -218,4 +218,4 @@ __marimo__/
 # Custom
 docs-todos-scripts/
 .claude/
-
+.temp/

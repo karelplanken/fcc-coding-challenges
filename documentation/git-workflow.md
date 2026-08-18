@@ -32,22 +32,71 @@ gh pr merge --squash --delete-branch
 > local `main` to match `origin/main`, switches to `main`, and deletes both the
 > local and remote feature branch. No further sync needed.
 
-**Monthly branch (start of each month):**
+**Monthly branch (start of each month) — historical:**
 ```bash
 git switch -c chore/cc-<month>-<year>
 ```
 
-**Daily workflow:**
+**Daily workflow — historical:**
 ```bash
 # after solving the day's challenge
-git add challenges/<number>_<title>.py
+git add challenges/cc_<number>_<title>.py
 git commit -m "chore: challenge <number> - <title>"
 git push origin chore/cc-<month>-<year>
 ```
 
+> **Historical.** This pattern was used while freeCodeCamp published a new
+> daily challenge to solve. The series ended on 2026-08-10 (challenge #365),
+> so there are no more new challenges to add this way. It's kept here for
+> reference; ongoing work now follows the review/refactor cadence below.
+
+---
+
+## Review/Refactor Cadence (`feat/rev-ref-<month>`)
+
+Since freeCodeCamp's daily series ended (2026-08-10, challenge #365), there
+are no new challenges to solve. Instead, the coming year is spent revisiting
+already-solved challenges — reviewing, refactoring, and adding explanatory
+comments/docstrings where appropriate — one month's slice at a time. This
+mirrors the monthly branch pattern above, but for revisiting old solutions
+instead of solving new ones.
+
+**Start of month:**
+```bash
+git switch -c feat/rev-ref-<month>
+```
+
+**Work through that month's slice of challenges:**
+```bash
+# after reviewing/refactoring a challenge
+git add challenges/cc_<number>_<title>.py
+git commit -m "refactor: review challenge <number> - <title>"
+git push origin feat/rev-ref-<month>
+```
+
+**End of month merge:**
+```bash
+gh pr create \
+  --title "refactor: <month> <year> review (challenges <number start>–<number end>)" \
+  --body "Review and refactor pass for freeCodeCamp Python solutions <number start>–<number end>." \
+  --base main
+gh pr view --web
+gh pr merge --squash --delete-branch
+git switch -c feat/rev-ref-<month>
+```
+
+Which challenges fall into a given month's slice is tracked per-branch — see
+the ticket for that month's branch (e.g. `feat/rev-ref-august` started
+mid-month and covers challenges #001–#021; subsequent monthly branches pick
+up where the previous one left off).
+
 ---
 
 ## Rebase Monthly Branch After `main` Was Updated Elsewhere
+
+> **Historical**, like the monthly `chore/cc-<month>-<year>` branch it
+> refers to — kept for reference. The same rebase mechanics apply equally to
+> a `feat/rev-ref-<month>` branch if `main` moves while you're working on it.
 
 Use this when another branch (for example, `feature/*`, `fix/*`, or `chore/*`)
 was merged into `main` while you were still working on
