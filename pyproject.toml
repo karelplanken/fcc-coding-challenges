@@ -1,4 +1,4 @@
-# Project metadata ------------------------------------------------------------
+# Project metadata --------------------------------------------------------------------
 [project]
 name = "fcc-coding-challenges"
 version = "0.1.0"
@@ -8,7 +8,7 @@ readme = "README.md"
 authors = [{ name = "Karel Planken", email = "71339309+karelplanken@users.noreply.github.com" }]
 dependencies = []
 
-# Dev dependencies --------------------------------------------------------
+# Dev dependencies --------------------------------------------------------------------
 # codespell/complexipy/mypy ship as PyPI wheels, so they live here.
 # gitleaks is a standalone Go binary — install it separately.
 [dependency-groups]
@@ -21,7 +21,7 @@ dev = [
     "ruff",
 ]
 
-# Ruff (lint + format) — ported from .dev-tools/ruff.toml --------------------
+# Ruff (lint + format) — ported from .dev-tools/ruff.toml -----------------------------
 [tool.ruff]
 exclude = [
     ".bzr",
@@ -80,7 +80,7 @@ line-ending = "auto"
 docstring-code-format = true
 docstring-code-line-length = "dynamic"
 
-# mypy (type checking) ------------------------------------------------------
+# mypy (type checking) ----------------------------------------------------------------
 [tool.mypy]
 strict = true
 # Uncomment if you want file/module targeting instead of passing paths on the CLI:
@@ -90,10 +90,10 @@ strict = true
 # for a specific area, e.g.:
 # disallow_untyped_defs = false
 
-# complexipy (cognitive complexity) ----------------------------------------
+# complexipy (cognitive complexity) ---------------------------------------------------
 [tool.complexipy]
 max-complexity-allowed = 15
 
-# codespell -----------------------------------------------------------------
+# codespell ---------------------------------------------------------------------------
 [tool.codespell]
 skip = "*.lock,.venv"

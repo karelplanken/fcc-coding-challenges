@@ -1,6 +1,6 @@
 set dotenv-load := true
 
-# Python environment ----------------------------------------------------------
+# Python environment ------------------------------------------------------------------
 
 # Install from the lockfile.
 install:
@@ -11,7 +11,7 @@ upgrade:
     uv lock --upgrade
     uv sync --all-extras --all-groups
 
-# Code quality ----------------------------------------------------------------
+# Code quality ------------------------------------------------------------------------
 format *paths=".":
     uv run --frozen ruff check --fix {{ paths }}
     uv run --frozen ruff format {{ paths }}
@@ -36,7 +36,7 @@ check-secrets:
 check-secrets-history:
     gitleaks detect --source . --verbose
 
-# Test ------------------------------------------------------------------------
+# Test --------------------------------------------------------------------------------
 test target="":
     uv run --frozen pytest {{ target }} --cov --cov-report=term-missing
 
@@ -48,8 +48,8 @@ check-no-test *paths=".": (check-ruff paths) (check-types paths) (check-complexi
 check *paths=".": (check-ruff paths) (check-types paths) (check-complexity paths) (check-spelling paths) (test paths)
     @echo "types + complexity + tests OK"
 
-# Project specific commands ---------------------------------------------------
+# Project specific commands -----------------------------------------------------------
 
-# One-off sanity check, not for routine use------------------------------------
+# One-off sanity check, not for routine use--------------------------------------------
 check-types-verify:
     @uv run mypy -vv . 2>&1 | grep -E "Config File|'strict_equality'|'disallow_untyped_defs'"
