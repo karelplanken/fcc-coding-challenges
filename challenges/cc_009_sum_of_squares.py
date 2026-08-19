@@ -7,12 +7,18 @@ from pytest import mark
 
 
 def sum_of_squares(n: int) -> int:
-    return sum(i * i for i in range(1, n + 1))
+    """Calculates the sum of squares from 1 to n.
 
+    Uses the mathematical formula for the sum of squares, which is faster than
+    iterating over each number, squaring it, and adding the results.
 
-# Mathematical formula (faster)
-# def sum_of_squares(n: int) -> int:
-#     return n * (n + 1) * (2 * n + 1) // 6
+    Args:
+        n: A positive integer up to 1,000.
+
+    Returns:
+        The sum of squares from 1 to n.
+    """
+    return n * (n + 1) * (2 * n + 1) // 6
 
 
 tests = [(5, 55), (10, 385), (25, 5525), (500, 41791750), (1000, 333833500)]
