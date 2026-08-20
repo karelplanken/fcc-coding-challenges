@@ -46,7 +46,7 @@ check-no-test *paths=".": (check-ruff paths) (check-types paths) (check-complexi
 
 # Convenience bundle: what you'd run before committing.
 check *paths=".": (check-ruff paths) (check-types paths) (check-complexity paths) (check-spelling paths) (test paths)
-    @echo "types + complexity + tests OK"
+    @echo "format + types + complexity + spelling + tests OK"
 
 # Project specific commands -----------------------------------------------------------
 
