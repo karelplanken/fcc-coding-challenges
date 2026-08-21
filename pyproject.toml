@@ -94,6 +94,11 @@ strict = true
 [tool.complexipy]
 max-complexity-allowed = 15
 
+# pytest / coverage -------------------------------------------------------------------
+# --cov-fail-under is a starting point, not a mandate — adjust per project.
+[tool.pytest.ini_options]
+addopts = "--cov=scrap_project --cov-report=term-missing --cov-fail-under=75"
+
 # codespell ---------------------------------------------------------------------------
 [tool.codespell]
 skip = "*.lock,.venv"
