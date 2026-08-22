@@ -8,27 +8,46 @@
 # A negative number means the message was shifted backward in the alphabet.
 # Case matters, decoded characters should retain the case of their encoded counterparts.
 # Non-alphabetical characters should not get decoded.
+import string
+
 from pytest import mark
 
-# def decode(message: str, shift: int) -> str:
-#     return ''.join(
-#         chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
-#         if char.islower()
-#         else chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
-#         if char.isupper()
-#         else char
-#         for char in message
-#     )
+ascii_letters = set(string.ascii_letters)
+
+
+def _shift_char(char: str, shift: int) -> str:
+    """Shift a character by the given shift value.
+
+    If the character is not an alphabetical character, it will be returned unchanged.
+    A negative shift will shift the character backward in the alphabet, while a
+    positive shift will shift it forward. The case of the character will be preserved.
+
+    Args:
+        char: The character to shift.
+        shift: The number of positions to shift the character.
+
+    Returns:
+        The shifted character.
+    """
+    if char not in ascii_letters:
+        return char
+    base = ord('A') if char.isupper() else ord('a')
+    return chr((ord(char) - base - shift) % 26 + base)
 
 
 def decode(message: str, shift: int) -> str:
-    def shift_char(char: str) -> str:
-        if not char.isalpha():
-            return char
-        base = ord('A') if char.isupper() else ord('a')
-        return chr((ord(char) - base - shift) % 26 + base)
+    """Decode a message by shifting each character by the given shift value.
 
-    return ''.join(shift_char(c) for c in message)
+    Depends on the _shift_char function to handle the shifting of individual characters.
+
+    Args:
+        message: The encoded message to decode.
+        shift: The number of positions to shift each character in the message.
+
+    Returns:
+        The decoded message.
+    """
+    return ''.join(_shift_char(char, shift) for char in message)
 
 
 tests = [
