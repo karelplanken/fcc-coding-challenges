@@ -8,29 +8,39 @@
 # and itself.
 # A negative prime number is the negative version of a positive prime number.
 # 1 and 0 are not considered prime numbers.
+from math import isqrt
+
 from pytest import mark
 
 
-def is_unnatural_prime(n: int) -> bool:
-    n_abs = abs(n)
+def is_prime(n: int) -> bool:
+    """Computes whether a given integer is a prime number.
 
-    if n_abs <= 1:
+    Args:
+        n: Integer to check for primality.
+
+    Returns:
+        True if n is a prime number, False otherwise.
+    """
+    if n < 2:
         return False
-
-    if n_abs <= 3:
+    if n < 4:
         return True
-
-    if n_abs % 2 == 0 or n_abs % 3 == 0:
+    if n % 2 == 0 or n % 3 == 0:
         return False
+    return all(n % i for i in range(5, isqrt(n) + 1, 2) if i % 3 != 0)
 
-    # Check for divisors of form 6k±1 up to sqrt(n)
-    i = 5
-    while i * i <= n_abs:
-        if n_abs % i == 0 or n_abs % (i + 2) == 0:
-            return False
-        i += 6
 
-    return True
+def is_unnatural_prime(n: int) -> bool:
+    """Computes whether n or -n is a prime number.
+
+    Args:
+        n: An integer to check for primality.
+
+    Returns:
+        True if n is a prime number or a negative prime number, False otherwise.
+    """
+    return is_prime(abs(n))
 
 
 # Test cases
@@ -45,6 +55,8 @@ tests = [
     (99, False),
     (-44, False),
     # Additional edge cases
+    (5, True),
+    (-5, True),
     (25, False),  # 5 × 5
     (49, False),  # 7 × 7
     (121, False),  # 11 × 11
