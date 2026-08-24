@@ -2,57 +2,100 @@
 
 # Character Battle
 # Given two strings representing your army and an opposing army, each character from
-# your army battles the character at the same position from the opposing army using
-# the following rules:
-
-# Characters a-z have a strength of 1-26, respectively.
-# Characters A-Z have a strength of 27-52, respectively.
-# Digits 0-9 have a strength of their face value.
-# All other characters have a value of zero.
-# Each character can only fight one battle.
+# your army battles the character at the same position from the opposing army using the
+# following rules:
+#
+# - Characters a-z have a strength of 1-26, respectively.
+# - Characters A-Z have a strength of 27-52, respectively.
+# - Digits 0-9 have a strength of their face value.
+# - All other characters have a value of zero.
+# - Each character can only fight one battle.
+#
 # For each battle, the stronger character wins. The army with more victories, wins the
 # war. Return the following values:
+#
+# - "Opponent retreated" if your army has more characters than the opposing army.
+# - "We retreated" if the opposing army has more characters than yours.
+# - "We won" if your army won more battles.
+# - "We lost" if the opposing army won more battles.
+# - "It was a tie" if both armies won the same number of battles.
+from string import ascii_lowercase, ascii_uppercase, digits
+from types import MappingProxyType
 
-# "Opponent retreated" if your army has more characters than the opposing army.
-# "We retreated" if the opposing army has more characters than yours.
-# "We won" if your army won more battles.
-# "We lost" if the opposing army won more battles.
-# "It was a tie" if both armies won the same number of battles.
 from pytest import mark
 
 
-def get_strength(char: str) -> int:
-    if 'a' <= char <= 'z':
-        return ord(char) - ord('a') + 1
-    elif 'A' <= char <= 'Z':
-        return ord(char) - ord('A') + 27
-    elif '0' <= char <= '9':
-        return int(char)
-    else:
-        return 0
+def _get_map(chars: str, start_strength: int = 0) -> dict[str, int]:
+    """Return a mapping of characters to their strength values.
+
+    Args:
+        chars: The characters to map, in ascending strength order.
+        start_strength: The strength assigned to the first character.
+
+    Returns:
+        A dict mapping each character to its strength.
+    """
+    return {char: strength for strength, char in enumerate(chars, start=start_strength)}
+
+
+CHARACTER_STRENGTHS = MappingProxyType({
+    **_get_map(ascii_lowercase, 1),
+    **_get_map(ascii_uppercase, 27),
+    **_get_map(digits, 0),
+})
+
+
+def _get_strength(char: str) -> int:
+    """Return the strength of a character.
+
+    Args:
+        char: The character to score.
+
+    Returns:
+        The character's strength, or 0 if it has no defined strength.
+    """
+    return CHARACTER_STRENGTHS.get(char, 0)
+
+
+def _compare(we: str, they: str) -> int:
+    """Score a single battle between two characters.
+
+    Args:
+        we: Our character in this battle.
+        they: The opposing character in this battle.
+
+    Returns:
+        1 if our character wins, -1 if it loses, 0 on a tie.
+    """
+    we_strength = _get_strength(we)
+    they_strength = _get_strength(they)
+    return (we_strength > they_strength) - (we_strength < they_strength)
 
 
 def battle(my_army: str, opposing_army: str) -> str:
-    if len(my_army) < len(opposing_army):
-        return 'We retreated'
-    elif len(my_army) > len(opposing_army):
-        return 'Opponent retreated'
+    """Return the result of a battle between two armies.
 
-    my_amry_score = 0
-    opposing_army_score = 0
+    Args:
+        my_army: Your army string.
+        opposing_army: Opposing army string.
 
-    for we, they in zip(my_army, opposing_army):
-        if get_strength(we) > get_strength(they):
-            my_amry_score += 1
-        elif get_strength(we) < get_strength(they):
-            opposing_army_score += 1
+    Returns:
+        The result of the battle.
+    """
+    if len(my_army) != len(opposing_army):
+        return (
+            'We retreated'
+            if len(my_army) < len(opposing_army)
+            else 'Opponent retreated'
+        )
 
-    if my_amry_score > opposing_army_score:
+    net_score = sum(_compare(we, they) for we, they in zip(my_army, opposing_army))
+
+    if net_score > 0:
         return 'We won'
-    elif my_amry_score < opposing_army_score:
+    if net_score < 0:
         return 'We lost'
-    else:
-        return 'It was a tie'
+    return 'It was a tie'
 
 
 tests = [
