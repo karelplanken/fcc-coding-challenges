@@ -4,14 +4,8 @@
 # Given an array of numbers and an integer target, find two unique numbers in the array
 # that add up to the target value. Return an array with the indices of those two
 # numbers, or "Target not found" if no two numbers sum up to the target.
-
-# The returned array should have the indices in ascending order.
-# def find_target(arr: list[int], target: int) -> list[int] | str:
-#     for i, v in enumerate(arr):
-#         for j in range(i + 1, len(arr)):
-#             if v + arr[j] == target:
-#                 return [i, j]
-#     return 'Target not found'
+#
+# - The returned array should have the indices in ascending order.
 from pytest import mark
 
 
@@ -23,7 +17,7 @@ def find_target(arr: list[int], target: int) -> list[int] | str:
         target: The target sum to find.
 
     Returns:
-        A list containing the indices of the two numbers that add up to the target, or 
+        A list containing the indices of the two numbers that add up to the target, or
         "Target not found" if no such pair exists.
     """
     seen: dict[int, int] = {}  # Maps value -> index

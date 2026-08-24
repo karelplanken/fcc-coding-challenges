@@ -1,8 +1,8 @@
 """Daily Coding Challenge #9 (2025-08-19) - freeCodeCamp.org."""
 
 # Sum of Squares
-# Given a positive integer up to 1,000, return the sum of all the integers squared
-# from 1 up to the number.
+# Given a positive integer up to 1,000, return the sum of all the integers squared from
+# 1 up to the number.
 from pytest import mark
 
 

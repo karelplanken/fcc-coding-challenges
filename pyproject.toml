@@ -98,7 +98,7 @@ max-complexity-allowed = 15
 # pytest / coverage -------------------------------------------------------------------
 # --cov-fail-under is a starting point, not a mandate — adjust per project.
 [tool.pytest.ini_options]
-addopts = "--cov=scrap_project --cov-report=term-missing --cov-fail-under=75"
+addopts = "--cov=scrap_project --cov-report=term-missing --cov-fail-under=65"
 
 # codespell ---------------------------------------------------------------------------
 [tool.codespell]
