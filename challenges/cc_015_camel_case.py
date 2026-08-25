@@ -2,44 +2,37 @@
 
 # camelCase
 # Given a string, return its camel case version using the following rules:
+#
+# - Words in the string argument are separated by one or more characters from the
+#   following set: space ( ), dash (-), or underscore (_). Treat any sequence of these
+#   as a word break.
+# - The first word should be all lowercase.
+# - Each subsequent word should start with an uppercase letter, with the rest of it
+#   lowercase.
+# - All spaces and separators should be removed.
+import re
 
-# Words in the string argument are separated by one or more characters from the
-# following set: space ( ), dash (-), or underscore (_). Treat any sequence of these
-# as a word break.
-# The first word should be all lowercase.
-# Each subsequent word should start with an uppercase letter, with the rest of it
-# lowercase.
-# All spaces and separators should be removed.
 from pytest import mark
 
-# def to_camel_case(s: str) -> str:
-#     # # More verbose and maybe more readable for beginners
-#     # words = (s.replace('_', ' ').replace('-', ' ').split())
 
-#     # camel_cased = words[0].lower()
-#     # for word in words[1:]:
-#     #     camel_cased += word.title()
-#     # return camel_cased
-#     # This is the oneliner
-#     return ''.join(
-#         word.lower() if i == 0 else word.title()
-#         for i, word in enumerate(s.replace('_', ' ').replace('-', ' ').split())
-#     )
-
-
-# Most readable
 def to_camel_case(s: str) -> str:
-    words = s.replace('_', ' ').replace('-', ' ').split()
+    """Convert a string to camel case.
+
+    Assumes that `s` contains only letters, spaces, dashes, and underscores.
+
+    Args:
+        s: The string to convert.
+
+    Returns:
+        The camel case version of the string.
+    """
+    words: list[str] = re.findall(r'[^\s_-]+', s)
     if not words:
         return ''
-    return words[0].lower() + ''.join(word.title() for word in words[1:])
-
-
-# Unpacking (Pythonic one-liner)
-# def to_camel_case(s: str) -> str:
-#     words = s.replace('_', ' ').replace('-', ' ').split()
-#     return words[0].lower() + \
-#         ''.join(word.title() for word in words[1:]) if words else ''
+    first, *rest = words
+    # capitalize() uppercases index 0 and lowercases the rest of each word —
+    # unlike title(), it won't re-capitalize after internal punctuation.
+    return first.lower() + ''.join(word.capitalize() for word in rest)
 
 
 tests = [
