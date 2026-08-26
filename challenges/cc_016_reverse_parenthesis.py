@@ -3,50 +3,41 @@
 # Reverse Parenthesis
 # Given a string that contains properly nested parentheses, return the decoded version
 # of the string using the following rules:
-
-# All characters inside each pair of parentheses should be reversed.
-# Parentheses should be removed from the final result.
-# If parentheses are nested, the innermost pair should be reversed first, and then its
-# result should be included in the reversal of the outer pair.
-# Assume all parentheses are evenly balanced and correctly nested.
+#
+# - All characters inside each pair of parentheses should be reversed.
+# - Parentheses should be removed from the final result.
+# - If parentheses are nested, the innermost pair should be reversed first, and then its
+#   result should be included in the reversal of the outer pair.
+# - Assume all parentheses are evenly balanced and correctly nested.
 import re
 
 from pytest import mark
 
-
-def reverse_and_remove(substring: str, to_remove: list[str]) -> str:
-    reversed_substring = substring[::-1]
-
-    for pattern in to_remove:
-        reversed_substring = reversed_substring.replace(pattern, '')
-
-    return reversed_substring
+_PATTERN = re.compile(r'\([^\(\)]*\)')
 
 
 def decode(s: str) -> str:
-    pattern = r'\([^\(\)]*\)'
-    parentheses_list = ['(', ')']
+    """Decode a string with nested parentheses.
 
-    while True:
-        to_reverse = re.findall(pattern, s)
-        if len(to_reverse) == 0:
-            return s
-        for substring in to_reverse:
-            replacement = reverse_and_remove(substring, parentheses_list)
-            s = s.replace(substring, replacement)
+    Reverses all characters inside each pair of parentheses. If parentheses are nested,
+    the innermost pair is reversed first, and then its result is included in the
+    reversal of the outer pair. Parentheses are removed from the final result.
 
+    Expects that all parentheses in the input string are evenly balanced and correctly
+    nested.
 
-# More efficient with single pass per level
-# import re
+    Args:
+        s: A string containing properly nested parentheses.
 
-# def decode(s: str) -> str:
-#     pattern = r'\([^\(\)]*\)'
+    Returns:
+        A string with all characters inside each pair of parentheses reversed and
+        parentheses removed.
+    """
+    while _PATTERN.search(s):
+        # The lambda function is called for every non-overlapping occurrence of pattern
+        s = _PATTERN.sub(lambda m: m.group()[1:-1][::-1], s)
+    return s
 
-#     while '(' in s:
-#         # Use sub() to replace all matches in one pass
-#         s = re.sub(pattern, lambda m: m.group()[1:-1][::-1], s)
-
-#     return s
 
 # Stack-based approach (no regex)
 # def decode(s: str) -> str:
