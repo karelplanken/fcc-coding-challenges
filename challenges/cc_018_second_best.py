@@ -1,23 +1,42 @@
 """Daily Coding Challenge #18 (2025-08-28) - freeCodeCamp.org."""
 
 # Second Best
-# Given an array of integers representing the price of different laptops, and an
-# integer representing your budget, return:
-
-# The second most expensive laptop if it is within your budget, or
-# The most expensive laptop that is within your budget, or
-# 0 if no laptops are within your budget.
-# Duplicate prices should be ignored.
+# Given an array of integers representing the price of different laptops, and an integer
+# representing your budget, return:
+#
+# 1. The second most expensive laptop if it is within your budget, or
+# 2. The most expensive laptop that is within your budget, or
+# 3. 0 if no laptops are within your budget.
+#
+# - Duplicate prices should be ignored.
 from pytest import mark
 
 
 def get_laptop_cost(laptops: list[int], budget: int) -> int:
-    # Return second-most expensive overall (if affordable),
-    # otherwise most expensive within budget
-    max_price = max(laptops)
+    """Return the second most expensive laptop within budget.
 
-    for price in sorted(laptops, reverse=True):
-        if budget >= price and price != max_price:
+    Args:
+        laptops: list of integers representing the price of different laptops.
+        budget: integer representing budget.
+
+    Returns:
+        The second most expensive laptop within budget, or the most expensive laptop
+        within budget, or 0 if no laptops are within budget.
+
+    Raises:
+        ValueError: If less than two laptop prices are provided.
+    """
+    if len(laptops) < 2:
+        msg = 'At least two laptop prices are required.'
+        raise ValueError(msg)
+
+    unique_prices = sorted(set(laptops), reverse=True)
+
+    if len(unique_prices) > 1 and unique_prices[1] <= budget:
+        return unique_prices[1]
+
+    for price in unique_prices:
+        if price <= budget:
             return price
 
     return 0
