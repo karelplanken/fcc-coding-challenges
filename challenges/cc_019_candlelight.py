@@ -4,21 +4,39 @@
 # Given an integer representing the number of candles you start with, and an integer
 # representing how many burned candles it takes to create a new one, return the number
 # of candles you will have used after creating and burning as many as you can.
-
+#
 # For example, if given 7 candles and it takes 2 burned candles to make a new one:
-
-# Burn 7 candles to get 7 leftovers,
-# Recycle 6 leftovers into 3 new candles (1 leftover remains),
-# Burn 3 candles to get 3 more leftovers (4 total),
-# Recycle 4 leftovers into 2 new candles,
-# Burn 2 candles to get 2 leftovers,
-# Recycle 2 leftovers into 1 new candle,
-# Burn 1 candle.
+#
+# 1. Burn 7 candles to get 7 leftovers,
+# 2. Recycle 6 leftovers into 3 new candles (1 leftover remains),
+# 3. Burn 3 candles to get 3 more leftovers (4 total),
+# 4. Recycle 4 leftovers into 2 new candles,
+# 5. Burn 2 candles to get 2 leftovers,
+# 6. Recycle 2 leftovers into 1 new candle,
+# 7. Burn 1 candle.
+#
 # You will have burned 13 total candles in the example.
 from pytest import mark
 
 
 def burn_candles(candles: int, leftovers_needed: int) -> int:
+    """Return the total number of candles burned.
+
+    Args:
+        candles: Integer representing the number of candles you start with.
+        leftovers_needed: Integer representing how many burned candles it takes to
+        create a new one.
+
+    Returns:
+        Integer representing the total number of candles burned.
+
+    Raises:
+        ValueError: If leftovers_needed is less than 2.
+    """
+    if leftovers_needed < 2:
+        msg = f'leftovers_needed must be at least 2, got {leftovers_needed}'
+        raise ValueError(msg)
+
     total_burnt = 0
     leftovers = 0
 
@@ -28,8 +46,7 @@ def burn_candles(candles: int, leftovers_needed: int) -> int:
         leftovers += candles
 
         # Recycle leftovers into new candles
-        candles = leftovers // leftovers_needed
-        leftovers = leftovers % leftovers_needed
+        candles, leftovers = divmod(leftovers, leftovers_needed)
 
     return total_burnt
 
