@@ -4,23 +4,32 @@
 # Given an array of integers, return an array of integers that appear more than once in
 # the initial array, sorted in ascending order. If no values appear more than once,
 # return an empty array.
-
-# Only include one instance of each value in the returned array.
+#
+# - Only include one instance of each value in the returned array.
 from pytest import mark
 
 
 def find_duplicates(arr: list[int]) -> list[int]:
-    seen = set()
-    duplicates = set()
+    """Return an array of integers that appear more than once in the initial array.
+
+    Args:
+        arr: An array of integers.
+
+    Returns:
+        An array of integers that appear more than once in the initial array, sorted in
+        ascending order.
+    """
+    seen: set[int] = set()
+    duplicates: set[int] = set()
+
     for value in arr:
-        if value in seen:
-            duplicates.add(value)
-        seen.add(value)
+        target = duplicates if value in seen else seen
+        target.add(value)
 
     return sorted(duplicates)
 
 
-tests = [
+tests: list[tuple[list[int], list[int]]] = [
     ([1, 2, 3, 4, 5], []),
     ([1, 2, 3, 4, 1, 2], [1, 2]),
     (
