@@ -1,30 +1,37 @@
 """Daily Coding Challenge #21 (2025-08-31) - freeCodeCamp.org."""
 
 # Hex Generator
-# Given a named CSS color string, generate a random hexadecimal (hex) color code that
-# is dominant in the given color.
-
-# The function should handle "red", "green", or "blue" as an input argument.
-# If the input is not one of those, the function should return "Invalid color".
-# The function should return a random six-character hex color code where the input
-# color value is greater than any of the others.
-# Example of valid outputs for a given input:
-# Input	Output
-# "red"	"FF0000"
-# "green"	"00FF00"
-# "blue"	"0000FF"
+# Given a named CSS color string, generate a random hexadecimal (hex) color code that is
+# dominant in the given color.
+#
+# - The function should handle "red", "green", or "blue" as an input argument.
+# - If the input is not one of those, the function should return "Invalid color".
+# - The function should return a random six-character hex color code where the input
+#   color value is greater than any of the others.
+# - Example of valid outputs for a given input:
+#
+# | Input   | Output   |
+# |---------|----------|
+# | "red"   | "FF0000" |
+# | "green" | "00FF00" |
+# | "blue"  | "0000FF" |
 from random import randint
+from types import MappingProxyType
 
 from pytest import mark
 
+COLOR_MAP = MappingProxyType({'red': 0, 'green': 1, 'blue': 2})
+
 
 def generate_hex(color: str) -> str:
-    """Given a named CSS color string, return a random hexadecimal (hex) color code
-    that is dominant in the given color. For any other color than red, green, blue,
-    'Invalid color' is returned.
+    """Generate a random hex color code dominant in the given color.
 
-    :param color: Either red, green, or blue
-    :return: Random hex color dominant in 'color`
+    Args:
+        color: A string representing the color name ("red", "green", or "blue").
+
+    Returns:
+        A string representing the random hex color code, or "Invalid color" if the input
+        is invalid.
 
     Examples:
     >>> generate_hex('yellow')
@@ -44,24 +51,28 @@ def generate_hex(color: str) -> str:
     >>> assert blueish_1 != blueish_2
     >>> assert blueish_1[4:6] > blueish_1[0:2] and blueish_1[4:6] > blueish_1[2:4]
     """
-    if color not in ('red', 'green', 'blue'):
+    if color not in COLOR_MAP:
         return 'Invalid color'
 
-    # Keep generating until we get a unique maximum
+    # Reject ties for the max, then swap it into the target channel. Each valid
+    # output triple has exactly 3 equally-likely preimages (one per swap position),
+    # so this samples uniformly over the entire valid output space - no bias
+    # toward any dominant value or weak-channel combination.
     while True:
-        values = [randint(0, 255), randint(0, 255), randint(0, 255)]
-        max_val = max(values)
+        # Keep generating until we get a unique maximum:
+        colors = [randint(0, 255), randint(0, 255), randint(0, 255)]
+        max_val = max(colors)
 
-        if values.count(max_val) == 1:
+        if colors.count(max_val) == 1:
             break
 
     # Swap max value to the correct position
-    max_idx = values.index(max_val)
-    color_map = {'red': 0, 'green': 1, 'blue': 2}
-    target_idx = color_map[color]
-    values[max_idx], values[target_idx] = values[target_idx], values[max_idx]
+    idx_max = colors.index(max_val)
 
-    return f'{values[0]:02X}{values[1]:02X}{values[2]:02X}'
+    idx_target = COLOR_MAP[color]
+    colors[idx_max], colors[idx_target] = colors[idx_target], colors[idx_max]
+
+    return f'{colors[0]:02X}{colors[1]:02X}{colors[2]:02X}'
 
 
 @mark.parametrize('color', ['red', 'green', 'blue', 'yellow', 'purple'])
