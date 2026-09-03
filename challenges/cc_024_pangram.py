@@ -3,29 +3,41 @@
 # Pangram
 # Given a word or sentence and a string of lowercase letters, determine if the word or
 # sentence uses all the letters from the given set at least once and no other letters.
-
-# Ignore non-alphabetical characters in the word or sentence.
-# Ignore letter casing in the word or sentence.
+#
+# - Ignore non-alphabetical characters in the word or sentence.
+# - Ignore letter casing in the word or sentence.
 from pytest import mark
 
 
 def is_pangram(sentence: str, letters: str) -> bool:
+    """Determine if a sentence is a pangram for a given set of letters.
+
+    Args:
+        sentence: A word or sentence to check.
+        letters: A string of lowercase letters to check against.
+
+    Returns:
+        True if the sentence uses all the letters from the given set at least once and
+        no other letters, False otherwise.
+
+    Raises:
+        ValueError: If the letters string contains non-lowercase or non-alphabetic
+            characters.
+    """
+    if letters and not (letters.islower() and letters.isalpha()):
+        msg = f'letters must be a string of lowercase letters: {letters}'
+        raise ValueError(msg)
+
     # Extract alphabetic characters and convert to lowercase
-    sentence_chars = {char.lower() for char in sentence if char.isalpha()}
-    letter_set = set(letters)
-
+    sentence_letters = {char.lower() for char in sentence if char.isalpha()}
     # Check if the sets are identical
-    return sentence_chars == letter_set
+    return sentence_letters == set(letters)
 
 
-# Python's set operations are quite rich:
-# set1 == set2  # equality
-# set1 <= set2  # subset
-# set1 >= set2  # superset
-# set1 & set2  # intersection
-# set1 | set2  # union
-# set1 - set2  # difference
-
+# Alternative approach: represent "which letters are present" as a 32-bit
+# integer bitmask instead of a set[str] (one bit per letter of the alphabet).
+# Faster and more memory-efficient for repeated comparisons against a fixed
+# `letters` set; less readable for a one-off check like this.
 
 tests = [
     ('hello', 'helo', True),
