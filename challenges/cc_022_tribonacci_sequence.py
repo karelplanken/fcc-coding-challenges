@@ -41,7 +41,7 @@ def tribonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
 
     Raises:
         ValueError: If `start_sequence` does not contain exactly three numbers or if
-        `length` is negative.
+            `length` is negative.
     """
     if not start_sequence or len(start_sequence) != 3:
         msg = 'start_sequence must contain exactly three numbers'
