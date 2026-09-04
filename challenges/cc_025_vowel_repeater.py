@@ -1,33 +1,44 @@
 """Daily Coding Challenge #25 (2025-09-04) - freeCodeCamp.org."""
 
 # Vowel Repeater
-# Given a string, return a new version of the string where each vowel is duplicated
-# one more time than the previous vowel you encountered. For instance, the first vowel
-# in the sentence should remain unchanged. The second vowel should appear twice in a
-# row. The third vowel should appear three times in a row, and so on.
-
-# The letters a, e, i, o, and u, in either uppercase or lowercase, are considered
-# vowels.
-# The original vowel should keep its case.
-# Repeated vowels should be lowercase.
-# All non-vowel characters should keep their original case.
+# Given a string, return a new version of the string where each vowel is duplicated one
+# more time than the previous vowel you encountered. For instance, the first vowel in
+# the sentence should remain unchanged. The second vowel should appear twice in a row.
+# The third vowel should appear three times in a row, and so on.
+#
+# - The letters a, e, i, o, and u, in either uppercase or lowercase, are considered
+#   vowels.
+# - The original vowel should keeps its case.
+# - Repeated vowels should be lowercase.
+# - All non-vowel characters should keep their original case.
 from pytest import mark
 
-VOWELS = {'a', 'e', 'i', 'o', 'u'}  # Set for O(1) lookup
+VOWELS = frozenset('aeiou')  # Set for O(1) lookup
 
 
 def repeat_vowels(s: str) -> str:
-    vowel_count = 0  # More descriptive name
-    result = []  # More descriptive name
+    """Repeat vowels in a string according to the specified rules.
+
+    Builds a new version of `s` where each vowel is duplicated one more
+    time than the previously encountered vowel.
+
+    Args:
+        s: The input string.
+
+    Returns:
+        A new string with vowels repeated according to the rules.
+    """
+    parts: list[str] = []
+    vowel_count = 0
 
     for char in s:
-        if char.lower() in VOWELS:
-            result.append(char + char.lower() * vowel_count)
+        if (lower_char := char.lower()) in VOWELS:
+            parts.append(char + lower_char * vowel_count)
             vowel_count += 1
         else:
-            result.append(char)
+            parts.append(char)
 
-    return ''.join(result)
+    return ''.join(parts)
 
 
 tests = [
