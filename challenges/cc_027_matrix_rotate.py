@@ -1,43 +1,36 @@
 """Daily Coding Challenge #27 (2025-09-06) - freeCodeCamp.org."""
 
 # Matrix Rotate
-# Given a matrix (an array of arrays), rotate the matrix 90 degrees clockwise and
-# return it. For instance, given [[1, 2], [3, 4]], which looks like this:
-
-# 1	2
-# 3	4
+# Given a matrix (an array of arrays), rotate the matrix 90 degrees clockwise and return
+# it. For instance, given [[1, 2], [3, 4]], which looks like this:
+#
+# | 1 | 2 |
+# |---|---|
+# | 3 | 4 |
+#
 # You should return [[3, 1], [4, 2]], which looks like this:
-
-# 3	1
-# 4	2
+#
+# | 3 | 1 |
+# |---|---|
+# | 4 | 2 |
 from pytest import mark
 
-# def rotate(matrix: list[list[int]]) -> list[list[int]]:
-#     rows = len(matrix)
-#     cols = len(matrix[0])
 
-#     rotated_matrix = []
-
-#     for col in range(cols):
-#         rotated_matrix.append([matrix[row][col] for row in reversed(range(rows))])
-
-#     return rotated_matrix
-
-
-# Ultimate one-liner using zip and unpacking:
 def rotate(matrix: list[list[int]]) -> list[list[int]]:
-    """Mental Model:
-    zip(*matrix) → transpose (columns become rows)
-    reversed(col) → flip each column to get rotation
+    """Rotate a matrix 90 degrees clockwise.
+
+    Reversing the row order and then transposing (zip) is equivalent to a
+    90-degree clockwise rotation: the last row becomes the first column,
+    the second-to-last row becomes the second column, and so on.
+
+    Args:
+        matrix: A list of lists representing a matrix. Rows may be of any
+            equal length; the matrix may be non-square.
+
+    Returns:
+        A new matrix representing the input rotated 90 degrees clockwise.
     """
-    return [list(reversed(col)) for col in zip(*matrix)]
-    # This is equivalent:
-
-    # return [list(row) for row in zip(*matrix[::-1])]
-
-    # But the common version:
-    # matrix[::-1] → reverse row order (why?)
-    # zip(*) → transpose
+    return [list(row) for row in zip(*reversed(matrix))]
 
 
 tests = [
