@@ -10,8 +10,8 @@
 # - Only numeric characters are allowed.
 from pytest import mark
 
-IPV4_NUM_OCTETS = 4
-IPV4_MAX_OCTET_VALUE = 255
+_IPV4_NUM_OCTETS = 4
+_IPV4_MAX_OCTET_VALUE = 255
 
 
 def is_valid_ipv4(ipv4: str) -> bool:
@@ -24,7 +24,7 @@ def is_valid_ipv4(ipv4: str) -> bool:
         True if the string is a valid IPv4 address, False otherwise.
     """
     octets = ipv4.split('.')
-    if len(octets) != IPV4_NUM_OCTETS:
+    if len(octets) != _IPV4_NUM_OCTETS:
         return False
     return all(_is_valid_octet(octet) for octet in octets)
 
@@ -42,7 +42,7 @@ def _is_valid_octet(octet: str) -> bool:
         return False
     if len(octet) > 1 and octet[0] == '0':
         return False
-    return int(octet) <= IPV4_MAX_OCTET_VALUE
+    return int(octet) <= _IPV4_MAX_OCTET_VALUE
 
 
 tests = [

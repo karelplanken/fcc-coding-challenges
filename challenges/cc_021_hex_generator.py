@@ -20,7 +20,7 @@ from types import MappingProxyType
 
 from pytest import mark
 
-COLOR_MAP = MappingProxyType({'red': 0, 'green': 1, 'blue': 2})
+_COLOR_MAP = MappingProxyType({'red': 0, 'green': 1, 'blue': 2})
 
 
 def generate_hex(color: str) -> str:
@@ -51,7 +51,7 @@ def generate_hex(color: str) -> str:
     >>> assert blueish_1 != blueish_2
     >>> assert blueish_1[4:6] > blueish_1[0:2] and blueish_1[4:6] > blueish_1[2:4]
     """
-    if color not in COLOR_MAP:
+    if color not in _COLOR_MAP:
         return 'Invalid color'
 
     # Reject ties for the max, then swap it into the target channel. Each valid
@@ -69,7 +69,7 @@ def generate_hex(color: str) -> str:
     # Swap max value to the correct position
     idx_max = colors.index(max_val)
 
-    idx_target = COLOR_MAP[color]
+    idx_target = _COLOR_MAP[color]
     colors[idx_max], colors[idx_target] = colors[idx_target], colors[idx_max]
 
     return f'{colors[0]:02X}{colors[1]:02X}{colors[2]:02X}'

@@ -16,7 +16,7 @@ import re
 
 from pytest import mark
 
-PATTERN = re.compile(r'rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)')
+_PATTERN = re.compile(r'rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)')
 
 
 def rgb_to_hex(rgb: str) -> str:
@@ -32,7 +32,7 @@ def rgb_to_hex(rgb: str) -> str:
         ValueError: If the input does not match the rgb(...) format, or any channel
             value is outside the 0-255 range.
     """
-    match = PATTERN.match(rgb)
+    match = _PATTERN.match(rgb)
     if not match:
         msg = f'invalid RGB format: {rgb}'
         raise ValueError(msg)

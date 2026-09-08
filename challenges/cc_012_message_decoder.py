@@ -13,7 +13,7 @@ import string
 
 from pytest import mark
 
-ascii_letters = set(string.ascii_letters)
+_ASCII_LETTERS = set(string.ascii_letters)
 
 
 def _shift_char(char: str, shift: int) -> str:
@@ -30,7 +30,7 @@ def _shift_char(char: str, shift: int) -> str:
     Returns:
         The shifted character.
     """
-    if char not in ascii_letters:
+    if char not in _ASCII_LETTERS:
         return char
     base = ord('A') if char.isupper() else ord('a')
     return chr((ord(char) - base - shift) % 26 + base)

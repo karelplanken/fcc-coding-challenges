@@ -13,7 +13,7 @@
 # - All non-vowel characters should keep their original case.
 from pytest import mark
 
-VOWELS = frozenset('aeiou')  # Set for O(1) lookup
+_VOWELS = frozenset('aeiou')  # Set for O(1) lookup
 
 
 def repeat_vowels(s: str) -> str:
@@ -32,7 +32,7 @@ def repeat_vowels(s: str) -> str:
     vowel_count = 0
 
     for char in s:
-        if (lower_char := char.lower()) in VOWELS:
+        if (lower_char := char.lower()) in _VOWELS:
             parts.append(char + lower_char * vowel_count)
             vowel_count += 1
         else:

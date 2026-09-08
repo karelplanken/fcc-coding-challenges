@@ -21,7 +21,7 @@ from types import MappingProxyType
 
 from pytest import mark
 
-ROMAN_VALUES = MappingProxyType({
+_ROMAN_VALUES = MappingProxyType({
     'I': 1,
     'V': 5,
     'X': 10,
@@ -53,7 +53,7 @@ def parse_roman_numeral(numeral: str) -> int:
     prev_value = 0
 
     for char in reversed(numeral):
-        if (value := ROMAN_VALUES.get(char)) is None:
+        if (value := _ROMAN_VALUES.get(char)) is None:
             msg = f'invalid Roman numeral character: {char!r}'
             raise ValueError(msg)
 
