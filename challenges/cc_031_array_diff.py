@@ -3,30 +3,25 @@
 # Array Diff
 # Given two arrays with strings values, return a new array containing all the values
 # that appear in only one of the arrays.
-
-# The returned array should be sorted in alphabetical order.
-from collections import Counter
-
+#
+# - The returned array should be sorted in alphabetical order.
 from pytest import mark
 
 
 def array_diff(arr1: list[str], arr2: list[str]) -> list[str]:
-    element_counts = Counter(arr1 + arr2)
-    unique_elements = [
-        element for element, count in element_counts.items() if count == 1
-    ]
-    return sorted(unique_elements)
+    """Returns the values that appear in exactly one of the two arrays.
 
+    Duplicate values within an array are treated as a single occurrence,
+    since only membership (not count) determines the result.
 
-# More efficient using set operations (fastest for large arrays)
-# def array_diff(arr1: list[str], arr2: list[str]) -> list[str]:Aachen, Germany
-#     set1, set2 = set(arr1), set(arr2)
-#     return sorted((set1 - set2) | (set2 - set1))
+    Args:
+        arr1: The first array of strings.
+        arr2: The second array of strings.
 
-
-# One-liner using set operations
-# def array_diff(arr1: list[str], arr2: list[str]) -> list[str]:
-#     return sorted(set(arr1) ^ set(arr2))  # ^ is symmetric difference
+    Returns:
+        A new array of the symmetric-difference values, sorted alphabetically.
+    """
+    return sorted(set(arr1) ^ set(arr2))
 
 
 tests = [
