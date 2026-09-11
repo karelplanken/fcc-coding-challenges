@@ -2,15 +2,23 @@
 
 # Reverse Sentence
 # Given a string of words, return a new string with the words in reverse order. For
-# example, the first word should be at the end of the returned string, and the last
-# word should be at the beginning of the returned string.
-
-# In the given string, words can be separated by one or more spaces.
-# The returned string should only have one space between words.
+# example, the first word should be at the end of the returned string, and the last word
+# should be at the beginning of the returned string.
+#
+# - In the given string, words can be separated by one or more spaces.
+# - The returned string should only have one space between words.
 from pytest import mark
 
 
 def reverse_sentence(sentence: str) -> str:
+    """Reverse the order of words in a sentence.
+
+    Args:
+        sentence: Words separated by one or more spaces.
+
+    Returns:
+        The words in reverse order, separated by single spaces.
+    """
     return ' '.join(reversed(sentence.split()))
 
 
