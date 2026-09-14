@@ -28,7 +28,7 @@ def find_missing_numbers(arr: list[int]) -> list[int]:
         return []
 
     if min(arr) < 1:
-        msg = 'All integers in the array must be greater than or equal to 1.'
+        msg = 'all integers in the array must be greater than or equal to 1'
         raise ValueError(msg)
 
     n = max(arr)
