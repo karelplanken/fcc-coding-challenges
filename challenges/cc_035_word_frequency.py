@@ -15,9 +15,9 @@ from collections import Counter
 
 from pytest import mark
 
-MAX_WORDS = 3
-PUNCTUATION_TO_STRIP = ',.!'
-REMOVE_PUNCTUATION = str.maketrans('', '', PUNCTUATION_TO_STRIP)
+_MAX_WORDS = 3
+_PUNCTUATION_TO_STRIP = ',.!'
+_REMOVE_PUNCTUATION = str.maketrans('', '', _PUNCTUATION_TO_STRIP)
 
 
 def get_words(paragraph: str) -> list[str]:
@@ -38,8 +38,8 @@ def get_words(paragraph: str) -> list[str]:
         msg = 'paragraph must not be empty'
         raise ValueError(msg)
 
-    words = paragraph.translate(REMOVE_PUNCTUATION).lower().split()
-    return [word for word, _ in Counter(words).most_common(MAX_WORDS)]
+    words = paragraph.translate(_REMOVE_PUNCTUATION).lower().split()
+    return [word for word, _ in Counter(words).most_common(_MAX_WORDS)]
 
 
 tests = [

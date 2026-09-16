@@ -38,7 +38,7 @@ def _get_map(chars: str, start_strength: int = 0) -> dict[str, int]:
     return {char: strength for strength, char in enumerate(chars, start=start_strength)}
 
 
-CHARACTER_STRENGTHS = MappingProxyType({
+_CHARACTER_STRENGTHS = MappingProxyType({
     **_get_map(ascii_lowercase, 1),
     **_get_map(ascii_uppercase, 27),
     **_get_map(digits, 0),
@@ -54,7 +54,7 @@ def _get_strength(char: str) -> int:
     Returns:
         The character's strength, or 0 if it has no defined strength.
     """
-    return CHARACTER_STRENGTHS.get(char, 0)
+    return _CHARACTER_STRENGTHS.get(char, 0)
 
 
 def _compare(we: str, they: str) -> int:
