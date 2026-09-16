@@ -3,31 +3,35 @@
 # Sentence Capitalizer
 # Given a paragraph, return a new paragraph where the first letter of each sentence is
 # capitalized.
-
-# All other characters should be preserved.
-# Sentences can end with a period (.), one or more question marks (?), or one or more
-# exclamation points (!).
+#
+# - All other characters should be preserved.
+# - Sentences can end with a period (.), one or more question marks (?), or one or more
+#   exclamation points (!).
 from pytest import mark
+
+_SENTENCE_ENDINGS = '.!?'
 
 
 def capitalize(paragraph: str) -> str:
-    if not paragraph:
-        return paragraph
+    """Capitalize the first letter of each sentence in a paragraph.
 
-    ENDING = '.!?'
-    result = []
-    cap_next = True  # Capitalize first letter
+    Args:
+        paragraph: A string representing the paragraph to be processed.
 
-    for char in paragraph:
-        if cap_next and char.isalpha():
-            result.append(char.upper())
-            cap_next = False
-        else:
-            result.append(char)
-            if char in ENDING:
-                cap_next = True
+    Returns:
+        A new string with the first letter of each sentence capitalized.
+    """
+    chars = list(paragraph)
+    capitalize_next = True
 
-    return ''.join(result)
+    for i, char in enumerate(chars):
+        if capitalize_next and char.isalpha():
+            chars[i] = char.upper()
+            capitalize_next = False
+        elif char in _SENTENCE_ENDINGS:
+            capitalize_next = True
+
+    return ''.join(chars)
 
 
 tests = [
@@ -57,5 +61,5 @@ def test_capitalize(paragraph: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    paragraph, expected = tests[0]
-    capitalize(paragraph)
+    paragraph, expected = tests[1]
+    print(capitalize(paragraph))
