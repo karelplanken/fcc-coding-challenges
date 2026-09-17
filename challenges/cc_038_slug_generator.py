@@ -3,16 +3,33 @@
 # Slug Generator
 # Given a string, return a URL-friendly version of the string using the following
 # constraints:
-
-# All letters should be lowercase.
-# All characters that are not letters, numbers, or spaces should be removed.
-# All spaces should be replaced with the URL-encoded space code %20.
-# Consecutive spaces should be replaced with a single %20.
-# The returned string should not have leading or trailing %20.
+#
+# - All letters should be lowercase.
+# - All characters that are not letters, numbers, or spaces should be removed.
+# - All spaces should be replaced with the URL-encoded space code %20.
+# - Consecutive spaces should be replaced with a single %20.
+# - The returned string should not have leading or trailing %20.
 from pytest import mark
 
 
 def generate_slug(text: str) -> str:
+    """Generate a URL-friendly slug from a given string.
+
+    Unicode letters (e.g. 'é', 'ë') are treated as letters and kept as-is,
+    lowercased but not transliterated to ASCII. Callers needing a strictly
+    ASCII slug should pre-process the input, e.g. Unicode NFKD
+    normalization, before calling this function, something like:
+        import unicodedata
+        text = unicodedata.normalize('NFKD', text)
+        text = text.encode('ascii', 'ignore').decode('ascii').lower()
+
+    Args:
+        text: The string to convert into a URL-friendly slug.
+
+    Returns:
+        A URL-friendly version of the input string. May contain non-ASCII
+        letters if present in the input.
+    """
     # Convert to lowercase and keep only alphanumeric and spaces
     cleaned = ''.join(c for c in text.lower() if c.isalnum() or c.isspace())
     # Replace consecutive spaces with single space, then strip and replace with %20
