@@ -6,7 +6,7 @@
 #
 # - 1 gigabyte equals 1000 megabytes.
 # - Return the number of whole photos the drive can store.
-from decimal import Decimal
+from fractions import Fraction
 
 from pytest import mark
 
@@ -34,9 +34,10 @@ def number_of_photos(photo_size_mb: float, drive_size_gb: float) -> int:
         msg = 'drive size must not be negative'
         raise ValueError(msg)
 
-    photo_mb = Decimal(str(photo_size_mb))
-    drive_mb = Decimal(str(drive_size_gb)) * _MB_PER_GB
-    return int(drive_mb // photo_mb)
+    # str() first: Fraction(0.1) would capture the binary float, not 1/10.
+    photo_mb = Fraction(str(photo_size_mb))
+    drive_mb = Fraction(str(drive_size_gb)) * _MB_PER_GB
+    return drive_mb // photo_mb
 
 
 tests: list[tuple[int | float, int | float, int]] = [
