@@ -25,7 +25,20 @@ from types import MappingProxyType
 from pytest import mark
 
 _BYTES_PER_GB = 1_000_000_000
-_BYTES_PER_UNIT = MappingProxyType({'B': 1, 'KB': 1_000, 'MB': 1_000_000})
+_BYTES_PER_FILE_UNIT = MappingProxyType({'B': 1, 'KB': 1_000, 'MB': 1_000_000})
+
+
+def _exact(value: int | float) -> Fraction:
+    """Return the decimal number the caller wrote as an exact Fraction.
+
+    Args:
+        value: The number to convert.
+
+    Returns:
+        The exact rational value of `value`, as written in decimal.
+    """
+    # str() first: Fraction(0.1) would capture the binary float, not 1/10.
+    return Fraction(str(value))
 
 
 def number_of_files(
@@ -39,21 +52,24 @@ def number_of_files(
         drive_size_gb: The size of the hard drive in gigabytes.
 
     Returns:
-        The number of whole files that fit on the hard drive.
+        The number of whole files the drive can store (0 if none fit).
 
     Raises:
-        ValueError: If file size is not a positive number or if file_unit is not "B",
-            "KB" or "MB".
+        ValueError: If file_unit is not "B", "KB" or "MB", file_size is not
+            positive, or drive_size_gb is negative.
     """
+    if file_unit not in _BYTES_PER_FILE_UNIT:
+        msg = f'unsupported file unit: {file_unit!r}'
+        raise ValueError(msg)
     if file_size <= 0:
         msg = 'file size must be a positive number'
         raise ValueError(msg)
-    if file_unit not in _BYTES_PER_UNIT:
-        msg = f'unsupported file unit: {file_unit!r}'
+    if drive_size_gb < 0:
+        msg = 'drive size must not be negative'
         raise ValueError(msg)
-    # str() first: Fraction(0.1) would capture the binary float, not 1/10.
-    drive_bytes = Fraction(str(drive_size_gb)) * _BYTES_PER_GB
-    file_bytes = Fraction(str(file_size)) * _BYTES_PER_UNIT[file_unit]
+
+    drive_bytes = _exact(drive_size_gb) * _BYTES_PER_GB
+    file_bytes = _exact(file_size) * _BYTES_PER_FILE_UNIT[file_unit]
     return drive_bytes // file_bytes
 
 

@@ -10,10 +10,23 @@ from fractions import Fraction
 
 from pytest import mark
 
-_MB_PER_GB = 1000
+_MB_PER_GB = 1_000
 
 
-def number_of_photos(photo_size_mb: float, drive_size_gb: float) -> int:
+def _exact(value: int | float) -> Fraction:
+    """Return the decimal number the caller wrote as an exact Fraction.
+
+    Args:
+        value: The number to convert.
+
+    Returns:
+        The exact rational value of `value`, as written in decimal.
+    """
+    # str() first: Fraction(0.1) would capture the binary float, not 1/10.
+    return Fraction(str(value))
+
+
+def number_of_photos(photo_size_mb: int | float, drive_size_gb: int | float) -> int:
     """Return the number of whole photos that fit on a hard drive.
 
     Args:
@@ -24,8 +37,8 @@ def number_of_photos(photo_size_mb: float, drive_size_gb: float) -> int:
         The number of whole photos the drive can store (0 if none fit).
 
     Raises:
-        ValueError: If the photo size is not positive or the drive size
-            is negative.
+        ValueError: If photo_size_mb is not positive or drive_size_gb is
+            negative.
     """
     if photo_size_mb <= 0:
         msg = 'photo size must be a positive number'
@@ -34,9 +47,8 @@ def number_of_photos(photo_size_mb: float, drive_size_gb: float) -> int:
         msg = 'drive size must not be negative'
         raise ValueError(msg)
 
-    # str() first: Fraction(0.1) would capture the binary float, not 1/10.
-    photo_mb = Fraction(str(photo_size_mb))
-    drive_mb = Fraction(str(drive_size_gb)) * _MB_PER_GB
+    drive_mb = _exact(drive_size_gb) * _MB_PER_GB
+    photo_mb = _exact(photo_size_mb)
     return drive_mb // photo_mb
 
 
