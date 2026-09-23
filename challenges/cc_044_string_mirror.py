@@ -2,22 +2,29 @@
 
 # String Mirror
 # Given two strings, determine if the second string is a mirror of the first.
-
-# A string is considered a mirror if it contains the same letters in reverse order.
-# Treat uppercase and lowercase letters as distinct.
-# Ignore all non-alphabetical characters.
+#
+# - A string is considered a mirror if it contains the same letters in reverse order.
+# - Treat uppercase and lowercase letters as distinct.
+# - Ignore all non-alphabetical characters.
 from pytest import mark
 
 
 def is_mirror(str1: str, str2: str) -> bool:
-    for char_1, char_2 in zip(
-        (char for char in str1 if char.isalpha()),
-        (char for char in reversed(str2) if char.isalpha()),
-    ):
-        if char_1 != char_2:
-            return False
+    """Determine if str2 is a mirror of str1.
 
-    return True
+    Letters are compared case-sensitively; any character for which
+    ``str.isalpha()`` is False is ignored (Unicode letters count).
+
+    Args:
+        str1: The first string.
+        str2: The second string.
+
+    Returns:
+        True if str2's letters are str1's letters in reverse order.
+    """
+    return ''.join(filter(str.isalpha, str1)) == ''.join(
+        filter(str.isalpha, reversed(str2))
+    )
 
 
 tests = [
