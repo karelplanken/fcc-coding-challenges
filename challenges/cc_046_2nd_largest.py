@@ -5,12 +5,28 @@
 from pytest import mark
 
 
-def second_largest(arr: list[int]) -> int | None:
-    unique_sorted = sorted(set(arr), reverse=True)
-    return unique_sorted[1] if len(unique_sorted) >= 2 else None
+def second_largest(arr: list[int | float]) -> int | float:
+    """Finds the second largest distinct number.
+
+    Args:
+        arr: List of numbers.
+
+    Returns:
+        The second largest distinct number.
+
+    Raises:
+        ValueError: If `arr` does not contain two distinct numbers.
+    """
+    distinct = set(arr)
+    if len(distinct) < 2:
+        msg = 'at least two distinct numbers must be provided'
+        raise ValueError(msg)
+
+    distinct.remove(max(distinct))
+    return max(distinct)
 
 
-tests = [
+tests: list[tuple[list[int | float], int | float]] = [
     ([1, 2, 3, 4], 3),
     ([20, 139, 94, 67, 31], 94),
     ([2, 3, 4, 6, 6], 4),
@@ -20,7 +36,7 @@ tests = [
 
 
 @mark.parametrize('arr, expected', tests)
-def test_second_largest(arr: list[int], expected: int | None) -> None:
+def test_second_largest(arr: list[int | float], expected: int | float) -> None:
     """Test second_largest function."""
     assert second_largest(arr) == expected
 
