@@ -5,38 +5,43 @@
 # traveling, and a number representing the speed limit, return an array with two items,
 # the number of vehicles that were speeding, followed by the average amount beyond the
 # speed limit of those vehicles.
+#
+# - If there were no vehicles speeding, return [0, 0].
 from pytest import mark
 
 
-# If there were no vehicles speeding, return [0, 0].
-def speeding(speeds: list[int], limit: int) -> list[float]:
-    """Return [count of speeders, average excess speed]"""
-    excess_speeds = [speed - limit for speed in speeds if speed > limit]
+def speeding(speeds: list[int], limit: int) -> list[int | float]:
+    """Return the number of speeding vehicles and their average excess speed.
 
-    if not excess_speeds:
+    Speeds are treated as magnitudes, so negative values are rejected.
+
+    Args:
+        speeds: Observed vehicle speeds.
+        limit: The speed limit.
+
+    Returns:
+        A two-item list: the number of speeding vehicles and their average
+        amount over the limit, or [0, 0] if no vehicle was speeding.
+
+    Raises:
+        ValueError: If the limit or any speed is negative.
+    """
+    if limit < 0:
+        msg = 'speed limit must be non-negative'
+        raise ValueError(msg)
+    if any(speed < 0 for speed in speeds):
+        msg = 'speeds must be non-negative'
+        raise ValueError(msg)
+
+    excess = [speed - limit for speed in speeds if speed > limit]
+    if not excess:
         return [0, 0]
 
-    return [len(excess_speeds), sum(excess_speeds) / len(excess_speeds)]
+    count = len(excess)
+    return [count, sum(excess) / count]
 
 
-# Memory efficient version:
-# def speeding(speeds: list[int], limit: int) -> list[float]:
-#     """Return [count of speeders, average excess speed]"""
-#     speeder_count = 0
-#     total_excess = 0
-
-#     for speed in speeds:
-#         if speed > limit:
-#             speeder_count += 1
-#             total_excess += speed - limit
-
-#     if speeder_count == 0:
-#         return [0, 0]
-
-#     average_excess = total_excess / speeder_count
-#     return [speeder_count, average_excess]
-
-tests = [
+tests: list[tuple[list[int], int, list[int | float]]] = [
     ([50, 60, 55], 60, [0, 0]),
     ([58, 50, 60, 55], 55, [2, 4]),
     ([61, 81, 74, 88, 65, 71, 68], 70, [4, 8.5]),
@@ -46,7 +51,7 @@ tests = [
 
 
 @mark.parametrize('speeds, limit, expected', tests)
-def test_speeding(speeds: list[int], limit: int, expected: list[float]) -> None:
+def test_speeding(speeds: list[int], limit: int, expected: list[int | float]) -> None:
     """Test speeding function."""
     assert speeding(speeds, limit) == expected
 
