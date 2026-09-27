@@ -88,5 +88,5 @@ def test_get_rental_cost(rented: str, returned: str, tier: int, expected: str) -
 
 
 if __name__ == '__main__':
-    rented, returned, tier, expected = tests[5]
+    rented, returned, tier, expected = tests[0]
     print(get_rental_cost(rented, returned, tier))

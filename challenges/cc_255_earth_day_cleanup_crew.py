@@ -40,21 +40,19 @@ from pytest import mark
 
 Item = str | list[str | int]
 
-ITEM_TO_BASE_VALUE = MappingProxyType(
-    {
-        'bottle': 10,
-        'can': 6,
-        'bag': 8,
-        'tire': 35,
-        'straw': 4,
-        'cardboard': 3,
-        'newspaper': 3,
-        'shoe': 12,
-        'electronics': 25,
-        'battery': 18,
-        'mattress': 38,
-    }
-)
+ITEM_TO_BASE_VALUE = MappingProxyType({
+    'bottle': 10,
+    'can': 6,
+    'bag': 8,
+    'tire': 35,
+    'straw': 4,
+    'cardboard': 3,
+    'newspaper': 3,
+    'shoe': 12,
+    'electronics': 25,
+    'battery': 18,
+    'mattress': 38,
+})
 
 
 @dataclass
@@ -131,5 +129,5 @@ def test_get_cleanup_score(items: list[Item], expected: int) -> None:
 
 
 if __name__ == '__main__':
-    items, expected = tests[4]
+    items, expected = tests[0]
     print(get_cleanup_score(items))

@@ -49,5 +49,5 @@ def test_get_max_profit(prices: list[float], budget: float, expected: str) -> No
 
 
 if __name__ == '__main__':
-    prices, budget, expected = tests[5]
+    prices, budget, expected = tests[0]
     print(get_max_profit(prices, budget))

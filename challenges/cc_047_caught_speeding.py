@@ -57,5 +57,5 @@ def test_speeding(speeds: list[int], limit: int, expected: list[int | float]) ->
 
 
 if __name__ == '__main__':
-    speeds, limit, expected = tests[1]
+    speeds, limit, expected = tests[0]
     print(speeding(speeds, limit))

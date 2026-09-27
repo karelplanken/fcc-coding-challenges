@@ -11,7 +11,6 @@
 # There is always exactly one longest valid chain.
 # For example, given [[1, 2], [4, 5], [2, 3]], return [[1, 2], [2, 3]].
 
-
 # Solution employing depth-first search (DFS) to explore all possible chains and keep
 # track of the longest one found. The DFS function takes the current chain, the
 # remaining dominoes, and the best chain found so far. It iterates through the
@@ -82,5 +81,5 @@ def test_get_longest_chain(
 
 
 if __name__ == '__main__':
-    dominoes, expected = tests[4]
+    dominoes, expected = tests[0]
     print(get_longest_chain(dominoes))

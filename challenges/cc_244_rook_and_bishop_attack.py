@@ -60,5 +60,5 @@ def test_rook_bishop_attack(rook: str, bishop: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    rook, bishop, expected = tests[5]
+    rook, bishop, expected = tests[0]
     print(rook_bishop_attack(rook, bishop))

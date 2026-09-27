@@ -52,5 +52,5 @@ def test_sum_divisors(n: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[5]
+    n, expected = tests[0]
     print(sum_divisors(n))

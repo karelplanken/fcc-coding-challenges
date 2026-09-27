@@ -67,5 +67,5 @@ def test_to_binary(decimal: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    binary, expected = tests[3]
+    binary, expected = tests[0]
     print(to_binary(binary))

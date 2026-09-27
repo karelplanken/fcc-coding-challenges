@@ -15,7 +15,7 @@ def longest_word(sentence: str) -> str:
     return max(words, key=len)
 
 
-test = [
+tests = [
     ('The quick red fox', 'quick'),
     ('Hello coding challenge.', 'challenge'),
     ('Do Try This At Home.', 'This'),
@@ -32,5 +32,5 @@ def test_longest_word(sentence: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    sentence, expected = test[0]
+    sentence, expected = tests[0]
     print(longest_word(sentence))

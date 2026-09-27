@@ -36,8 +36,10 @@ ANNIVERSARY_MILESTONES = MappingProxyType(dict(sorted(_RAW)))
 _YEARS = list(ANNIVERSARY_MILESTONES.keys())
 _LABELS = list(ANNIVERSARY_MILESTONES.values())
 
+
 def get_milestone(years: int) -> str:
     return _LABELS[bisect_right(_YEARS, years) - 1]
+
 
 tests = [
     (0, 'Newlyweds'),
@@ -59,5 +61,5 @@ def test_get_milestone(years: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    years, expected = tests[1]
+    years, expected = tests[0]
     print(get_milestone(years))

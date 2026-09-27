@@ -45,5 +45,5 @@ def test_parse_image(markdown: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    markdown, expected = tests[2]
+    markdown, expected = tests[0]
     print(parse_image(markdown))

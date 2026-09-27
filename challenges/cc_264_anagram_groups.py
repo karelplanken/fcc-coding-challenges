@@ -86,5 +86,5 @@ def test_group_anagrams(words: list[str], expected: list[list[str]]) -> None:
 
 
 if __name__ == '__main__':
-    words, expected = tests[1]
+    words, expected = tests[0]
     print(group_anagrams(words))

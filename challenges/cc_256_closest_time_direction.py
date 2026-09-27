@@ -51,5 +51,5 @@ def test_get_direction(time1: str, time2: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    time1, time2, expected = tests[3]
+    time1, time2, expected = tests[0]
     print(get_direction(time1, time2))

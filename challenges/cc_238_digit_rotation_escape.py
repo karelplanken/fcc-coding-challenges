@@ -39,7 +39,7 @@ def test_get_rotation(n: int, expected: int | str) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[3]
+    n, expected = tests[0]
     print(get_rotation(n))
 
 

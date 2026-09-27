@@ -52,5 +52,5 @@ def test_fizz_buzz_count(start: int, end: int, expected: dict[str, int]) -> None
 
 
 if __name__ == '__main__':
-    start, end, expected = tests[4]
+    start, end, expected = tests[0]
     print(fizz_buzz_count(start, end))

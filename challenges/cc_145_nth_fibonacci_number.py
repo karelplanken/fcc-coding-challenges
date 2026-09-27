@@ -36,5 +36,5 @@ def test_nth_fibonacci(n: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[4]
+    n, expected = tests[0]
     print(nth_fibonacci(n))

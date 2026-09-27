@@ -101,5 +101,5 @@ def test_sock_pairs(pairs: int, cycles: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    pairs, cycles, expected = tests[4]
+    pairs, cycles, expected = tests[0]
     print(sock_pairs(pairs, cycles))

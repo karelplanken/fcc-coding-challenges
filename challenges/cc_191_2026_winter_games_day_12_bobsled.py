@@ -32,13 +32,11 @@ class BobsledRules:
     max_total_weight: int
 
 
-RULES = MappingProxyType[int, BobsledRules](
-    {
-        1: BobsledRules(team_size=1, min_sled_weight=162, max_total_weight=247),
-        2: BobsledRules(team_size=2, min_sled_weight=170, max_total_weight=390),
-        4: BobsledRules(team_size=4, min_sled_weight=210, max_total_weight=630),
-    }
-)
+RULES = MappingProxyType[int, BobsledRules]({
+    1: BobsledRules(team_size=1, min_sled_weight=162, max_total_weight=247),
+    2: BobsledRules(team_size=2, min_sled_weight=170, max_total_weight=390),
+    4: BobsledRules(team_size=4, min_sled_weight=210, max_total_weight=630),
+})
 
 
 def check_eligibility(athlete_weights: list[int], sled_weight: int) -> str:
@@ -75,5 +73,5 @@ def test_check_eligibility(
 
 
 if __name__ == '__main__':
-    athlete_weights, sled_weight, expected = tests[2]
+    athlete_weights, sled_weight, expected = tests[0]
     print(check_eligibility(athlete_weights, sled_weight))

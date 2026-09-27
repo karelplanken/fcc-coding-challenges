@@ -15,15 +15,13 @@ from types import MappingProxyType
 
 from pytest import mark
 
-OPERATORS = MappingProxyType(
-    {
-        # PEMDAS! Keep insertion order as is important for correct evaluation.
-        '*': mul,
-        '/': truediv,
-        '+': add,
-        '-': sub,
-    }
-)
+OPERATORS = MappingProxyType({
+    # PEMDAS! Keep insertion order as is important for correct evaluation.
+    '*': mul,
+    '/': truediv,
+    '+': add,
+    '-': sub,
+})
 
 
 def get_operands(lst: list[str | float], idx: int) -> tuple[float, float]:
@@ -75,5 +73,5 @@ def test_is_valid_equation(equation: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    equation, expected = tests[1]
+    equation, expected = tests[0]
     print(is_valid_equation(equation))

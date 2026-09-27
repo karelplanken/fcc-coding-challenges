@@ -61,5 +61,5 @@ def test_capitalize(paragraph: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    paragraph, expected = tests[1]
+    paragraph, expected = tests[0]
     print(capitalize(paragraph))

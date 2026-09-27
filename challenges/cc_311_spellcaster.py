@@ -88,5 +88,5 @@ def test_cast(spells: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    spells, expected = tests[4]
+    spells, expected = tests[0]
     print(cast(spells))

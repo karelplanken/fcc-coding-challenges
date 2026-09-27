@@ -62,5 +62,5 @@ def test_nth_prime(n: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[3]
+    n, expected = tests[0]
     print(nth_prime(n))

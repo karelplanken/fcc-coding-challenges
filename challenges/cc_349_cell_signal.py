@@ -96,5 +96,5 @@ def test_find_signal(grid: list[list[int]], expected: list[int]) -> None:
 
 
 if __name__ == '__main__':
-    grid, expected = tests[4]
+    grid, expected = tests[0]
     print(find_signal(grid))

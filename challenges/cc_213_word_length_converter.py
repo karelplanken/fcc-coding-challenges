@@ -35,5 +35,5 @@ def test_convert_words(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[3]
+    s, expected = tests[0]
     print(convert_words(s))

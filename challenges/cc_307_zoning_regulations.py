@@ -91,5 +91,5 @@ def test_get_zone_violations(grid: list[list[str]], expected: list[list[int]]) -
 
 
 if __name__ == '__main__':
-    grid, expected = tests[2]
+    grid, expected = tests[0]
     print(get_zone_violations(grid))

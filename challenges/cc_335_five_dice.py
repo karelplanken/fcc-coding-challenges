@@ -70,5 +70,5 @@ def test_five_dice(dice: list[int], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    dice, expected = tests[2]
+    dice, expected = tests[0]
     print(five_dice(dice))

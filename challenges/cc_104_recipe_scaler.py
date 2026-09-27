@@ -59,5 +59,5 @@ def test_scale_recipe(
 
 
 if __name__ == '__main__':
-    ingredients, scale, expected = tests[1]
+    ingredients, scale, expected = tests[0]
     print(scale_recipe(ingredients, scale))

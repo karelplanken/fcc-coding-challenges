@@ -42,5 +42,5 @@ def test_is_narcissistic(n: int, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[1]
+    n, expected = tests[0]
     print(is_narcissistic(n))

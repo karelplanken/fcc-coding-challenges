@@ -38,5 +38,5 @@ def test_get_bingo_letter(n: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[4]
+    n, expected = tests[0]
     print(get_bingo_letter(n))

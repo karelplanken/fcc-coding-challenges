@@ -61,5 +61,5 @@ def test_is_in_crossword(char: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    char, expected = tests[7]
+    char, expected = tests[0]
     print(is_in_crossword(char))

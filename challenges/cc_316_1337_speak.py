@@ -55,5 +55,5 @@ def test_make_leet(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[4]
+    s, expected = tests[0]
     print(make_leet(s))

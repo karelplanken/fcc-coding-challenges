@@ -95,5 +95,5 @@ def test_triage_blood(bank: list[str], patients: list[str], expected: str) -> No
 
 
 if __name__ == '__main__':
-    bank, patients, expected = tests[5]
+    bank, patients, expected = tests[0]
     print(triage_blood(bank, patients))

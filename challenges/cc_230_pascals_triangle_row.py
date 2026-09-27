@@ -25,11 +25,12 @@ def pascal_row(n: int) -> list[int]:
         row = [1, *(a + b for a, b in pairwise(row)), 1]
     return row
 
+
 # Recursive solution, which is not very efficient but straightforward:
 # def pascal_row(n: int) -> list[int]:
 #     if n == 1:
 #         return [1]
-    
+
 #     prev_row = pascal_row(n - 1)
 #     row = [1]
 #     for a, b in pairwise(prev_row):
@@ -55,5 +56,5 @@ def test_pascal_row(n: int, expected: list[int]) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[4]
+    n, expected = tests[0]
     print(pascal_row(n))

@@ -133,5 +133,5 @@ def test_is_spam(number: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    number, expected = tests[1]
+    number, expected = tests[0]
     print(is_spam(number))

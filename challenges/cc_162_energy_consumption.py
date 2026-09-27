@@ -19,6 +19,7 @@ from pytest import mark
 J_PER_CAL = 4184
 J_PER_WH = 3600
 
+
 # Most straightforward and readable solution:
 def compare_energy(calories_burned: int, watt_hours_used: int) -> str:
     workout_joules = calories_burned * J_PER_CAL
@@ -57,5 +58,5 @@ def test_compare_energy(
 
 
 if __name__ == '__main__':
-    calories_burned, watt_hours_used, expected = tests[2]
+    calories_burned, watt_hours_used, expected = tests[0]
     print(compare_energy(calories_burned, watt_hours_used))

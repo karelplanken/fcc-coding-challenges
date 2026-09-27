@@ -62,5 +62,5 @@ def test_is_pangram(sentence: str, letters: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    sentence, letters, expected = tests[4]
+    sentence, letters, expected = tests[0]
     print(is_pangram(sentence, letters))

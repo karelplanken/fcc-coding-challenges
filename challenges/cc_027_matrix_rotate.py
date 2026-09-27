@@ -48,5 +48,5 @@ def test_rotate(matrix: list[list[int]], expected: list[list[int]]) -> None:
 
 
 if __name__ == '__main__':
-    matrix, expected = tests[1]
+    matrix, expected = tests[0]
     print(rotate(matrix))

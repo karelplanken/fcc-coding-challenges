@@ -81,5 +81,5 @@ def test_pairwise(arr: list[int], target: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    arr, target, expected = tests[4]
+    arr, target, expected = tests[0]
     print(pairwise(arr, target))

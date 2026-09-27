@@ -142,5 +142,5 @@ def test_count_medals(winners: list[list[str]], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    winners, expected = tests[2]
+    winners, expected = tests[0]
     print(count_medals(winners))

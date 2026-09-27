@@ -48,5 +48,5 @@ def test_prime_factorization(n: int, expected: list[int]) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[6]
+    n, expected = tests[0]
     print(prime_factorization(n))

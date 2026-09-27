@@ -18,10 +18,10 @@ from pytest import mark
 
 def get_element_size(window_size: str, element_vw: str, element_vh: str) -> str:
     win_w, win_h = (int(x) for x in window_size.split(' x '))
-    
+
     vw = int(element_vw.removesuffix('vw'))
     vh = int(element_vh.removesuffix('vh'))
-    
+
     return f'{round(win_w * vw / 100)} x {round(win_h * vh / 100)}'
 
 
@@ -44,5 +44,5 @@ def test_get_element_size(
 
 
 if __name__ == '__main__':
-    window_size, element_vw, element_vh, expected = tests[1]
+    window_size, element_vw, element_vh, expected = tests[0]
     print(get_element_size(window_size, element_vw, element_vh))

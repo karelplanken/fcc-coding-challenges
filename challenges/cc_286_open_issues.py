@@ -57,5 +57,5 @@ def test_get_open_issues(
 
 
 if __name__ == '__main__':
-    issues, prs, expected = tests[4]
+    issues, prs, expected = tests[0]
     print(get_open_issues(issues, prs))

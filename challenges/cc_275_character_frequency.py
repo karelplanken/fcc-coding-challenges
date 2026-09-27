@@ -78,5 +78,5 @@ def test_get_frequency(s: str, expected: dict[str, int]) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[2]
+    s, expected = tests[0]
     print(get_frequency(s))

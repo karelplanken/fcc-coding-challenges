@@ -38,5 +38,5 @@ def test_get_odds(dice: int, target: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    dice, target, expected = tests[5]
+    dice, target, expected = tests[0]
     print(get_odds(dice, target))

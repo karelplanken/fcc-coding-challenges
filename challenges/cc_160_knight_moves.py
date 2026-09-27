@@ -52,5 +52,5 @@ def test_knight_moves(position: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    position, expected = tests[4]
+    position, expected = tests[0]
     print(knight_moves(position))

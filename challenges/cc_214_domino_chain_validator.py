@@ -16,9 +16,7 @@ from pytest import mark
 
 
 def is_valid_domino_chain(dominoes: list[list[int]]) -> bool:
-    return all(
-        head[-1] == tail[0] for head, tail in pairwise(dominoes)
-    )
+    return all(head[-1] == tail[0] for head, tail in pairwise(dominoes))
 
 
 tests = [
@@ -65,5 +63,5 @@ def test_is_valid_domino_chain(dominoes: list[list[int]], expected: bool) -> Non
 
 
 if __name__ == '__main__':
-    dominoes, expected = tests[1]
+    dominoes, expected = tests[0]
     print(is_valid_domino_chain(dominoes))

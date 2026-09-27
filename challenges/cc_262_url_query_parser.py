@@ -45,5 +45,5 @@ def test_parse_url_query(url: str, expected: dict[str, str]) -> None:
 
 
 if __name__ == '__main__':
-    url, expected = tests[3]
+    url, expected = tests[0]
     print(parse_url_query(url))

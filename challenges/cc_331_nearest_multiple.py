@@ -28,5 +28,5 @@ def test_round_to_nearest_multiple(num: int, multiple: int, expected: int) -> No
 
 
 if __name__ == '__main__':
-    num, multiple, expected = tests[4]
+    num, multiple, expected = tests[0]
     print(round_to_nearest_multiple(num, multiple))

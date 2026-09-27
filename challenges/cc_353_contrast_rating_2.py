@@ -66,5 +66,5 @@ def test_get_contrast_rating(
 
 
 if __name__ == '__main__':
-    l1, l2, is_large_text, expected = tests[2]
+    l1, l2, is_large_text, expected = tests[0]
     print(get_contrast_rating(l1, l2, is_large_text))

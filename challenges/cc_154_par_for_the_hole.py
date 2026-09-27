@@ -51,5 +51,5 @@ def test_golf_score(par: int, strokes: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    par, strokes, expected = tests[5]
+    par, strokes, expected = tests[0]
     print(golf_score(par, strokes))

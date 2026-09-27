@@ -38,5 +38,5 @@ def test_goldilocks_zone(mass: float, expected: list[float]) -> None:
 
 
 if __name__ == '__main__':
-    mass, expected = tests[2]
+    mass, expected = tests[0]
     print(goldilocks_zone(mass))

@@ -76,5 +76,5 @@ def test_fix_numerals(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[5]
+    s, expected = tests[0]
     print(fix_numerals(s))

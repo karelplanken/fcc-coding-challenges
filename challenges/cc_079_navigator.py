@@ -62,5 +62,5 @@ def test_navigate(commands: list[str], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    commands, expected = tests[6]
+    commands, expected = tests[0]
     print(navigate(commands))

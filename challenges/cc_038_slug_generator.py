@@ -53,5 +53,5 @@ def test_generate_slug(text: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    text, expected = tests[2]
+    text, expected = tests[0]
     print(generate_slug(text))

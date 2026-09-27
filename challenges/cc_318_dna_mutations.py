@@ -69,5 +69,5 @@ def test_detect_mutations(strand1: str, strand2: str, expected: list[int]) -> No
 
 
 if __name__ == '__main__':
-    strand1, strand2, expected = tests[1]
+    strand1, strand2, expected = tests[0]
     print(detect_mutations(strand1, strand2))

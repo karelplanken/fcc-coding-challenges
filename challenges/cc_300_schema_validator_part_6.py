@@ -39,9 +39,7 @@ BADGES = 'badges'
 
 
 def valid_userprofiles(user_profiles: list[UserProfile]) -> bool:
-    return all(
-        type(user_profile) is dict for user_profile in user_profiles
-    )
+    return all(type(user_profile) is dict for user_profile in user_profiles)
 
 
 def valid_username(d: UserProfile) -> bool:
@@ -250,5 +248,5 @@ def test_is_valid_schema(obj: dict[str, list[UserProfile]], expected: bool) -> N
 
 
 if __name__ == '__main__':
-    obj, expected = tests[3]
+    obj, expected = tests[0]
     print(is_valid_schema(obj), expected)

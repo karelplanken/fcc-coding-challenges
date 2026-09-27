@@ -40,5 +40,5 @@ def test_get_longest_substring(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[4]
+    s, expected = tests[0]
     print(get_longest_substring(s))

@@ -16,6 +16,7 @@ def gcd(x: int, y: int) -> int:
         x, y = y, x % y
     return x
 
+
 # def gcd(a: int, b: int) -> int:
 #     """Return the greatest common divisor using Euclidean algorithm."""
 #     while b:
@@ -48,5 +49,5 @@ def test_gcd(x: int, y: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    x, y, expected = tests[4]
+    x, y, expected = tests[0]
     print(gcd(x, y))

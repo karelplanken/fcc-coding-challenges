@@ -29,5 +29,5 @@ def test_sleep_debt(hours_slept: list[int], target_hours: int, expected: int) ->
 
 
 if __name__ == '__main__':
-    hours_slept, target_hours, expected = tests[4]
+    hours_slept, target_hours, expected = tests[0]
     print(sleep_debt(hours_slept, target_hours))

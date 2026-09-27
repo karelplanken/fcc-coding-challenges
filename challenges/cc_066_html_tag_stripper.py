@@ -41,5 +41,5 @@ def test_strip_tags(html: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    html, expected = tests[3]
+    html, expected = tests[0]
     print(strip_tags(html))

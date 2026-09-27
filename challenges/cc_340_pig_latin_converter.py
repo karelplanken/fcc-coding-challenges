@@ -54,5 +54,5 @@ def test_pig_latin(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[5]
+    s, expected = tests[0]
     print(pig_latin(s))

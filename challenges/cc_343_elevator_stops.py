@@ -57,5 +57,5 @@ def test_elevator_stops(
 
 
 if __name__ == '__main__':
-    current_floor, stops, expected = tests[4]
+    current_floor, stops, expected = tests[0]
     print(elevator_stops(current_floor, stops))

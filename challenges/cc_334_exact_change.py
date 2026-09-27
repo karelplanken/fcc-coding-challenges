@@ -36,5 +36,5 @@ def test_exact_change(amount: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    amount, expected = tests[2]
+    amount, expected = tests[0]
     print(exact_change(amount))

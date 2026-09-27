@@ -45,5 +45,5 @@ def test_is_mirror(str1: str, str2: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    str1, str2, expected = tests[1]
+    str1, str2, expected = tests[0]
     is_mirror(str1, str2)

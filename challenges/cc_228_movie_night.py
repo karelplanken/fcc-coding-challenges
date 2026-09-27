@@ -77,6 +77,6 @@ def test_get_movie_night_cost(
 
 
 if __name__ == '__main__':
-    day, showtime, number_of_tickets, expected = tests[2]
+    day, showtime, number_of_tickets, expected = tests[0]
     print(get_movie_night_cost(day, showtime, number_of_tickets))
     # get_movie_night_cost(day, showtime, number_of_tickets)

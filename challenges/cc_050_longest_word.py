@@ -26,5 +26,5 @@ def test_get_longest_word(sentence: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    sentence, expected = tests[1]
+    sentence, expected = tests[0]
     print(get_longest_word(sentence), expected)
