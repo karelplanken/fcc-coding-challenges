@@ -34,7 +34,7 @@ def rgb_to_hex(rgb: str) -> str:
     """
     match = _PATTERN.match(rgb)
     if not match:
-        msg = f'invalid RGB format: {rgb}'
+        msg = f'invalid RGB format: {rgb!r}'
         raise ValueError(msg)
 
     r, g, b = (int(v) for v in match.groups())
@@ -43,7 +43,7 @@ def rgb_to_hex(rgb: str) -> str:
     # all channels at once
     for name, value in (('r', r), ('g', g), ('b', b)):
         if not 0 <= value <= 255:
-            msg = f'channel {name}={value} out of range [0, 255]: {rgb}'
+            msg = f'channel {name}={value} out of range [0, 255]: {rgb!r}'
             raise ValueError(msg)
 
     return f'#{r:02x}{g:02x}{b:02x}'

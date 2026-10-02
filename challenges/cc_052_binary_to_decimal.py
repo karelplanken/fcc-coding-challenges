@@ -17,31 +17,30 @@ from pytest import mark
 
 
 def to_decimal(binary: str) -> int:
-    """Convert a string representing a binary number to its integer value.
+    """Convert a binary string to its decimal equivalent.
 
-    Any base-2 literal accepted by ``int(x, 2)`` is valid: an optional sign,
-    an optional ``0b`` prefix, underscores between digits, and surrounding
-    whitespace. Any other input raises the ``ValueError`` from ``int``.
+    Uses Horner's method: scan left to right, doubling the running total (a left shift)
+    and adding each bit. Equivalent to summing bit * 2**k, without computing powers.
 
     Args:
-        binary: A string representing a binary number.
+        binary: A non-empty string consisting only of '0' and '1'.
 
     Returns:
-        The integer value of the binary number.
+        The decimal equivalent of the binary number.
 
-    Examples:
-        >>> to_decimal('101')
-        5
-        >>> to_decimal(' 0b1_01 ')
-        5
-        >>> to_decimal('-101')
-        -5
-        >>> to_decimal('102')
-        Traceback (most recent call last):
-            ...
-        ValueError: invalid literal for int() with base 2: '102'
+    Raises:
+        ValueError: If the binary string is empty or contains any characters other than
+            '0' or '1'.
     """
-    return int(binary, 2)
+    if not binary or binary.strip('01'):
+        msg = f'invalid binary string: {binary!r}'
+        raise ValueError(msg)
+
+    result = 0
+    for bit in binary:
+        result = (result << 1) | (bit == '1')
+
+    return result
 
 
 tests = [
