@@ -3,76 +3,44 @@
 # Space Week Day 1: Stellar Classification
 # October 4th marks the beginning of World Space Week. The next seven days will bring
 # you astronomy-themed coding challenges.
-
+#
 # For today's challenge, you are given the surface temperature of a star in Kelvin (K)
 # and need to determine its stellar classification based on the following ranges:
-# "O": 30,000 K or higher
-# "B": 10,000 K - 29,999 K
-# "A": 7,500 K - 9,999 K
-# "F": 6,000 K - 7,499 K
-# "G": 5,200 K - 5,999 K
-# "K": 3,700 K - 5,199 K
-# "M": 0 K - 3,699 K
-# Return the classification of the given star.
+#
+# - "O": 30,000 K or higher
+# - "B": 10,000 K - 29,999 K
+# - "A": 7,500 K - 9,999 K
+# - "F": 6,000 K - 7,499 K
+# - "G": 5,200 K - 5,999 K
+# - "K": 3,700 K - 5,199 K
+# - "M": 0 K - 3,699 K
+#
+# - Return the classification of the given star.
 from bisect import bisect_right
-from operator import attrgetter
-from typing import NamedTuple
 
 from pytest import mark
 
-
-class StarClass(NamedTuple):
-    threshold: int
-    classification: str
-
-
-CLASSES = [
-    StarClass(0, 'M'),
-    StarClass(3_700, 'K'),
-    StarClass(5_200, 'G'),
-    StarClass(6_000, 'F'),
-    StarClass(7_500, 'A'),
-    StarClass(10_000, 'B'),
-    StarClass(30_000, 'O'),
-]
-
-THRESHOLD_GETTER = attrgetter('threshold')
+# Lower bounds of each class above M; _CLASSES[i] covers [_BOUNDS[i-1], _BOUNDS[i]).
+_BOUNDS = (3_700, 5_200, 6_000, 7_500, 10_000, 30_000)
+_CLASSES = 'MKGFABO'
 
 
 def classification(temp: int) -> str:
-    return CLASSES[bisect_right(CLASSES, temp, key=THRESHOLD_GETTER) - 1].classification
+    """Return the stellar classification based on the given temperature.
 
+    Args:
+        temp: The surface temperature of the star in Kelvin.
 
-# def classification(temp: int) -> str:
-#     if temp > 30_000:
-#         return 'O'
-#     elif  10_000 <= temp < 30_000:
-#         return 'B'
-#     elif 7_500 <= temp < 10_000:
-#         return 'A'
-#     elif 6_000 <= temp < 7_500:
-#         return 'F'
-#     elif 5_200 <= temp < 6_000:
-#         return 'G'
-#     elif 3_700 <= temp < 5_200:
-#         return 'K'
-#     else:
-#         return 'M'
+    Returns:
+        The stellar classification letter (O, B, A, F, G, K or M).
 
-# def classification(temp: int) -> str:
-#     if temp >= 30_000:
-#         return 'O'
-#     if temp >= 10_000:
-#         return 'B'
-#     if temp >= 7_500:
-#         return 'A'
-#     if temp >= 6_000:
-#         return 'F'
-#     if temp >= 5_200:
-#         return 'G'
-#     if temp >= 3_700:
-#         return 'K'
-#     return 'M'
+    Raises:
+        ValueError: If temp is negative.
+    """
+    if temp < 0:
+        msg = f'Temperature cannot be negative: {temp} K'
+        raise ValueError(msg)
+    return _CLASSES[bisect_right(_BOUNDS, temp)]
 
 
 tests = [
