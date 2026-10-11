@@ -65,16 +65,16 @@ def hex_to_decimal(hex_str: str) -> int:
             than 0-9 or A-F.
     """
     if not hex_str:
-        msg = 'hexadecimal string must not be empty'
+        msg = 'empty hexadecimal string'
+        raise ValueError(msg)
+    invalid = set(hex_str).difference(_HEX_TO_DEC)
+    if invalid:
+        msg = f'invalid hexadecimal character(s): {sorted(invalid)}'
         raise ValueError(msg)
 
     result = 0
     for char in hex_str:
-        digit = _HEX_TO_DEC.get(char)
-        if digit is None:
-            msg = f'invalid hexadecimal character: {char!r}'
-            raise ValueError(msg)
-        result = result * 16 + digit
+        result = result * 16 + _HEX_TO_DEC[char]
     return result
 
 
