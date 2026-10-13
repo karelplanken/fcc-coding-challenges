@@ -35,5 +35,5 @@ def test_to_decimal(binary: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    binary, expected = tests[3]
+    binary, expected = tests[0]
     print(to_decimal(binary))

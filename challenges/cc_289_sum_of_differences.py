@@ -32,5 +32,5 @@ def test_sum_of_differences(arr: Sequence[int | float], expected: int | float) -
 
 
 if __name__ == '__main__':
-    arr, expected = tests[3]
+    arr, expected = tests[0]
     print(sum_of_differences(arr))

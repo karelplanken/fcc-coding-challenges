@@ -76,5 +76,5 @@ def test_flatten(arr: list, expected: list) -> None:
 
 
 if __name__ == '__main__':
-    arr, expected = tests[4]
+    arr, expected = tests[0]
     print(flatten(arr))

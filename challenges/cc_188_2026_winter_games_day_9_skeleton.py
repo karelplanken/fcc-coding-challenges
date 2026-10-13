@@ -55,5 +55,5 @@ def test_get_difficulty(track: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    track, expected = tests[5]
+    track, expected = tests[0]
     print(get_difficulty(track))

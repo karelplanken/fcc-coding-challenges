@@ -38,5 +38,5 @@ def test_chunk_array(
 
 
 if __name__ == '__main__':
-    arr, size, expected = tests[4]
+    arr, size, expected = tests[0]
     print(chunk_array(arr, size))

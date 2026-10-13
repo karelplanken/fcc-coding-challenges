@@ -73,5 +73,5 @@ def test_letter_distance(str1: str, str2: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    str1, str2, expected = tests[5]
+    str1, str2, expected = tests[0]
     print(letter_distance(str1, str2))

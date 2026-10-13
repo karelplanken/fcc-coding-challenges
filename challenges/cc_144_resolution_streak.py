@@ -98,5 +98,5 @@ def test_resolution_streak(days: list[list[int]], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    days, expected = tests[1]
+    days, expected = tests[0]
     print(resolution_streak(days))

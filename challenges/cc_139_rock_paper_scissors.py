@@ -102,5 +102,5 @@ def test_rock_paper_scissors(player1: str, player2: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    player1, player2, expected = tests[1]
+    player1, player2, expected = tests[0]
     print(rock_paper_scissors(player1, player2))

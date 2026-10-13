@@ -27,7 +27,7 @@ def get_laptop_cost(laptops: list[int], budget: int) -> int:
         ValueError: If less than two laptop prices are provided.
     """
     if len(laptops) < 2:
-        msg = 'At least two laptop prices are required.'
+        msg = 'at least two laptop prices are required'
         raise ValueError(msg)
 
     unique_prices = sorted(set(laptops), reverse=True)

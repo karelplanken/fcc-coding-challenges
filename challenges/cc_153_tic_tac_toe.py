@@ -64,5 +64,5 @@ def test_tic_tac_toe(board: list[list[str]], expected: str) -> None:
 
 
 # if __name__ == '__main__':
-#     board, expected = tests[5]
+#     board, expected = tests[0]
 #     print(tic_tac_toe(board))

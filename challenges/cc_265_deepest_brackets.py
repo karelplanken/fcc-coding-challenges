@@ -47,5 +47,5 @@ def test_get_deepest_brackets(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[4]
+    s, expected = tests[0]
     print(get_deepest_brackets(s))

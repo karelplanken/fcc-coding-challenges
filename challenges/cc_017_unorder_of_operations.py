@@ -49,10 +49,10 @@ def evaluate(numbers: list[int], operators: list[str]) -> int:
         ValueError: If fewer than two numbers, or no operators, are provided.
     """
     if len(numbers) < 2:
-        msg = 'At least two numbers are required.'
+        msg = 'at least two numbers are required'
         raise ValueError(msg)
     if not operators:
-        msg = 'At least one operator is required.'
+        msg = 'at least one operator is required'
         raise ValueError(msg)
 
     result = numbers[0]

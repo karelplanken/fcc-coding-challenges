@@ -16,13 +16,13 @@ def icbrt(n: int) -> int:
     """Integer cube root, works for negative numbers."""
     if n < 0:
         return -icbrt(-n)
-    
+
     # Initial guess using floating point cube root
     # r = round(n ** (1 / 3))
-    
+
     # Use math.cbrt for better accuracy
     r = int(math.cbrt(n))
-    
+
     # Correct for floating point drift near the boundary
     while (r + 1) ** 3 <= n:
         r += 1
@@ -58,5 +58,5 @@ def test_count_perfect_cubes(a: int, b: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    a, b, expected = tests[4]
+    a, b, expected = tests[0]
     print(count_perfect_cubes(a, b))

@@ -225,4 +225,4 @@ descriptions
 challenge-descriptions
 get-fcc-dcc-desc
 get_challenge_url.py
-process_challenge_md.py
+process_challenge_description.py

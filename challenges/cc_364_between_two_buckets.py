@@ -16,6 +16,7 @@ from pytest import mark
 
 class Bucket(TypedDict):
     """A dictionary representing a paint bucket with color and fullness."""
+
     color: list[int]
     fullness: int
 
@@ -86,5 +87,5 @@ def test_mix_paint(bucket1: Bucket, bucket2: Bucket, expected: list[int]) -> Non
 
 
 if __name__ == '__main__':
-    bucket1, bucket2, expected = tests[2]
+    bucket1, bucket2, expected = tests[0]
     print(mix_paint(bucket1, bucket2))

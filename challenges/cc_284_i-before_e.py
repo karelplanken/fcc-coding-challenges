@@ -42,5 +42,5 @@ def test_i_before_e(sentence: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    sentence, expected = tests[4]
+    sentence, expected = tests[0]
     print(i_before_e(sentence))

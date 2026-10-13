@@ -42,5 +42,5 @@ def test_count_business_days(start: str, end: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    start, end, expected = tests[1]
+    start, end, expected = tests[0]
     print(count_business_days(start, end))

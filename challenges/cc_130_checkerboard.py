@@ -60,5 +60,5 @@ def test_create_board(dimensions: list[int], expected: list[Any]) -> None:
 
 
 if __name__ == '__main__':
-    dimensions, expected = tests[3]
+    dimensions, expected = tests[0]
     print(create_board(dimensions))

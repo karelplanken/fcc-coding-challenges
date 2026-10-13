@@ -35,5 +35,5 @@ def test_odd_or_even_day(timestamp: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    timestamp, expected = tests[2]
+    timestamp, expected = tests[0]
     print(odd_or_even_day(timestamp))

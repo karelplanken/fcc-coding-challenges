@@ -55,5 +55,5 @@ def test_is_match(fingerprint_a: str, fingerprint_b: str, expected: bool) -> Non
 
 
 if __name__ == '__main__':
-    fingerprint_a, fingerprint_b, expected = tests[2]
+    fingerprint_a, fingerprint_b, expected = tests[0]
     print(is_match(fingerprint_a, fingerprint_b))

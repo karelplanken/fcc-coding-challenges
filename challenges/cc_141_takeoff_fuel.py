@@ -42,5 +42,5 @@ def test_fuel_to_add(current_gallons: int, required_liters: int, expected: int) 
 
 
 if __name__ == '__main__':
-    current_gallons, required_liters, expected = tests[2]
+    current_gallons, required_liters, expected = tests[0]
     print(fuel_to_add(current_gallons, required_liters))

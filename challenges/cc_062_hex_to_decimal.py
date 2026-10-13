@@ -75,5 +75,5 @@ def test_hex_to_decimal(hex_str: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    hex_str, expected = tests[4]
+    hex_str, expected = tests[0]
     print(hex_to_decimal(hex_str))

@@ -2,42 +2,32 @@
 
 # Perfect Square
 # Given an integer, determine if it is a perfect square.
-
-# A number is a perfect square if you can multiply an integer by itself to achieve the
-# number. For example, 9 is a perfect square because you can multiply 3 by itself to
-# get it.
-# Refactor 2: One-liner with short-circuit evaluation
+#
+# - A number is a perfect square if you can multiply an integer by itself to achieve the
+#   number. For example, 9 is a perfect square because you can multiply 3 by itself to
+#   get it.
 import math
 
 from pytest import mark
 
 
 def is_perfect_square(n: int) -> bool:
-    return n >= 0 and int(math.sqrt(n)) ** 2 == n
+    """Determine if n is a perfect square.
 
+    Uses exact integer arithmetic, so it is correct for arbitrarily large n.
+    Non-integer input (including floats and None) raises a TypeError.
 
-# Using integer square root for better precision
-# def is_perfect_square(n: int) -> bool:
-#     if n < 0:
-#         return False
-#     root = int(math.sqrt(n))
-#     return root * root == n
+    Args:
+        n: The integer to check.
 
+    Returns:
+        True if n is a perfect square, False otherwise.
+    """
+    if n < 0:
+        return False
+    root = math.isqrt(n)
+    return root * root == n
 
-# Newton's method for integer square root (most efficient)
-# def is_perfect_square(n: int) -> bool:
-#     if n < 0:
-#         return False
-#     if n < 2:
-#         return True
-
-#     # Newton's method to find integer square root
-#     x = n
-#     while True:
-#         y = (x + n // x) // 2
-#         if y >= x:
-#             return x * x == n
-#         x = y
 
 tests = [
     (9, True),

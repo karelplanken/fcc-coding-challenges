@@ -57,5 +57,5 @@ def test_piggy_bank(coins: dict[str, int], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    coins, expected = tests[4]
+    coins, expected = tests[0]
     print(piggy_bank(coins))

@@ -103,5 +103,5 @@ def test_buy_items(funds: list[str], items: list[list[str]], expected: str) -> N
 
 
 if __name__ == '__main__':
-    funds, items, expected = tests[4]
+    funds, items, expected = tests[0]
     print(buy_items(funds, items))

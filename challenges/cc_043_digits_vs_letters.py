@@ -4,20 +4,41 @@
 # Given a string, return "digits" if the string has more digits than letters, "letters"
 # if it has more letters than digits, and "tie" if it has the same amount of digits and
 # letters.
+#
+# - Digits consist of 0-9.
+# - Letters consist of a-z in upper or lower case.
+# - Ignore any other characters.
+from string import ascii_letters, digits
 
-# Digits consist of 0-9.
-# Letters consist of a-z in upper or lower case.
-# Ignore any other characters.
 from pytest import mark
+
+LETTERS = set(ascii_letters)
+DIGITS = set(digits)
 
 
 def digits_or_letters(s: str) -> str:
-    letters = digits = 0
-    for char in s:
-        letters += char.isalpha()
-        digits += char.isdigit()
+    """Determine whether a string has more letters or digits.
 
-    return 'letters' if letters > digits else 'digits' if digits > letters else 'tie'
+    A character counts as a letter if it is a-z or A-Z, and as a digit if
+    it is 0-9. All other characters are ignored.
+
+    Args:
+        s: The string to analyze.
+
+    Returns:
+        'letters' if letters outnumber digits, 'digits' if digits outnumber
+        letters, or 'tie' if the counts are equal.
+
+    Raises:
+        ValueError: If `s` is empty.
+    """
+    if not s:
+        msg = 'input string cannot be empty'
+        raise ValueError(msg)
+
+    diff = sum(1 if char in LETTERS else -1 if char in DIGITS else 0 for char in s)
+
+    return 'letters' if diff > 0 else 'digits' if diff < 0 else 'tie'
 
 
 tests = [

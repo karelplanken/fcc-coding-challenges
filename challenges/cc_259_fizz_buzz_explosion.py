@@ -77,5 +77,5 @@ def test_explode_fizzbuzz(target_z_count: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    target_z_count, expected = tests[3]
+    target_z_count, expected = tests[0]
     print(explode_fizzbuzz(target_z_count))

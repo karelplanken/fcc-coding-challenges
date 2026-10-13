@@ -47,5 +47,5 @@ def test_is_valid_isbn_13(s: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[4]
+    s, expected = tests[0]
     print(is_valid_isbn_13(s))

@@ -16,9 +16,9 @@ RE_TOL = 0.0
 
 def is_golden_ratio(a: int, b: int) -> bool:
     """Returns whether the ratio of a and b falls in the range of golden ratio.
-    
-    The ratio from large over small from a and b is compared to the golden ratio 
-    (GOLDEN_RATIO) +/- tolerance (TOLERANCE), both defined as global constants, 
+
+    The ratio from large over small from a and b is compared to the golden ratio
+    (GOLDEN_RATIO) +/- tolerance (TOLERANCE), both defined as global constants,
     irrespective of params order.
 
     The golden ratio, assigned to the constant GOLDEN_RATIO, is calculated from an
@@ -56,5 +56,5 @@ def test_is_golden_ratio(a: int, b: int, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    a, b, expected = tests[4]
+    a, b, expected = tests[0]
     print(is_golden_ratio(a, b))

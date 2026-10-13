@@ -95,9 +95,9 @@ main() {
     local prompt
     prompt="$(
         uv run "$script_dir/assemble_prompt_for_feedback_on_fccdcc.py" "$challenge_path"
-    )"
+    )" || return
 
-    printf '%s' "$prompt" | clip.exe
+    { printf '\xff\xfe'; printf '%s' "$prompt" | iconv -f UTF-8 -t UTF-16LE; } | clip.exe
 
     printf '✓ Prompt for "%s" copied to clipboard — paste into Claude\n' "$challenge_name"
 }

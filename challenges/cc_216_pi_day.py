@@ -14,8 +14,8 @@
 from pytest import mark
 
 # π's first 1000 decimal digits (after the "3.")
-# The problem itself hints: "You may have to find the first 1000 decimals of π 
-# somewhere." Hardcoding is the correct, idiomatic answer — O(1), perfectly accurate, 
+# The problem itself hints: "You may have to find the first 1000 decimals of π
+# somewhere." Hardcoding is the correct, idiomatic answer — O(1), perfectly accurate,
 # zero math risk.
 _PI_DECIMALS = (
     '1415926535 8979323846 2643383279 5028841971 6939937510'
@@ -44,6 +44,7 @@ _PI_DECIMALS = (
 def get_pi_decimal(n: int) -> int:
     return int(_PI_DECIMALS[n - 1])
 
+
 tests = [
     (5, 9),
     (10, 5),
@@ -63,5 +64,5 @@ def test_get_pi_decimal(n: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[6]
+    n, expected = tests[0]
     print(get_pi_decimal(n))

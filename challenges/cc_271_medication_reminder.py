@@ -123,5 +123,5 @@ def test_medication_reminder(
 
 
 if __name__ == '__main__':
-    medications, current_time, expected = tests[3]
+    medications, current_time, expected = tests[0]
     print(medication_reminder(medications, current_time))

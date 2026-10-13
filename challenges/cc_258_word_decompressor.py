@@ -58,5 +58,5 @@ def test_decompress(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[2]
+    s, expected = tests[0]
     print(decompress(s))

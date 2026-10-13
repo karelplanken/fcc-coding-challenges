@@ -98,5 +98,5 @@ def test_bucket_fill(
 
 
 if __name__ == '__main__':
-    grid, pos, new_value, expected = tests[4]
+    grid, pos, new_value, expected = tests[0]
     print(bucket_fill(grid, pos, new_value))

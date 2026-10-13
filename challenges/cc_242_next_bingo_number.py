@@ -37,7 +37,6 @@
 #     next_bingo_number = (int(n[1:]) + 1) % MAX_NUMBER or MAX_NUMBER
 #     return f'{NUMBER_TO_LETTER[next_bingo_number]}{next_bingo_number}'
 
-
 # Second solution: Production bingo application, domain matters:
 from dataclasses import dataclass
 from types import MappingProxyType
@@ -53,15 +52,13 @@ class BingoNumber:
     next_letter: str
 
 
-BINGO_NUMBERS = MappingProxyType(
-    {
-        'B': BingoNumber('B', 1, 15, 'I'),
-        'I': BingoNumber('I', 16, 30, 'N'),
-        'N': BingoNumber('N', 31, 45, 'G'),
-        'G': BingoNumber('G', 46, 60, 'O'),
-        'O': BingoNumber('O', 61, 75, 'B'),
-    }
-)
+BINGO_NUMBERS = MappingProxyType({
+    'B': BingoNumber('B', 1, 15, 'I'),
+    'I': BingoNumber('I', 16, 30, 'N'),
+    'N': BingoNumber('N', 31, 45, 'G'),
+    'G': BingoNumber('G', 46, 60, 'O'),
+    'O': BingoNumber('O', 61, 75, 'B'),
+})
 
 
 def get_next_bingo_number(n: str) -> str:
@@ -92,5 +89,5 @@ def test_get_next_bingo_number(n: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[5]
+    n, expected = tests[0]
     print(get_next_bingo_number(n))

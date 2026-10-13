@@ -117,5 +117,5 @@ def test_connect_three(
 
 
 if __name__ == '__main__':
-    matrix, expected = tests[4]
+    matrix, expected = tests[0]
     print(connect_three(matrix))

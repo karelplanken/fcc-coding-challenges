@@ -55,19 +55,15 @@ from pytest import mark
 # BL BR
 # Required rotation in deg for TL, BR, BL is 90
 
-MARKER_CELLS = MappingProxyType(
-    {
-        'TL': frozenset([(0, 0), (0, 1), (1, 0), (1, 1)]),
-        'TR': frozenset([(0, 4), (0, 5), (1, 4), (1, 5)]),
-        'BL': frozenset([(4, 0), (4, 1), (5, 0), (5, 1)]),
-        'BR': frozenset([(4, 4), (4, 5), (5, 4), (5, 5)]),
-    }
-)
+MARKER_CELLS = MappingProxyType({
+    'TL': frozenset([(0, 0), (0, 1), (1, 0), (1, 1)]),
+    'TR': frozenset([(0, 4), (0, 5), (1, 4), (1, 5)]),
+    'BL': frozenset([(4, 0), (4, 1), (5, 0), (5, 1)]),
+    'BR': frozenset([(4, 4), (4, 5), (5, 4), (5, 5)]),
+})
 
 ALL_MARKER_CELLS = frozenset().union(
-    MARKER_CELLS['TL'],
-    MARKER_CELLS['TR'],
-    MARKER_CELLS['BL']
+    MARKER_CELLS['TL'], MARKER_CELLS['TR'], MARKER_CELLS['BL']
 )
 
 
@@ -88,14 +84,12 @@ def rotate_270(matrix: list[str]) -> list[list[str]]:
 
 
 # Missing corner → rotation needed to fix orientation
-MISSING_TO_ROTATE = MappingProxyType(
-    {
-        'BR': rotate_0,
-        'TR': rotate_90,
-        'TL': rotate_180,
-        'BL': rotate_270,
-    }
-)
+MISSING_TO_ROTATE = MappingProxyType({
+    'BR': rotate_0,
+    'TR': rotate_90,
+    'TL': rotate_180,
+    'BL': rotate_270,
+})
 
 
 def find_missing_corner(qr_code: list[str]) -> str:
@@ -148,5 +142,5 @@ def test_decode_qr(qr_code: list[str], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    qr_code, expected = tests[4]
+    qr_code, expected = tests[0]
     print(decode_qr(qr_code))

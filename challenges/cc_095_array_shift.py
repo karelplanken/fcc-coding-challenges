@@ -37,5 +37,5 @@ def test_shift_array(arr: list[Any], n: int, expected: list[Any]) -> None:
 
 
 if __name__ == '__main__':
-    arr, n, expected = tests[3]
+    arr, n, expected = tests[0]
     print(shift_array(arr, n))

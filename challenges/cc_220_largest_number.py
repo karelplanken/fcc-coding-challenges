@@ -30,5 +30,5 @@ def test_largest_number(s: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[1]
+    s, expected = tests[0]
     print(largest_number(s))

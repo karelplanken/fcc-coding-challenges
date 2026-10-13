@@ -52,5 +52,5 @@ def test_email_chain_count(subject: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    subject, expected = tests[2]
+    subject, expected = tests[0]
     print(email_chain_count(subject))

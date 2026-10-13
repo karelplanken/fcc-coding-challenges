@@ -110,5 +110,5 @@ def test_get_browser_history(
 
 
 if __name__ == '__main__':
-    commands, expected = tests[2]
+    commands, expected = tests[0]
     print(get_browser_history(commands))

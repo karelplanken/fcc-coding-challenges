@@ -51,8 +51,8 @@ from pytest import mark
 
 
 # Lambda constraints list and no regex usage.
-#  This solution uses a strategy pattern using lambdas to encapsulate each validation 
-# rule. This makes it easy to add, remove, or modify validation rules without changing 
+#  This solution uses a strategy pattern using lambdas to encapsulate each validation
+# rule. This makes it easy to add, remove, or modify validation rules without changing
 # the overall structure of the code.
 # The approach can be described as:
 # 1) Predicate list - since each lambda is a predicate (function returning a boolean)
@@ -97,5 +97,5 @@ def test_validate(e_mail: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    e_mail, expected = tests[4]
+    e_mail, expected = tests[0]
     print(validate(e_mail))

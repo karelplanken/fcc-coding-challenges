@@ -57,5 +57,5 @@ def test_moon_phase(date_string: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    date_string, expected = tests[1]
+    date_string, expected = tests[0]
     print(moon_phase(date_string))

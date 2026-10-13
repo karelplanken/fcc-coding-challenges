@@ -44,5 +44,5 @@ def test_extract_attributes(element: str, expected: list[str]) -> None:
 
 
 if __name__ == '__main__':
-    element, expected = tests[2]
+    element, expected = tests[0]
     print(extract_attributes(element))

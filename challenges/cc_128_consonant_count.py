@@ -35,5 +35,5 @@ def test_has_consonant_count(text: str, target: int, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    text, target, expected = tests[4]
+    text, target, expected = tests[0]
     has_consonant_count(text, target)

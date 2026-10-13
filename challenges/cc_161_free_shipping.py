@@ -18,16 +18,14 @@ from types import MappingProxyType
 
 from pytest import mark
 
-ITEM_PRICE = MappingProxyType(
-    {
-        'shirt': 34.25,
-        'jeans': 48.50,
-        'shoes': 75.00,
-        'hat': 19.95,
-        'socks': 15.00,
-        'jacket': 109.95,
-    }
-)
+ITEM_PRICE = MappingProxyType({
+    'shirt': 34.25,
+    'jeans': 48.50,
+    'shoes': 75.00,
+    'hat': 19.95,
+    'socks': 15.00,
+    'jacket': 109.95,
+})
 
 
 def gets_free_shipping(cart: list[str], minimum: float) -> bool:
@@ -51,5 +49,5 @@ def test_gets_free_shipping(cart: list[str], minimum: float, expected: bool) -> 
 
 
 if __name__ == '__main__':
-    cart, minimum, expected = tests[1]
+    cart, minimum, expected = tests[0]
     print(gets_free_shipping(cart, minimum))

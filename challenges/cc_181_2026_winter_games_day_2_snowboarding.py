@@ -42,5 +42,5 @@ def test_get_landing_stance(start_stance: str, rotation: int, expected: str) -> 
 
 
 if __name__ == '__main__':
-    start_stance, rotation, expected = tests[1]
+    start_stance, rotation, expected = tests[0]
     print(get_landing_stance(start_stance, rotation))

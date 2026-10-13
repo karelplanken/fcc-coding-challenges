@@ -44,5 +44,5 @@ def test_most_frequent[T](arr: list[T], expected: T) -> None:
 
 
 if __name__ == '__main__':
-    arr, expected = tests[1]
+    arr, expected = tests[0]
     print(most_frequent(arr))

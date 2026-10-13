@@ -40,5 +40,5 @@ def test_triage_issue(ms: int, message: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    ms, message, expected = tests[5]
+    ms, message, expected = tests[0]
     print(triage_issue(ms, message))

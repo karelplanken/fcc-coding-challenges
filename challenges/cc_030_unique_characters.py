@@ -2,23 +2,29 @@
 
 # Unique Characters
 # Given a string, determine if all the characters in the string are unique.
-
-# Uppercase and lowercase letters should be considered different characters.
+#
+# - Uppercase and lowercase letters should be considered different characters.
 from pytest import mark
 
 
 def all_unique(s: str) -> bool:
-    return len(set(s)) == len(s)
+    """Determines if all characters in the string are unique.
 
+    Uses early exit: returns as soon as a duplicate is found, so long
+    strings with an early duplicate are handled without scanning to the end.
 
-# Alternative: Early termination for very long strings
-# def all_unique_early_exit(s: str) -> bool:
-#     seen = set()
-#     for char in s:
-#         if char in seen:
-#             return False
-#         seen.add(char)
-#     return True
+    Args:
+        s: The input string to check for unique characters.
+
+    Returns:
+        True if all characters in the string are unique, False otherwise.
+    """
+    seen: set[str] = set()
+    for char in s:
+        if char in seen:
+            return False
+        seen.add(char)
+    return True
 
 
 tests = [

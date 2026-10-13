@@ -10,7 +10,7 @@
 # - If there's an odd number of characters in the string, ignore the center character.
 from pytest import mark
 
-VOWELS = frozenset('aeiouAEIOU')
+_VOWELS = frozenset('aeiouAEIOU')
 
 
 def is_balanced(s: str) -> bool:
@@ -26,8 +26,8 @@ def is_balanced(s: str) -> bool:
     first_half_end = total // 2
     second_half_start = first_half_end + (total % 2)
 
-    return sum(c in VOWELS for c in s[:first_half_end]) == sum(
-        c in VOWELS for c in s[second_half_start:]
+    return sum(c in _VOWELS for c in s[:first_half_end]) == sum(
+        c in _VOWELS for c in s[second_half_start:]
     )
 
 

@@ -133,5 +133,5 @@ def test_solve_magic_square(grid: list[list[int]], expected: int | str) -> None:
 
 
 if __name__ == '__main__':
-    grid, expected = tests[5]
+    grid, expected = tests[0]
     print(solve_magic_square(grid))

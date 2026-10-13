@@ -35,5 +35,5 @@ def test_to_12(t: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    t, expected = tests[2]
+    t, expected = tests[0]
     print(to_12(t))

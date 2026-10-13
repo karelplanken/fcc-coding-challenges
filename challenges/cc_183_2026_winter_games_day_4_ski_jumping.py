@@ -76,5 +76,5 @@ def test_ski_jump_medal(
 
 
 if __name__ == '__main__':
-    distance_points, style_points, wind_comp, k_point_bonus, expected = tests[1]
+    distance_points, style_points, wind_comp, k_point_bonus, expected = tests[0]
     print(ski_jump_medal(distance_points, style_points, wind_comp, k_point_bonus))

@@ -50,5 +50,5 @@ def test_count(text: str, parameter: str, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    text, parameter, expected = tests[4]
+    text, parameter, expected = tests[0]
     print(count(text, parameter))

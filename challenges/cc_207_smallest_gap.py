@@ -45,5 +45,5 @@ def test_smallest_gap(s: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    s, expected = tests[4]
+    s, expected = tests[0]
     print(smallest_gap(s))

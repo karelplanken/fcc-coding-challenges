@@ -65,5 +65,5 @@ def test_to_screaming_snake_case(variable_name: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    variable_name, expected = tests[1]
+    variable_name, expected = tests[0]
     print(to_screaming_snake_case(variable_name))

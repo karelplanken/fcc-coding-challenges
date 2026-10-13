@@ -74,5 +74,5 @@ def test_format_coffee_order(order: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    order, expected = tests[4]
+    order, expected = tests[0]
     print(format_coffee_order(order))

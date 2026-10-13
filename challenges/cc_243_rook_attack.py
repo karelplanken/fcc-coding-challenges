@@ -42,5 +42,5 @@ def test_rook_attack(rook1: str, rook2: str, expected: bool) -> None:
 
 
 if __name__ == '__main__':
-    rook1, rook2, expected = tests[3]
+    rook1, rook2, expected = tests[0]
     print(rook_attack(rook1, rook2))

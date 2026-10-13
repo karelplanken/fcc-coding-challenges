@@ -107,5 +107,5 @@ def test_check_strength(password: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    password, expected = tests[7]
+    password, expected = tests[0]
     print(check_strength(password))

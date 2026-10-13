@@ -40,5 +40,5 @@ def test_calculate_start_delays(jump_scores: list[int], expected: list[int]) -> 
 
 
 if __name__ == '__main__':
-    jump_scores, expected = tests[1]
+    jump_scores, expected = tests[0]
     print(calculate_start_delays(jump_scores))

@@ -52,5 +52,5 @@ def test_get_pizzas_to_order(hours_worked: list[int], expected: int) -> None:
 
 
 if __name__ == '__main__':
-    hours_worked, expected = tests[5]
+    hours_worked, expected = tests[0]
     print(get_pizzas_to_order(hours_worked))

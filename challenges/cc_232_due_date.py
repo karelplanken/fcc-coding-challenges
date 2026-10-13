@@ -48,5 +48,5 @@ def test_get_due_date(date_str: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    date_str, expected = tests[2]
+    date_str, expected = tests[0]
     print(get_due_date(date_str))

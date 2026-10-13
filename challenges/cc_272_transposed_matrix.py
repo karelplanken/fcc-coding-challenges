@@ -65,5 +65,5 @@ def test_transpose(
 
 
 if __name__ == '__main__':
-    matrix, expected = tests[4]
+    matrix, expected = tests[0]
     print(transpose(matrix))

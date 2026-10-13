@@ -8,7 +8,7 @@
 # - Add leading zeros when needed.
 from pytest import mark
 
-SECONDS_PER_MINUTE = 60
+_SECONDS_PER_MINUTE = 60
 
 
 def _parse_mmss(duration: str) -> int:
@@ -21,7 +21,7 @@ def _parse_mmss(duration: str) -> int:
         Total number of seconds.
     """
     minutes, seconds = map(int, duration.split(':'))
-    return minutes * SECONDS_PER_MINUTE + seconds
+    return minutes * _SECONDS_PER_MINUTE + seconds
 
 
 def _format_mmss(total_seconds: int) -> str:
@@ -33,7 +33,7 @@ def _format_mmss(total_seconds: int) -> str:
     Returns:
         Time in "MM:SS" format.
     """
-    minutes, seconds = divmod(total_seconds, SECONDS_PER_MINUTE)
+    minutes, seconds = divmod(total_seconds, _SECONDS_PER_MINUTE)
     return f'{minutes:02}:{seconds:02}'
 
 

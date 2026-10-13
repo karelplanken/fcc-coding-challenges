@@ -16,6 +16,7 @@ from pytest import mark
 def add_punctuation(sentences: str) -> str:
     return re.sub(r'(?= [A-Z])', '.', sentences) + '.'
 
+
 # def add_punctuation(sentences: str) -> str:
 #     words = sentences.split()
 
@@ -46,5 +47,5 @@ def test_add_punctuation(sentences: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    sentences, expected = tests[1]
+    sentences, expected = tests[0]
     print(add_punctuation(sentences))

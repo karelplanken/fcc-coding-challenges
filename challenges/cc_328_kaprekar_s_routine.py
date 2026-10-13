@@ -50,5 +50,5 @@ def test_kaprekar(n: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    n, expected = tests[4]
+    n, expected = tests[0]
     print(kaprekar(n))

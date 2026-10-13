@@ -12,11 +12,23 @@
 from pytest import mark
 
 
+def _average(values: list[int]) -> float:
+    return sum(values) / len(values)
+
+
 def too_much_screen_time(hours: list[int]) -> bool:
+    """Determine if the given hours of screen time is too much based on the rules.
+
+    Args:
+        hours: Hours spent on the phone each day for seven days in a row.
+
+    Returns:
+        True if the screen time is too much based on the rules, False otherwise.
+    """
     return (
         max(hours) >= 10
-        or sum(hours) / 7 >= 6
-        or any(sum(hours[i : i + 3]) >= 24 for i in range(5))
+        or any(_average(hours[i : i + 3]) >= 8 for i in range(len(hours) - 2))
+        or _average(hours) >= 6
     )
 
 

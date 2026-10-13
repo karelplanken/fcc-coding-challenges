@@ -53,5 +53,5 @@ def test_parse_italics(markdown: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    markdown, expected = tests[4]
+    markdown, expected = tests[0]
     print(parse_italics(markdown))

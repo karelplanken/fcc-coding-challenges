@@ -38,5 +38,5 @@ def test_format(seconds: int, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    seconds, expected = tests[2]
+    seconds, expected = tests[0]
     print(format(seconds))

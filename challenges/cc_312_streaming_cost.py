@@ -115,7 +115,7 @@ def test_get_streaming_bill(
 
 
 if __name__ == '__main__':
-    cart, subscription, expected = tests[5]
+    cart, subscription, expected = tests[0]
     print(get_streaming_bill(cart, subscription))
 
 

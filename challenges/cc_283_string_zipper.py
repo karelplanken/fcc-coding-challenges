@@ -29,5 +29,5 @@ def test_zip_strings(a: str, b: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    a, b, expected = tests[4]
+    a, b, expected = tests[0]
     print(zip_strings(a, b))

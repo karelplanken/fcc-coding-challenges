@@ -35,5 +35,5 @@ def test_find_offender(arr: list[int], expected: int) -> None:
 
 
 if __name__ == '__main__':
-    arr, expected = tests[4]
+    arr, expected = tests[0]
     print(find_offender(arr))

@@ -57,5 +57,5 @@ def test_get_meeting_time(
 
 
 if __name__ == '__main__':
-    availability, expected = tests[3]
+    availability, expected = tests[0]
     print(get_meeting_time(availability))

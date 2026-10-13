@@ -122,5 +122,5 @@ def test_navigate_trail(map: list[str], expected: str) -> None:
 
 
 if __name__ == '__main__':
-    map, expected = tests[4]
+    map, expected = tests[0]
     print(navigate_trail(map))
