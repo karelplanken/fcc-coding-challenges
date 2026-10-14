@@ -210,11 +210,14 @@ def assemble_prompt(parts: ChallengeParts) -> str:
         'decorator, the test function signature, `tests`, and the `if __name__ == '
         "'__main__'` block are fixed and kept identical in structure across all "
         'challenge files; `__main__` is debugging scaffolding used while developing, '
-        "not part of the evaluation. The seed function's parameter count, order, and "
-        'return contract are also fixed by the harness — only parameter *names* are '
-        'mine to choose (the tests never call it via keyword arguments). Do not read '
-        'the fixed shape of that signature as a design decision or count it against '
-        'the assessment.\n'
+        'not part of the evaluation. The function signature is given by the '
+        "challenge's seed code without type annotations: the function name, "
+        'parameter names, count and order, and the return contract are fixed. The '
+        'type annotations and the docstring are mine. Do not read the fixed '
+        'signature as a design decision or count it against the assessment. If a '
+        'given name is poor (e.g. it shadows a built-in or does not describe the '
+        'value), you may point it out as an upstream issue, separately from the '
+        'assessment.\n'
         'Evaluate the solution the way a senior engineer doing code review would '
         'assess the code on its own merits — do not default to a junior-level '
         'assessment or treat that as the baseline to be argued up from. Consider: '

@@ -226,3 +226,6 @@ challenge-descriptions
 get-fcc-dcc-desc
 get_challenge_url.py
 process_challenge_description.py
+todo-get-fcc-dcc.md
+todo.md
+trial.py
