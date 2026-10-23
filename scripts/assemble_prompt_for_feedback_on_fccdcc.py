@@ -191,7 +191,7 @@ def assemble_prompt(parts: ChallengeParts) -> str:
     """
     return (
         'Hi Claude,\n'
-        'given this problem:\n\n'
+        'Given this problem:\n\n'
         f'{parts.challenge_name}\n\n'
         f'{parts.description}\n\n'
         'I came up with this solution:\n\n'
