@@ -3,25 +3,20 @@
 # Nth Prime
 # A prime number is a positive integer greater than 1 that is divisible only by 1 and
 # itself. The first five prime numbers are 2, 3, 5, 7, and 11.
-
+#
 # Given a positive integer n, return the nth prime number. For example, given 5 return
 # the 5th prime number: 11.
+from itertools import count, islice
+
 from pytest import mark
 
 
-def is_prime(k: int) -> bool:
-    if k <= 1:
+def _is_prime(k: int) -> bool:
+    """Return True if k is prime, using 6k±1 trial division."""
+    if k <= 3:
+        return k >= 2
+    if k % 2 == 0 or k % 3 == 0:
         return False
-    if k == 2:
-        return True
-    if k % 2 == 0:
-        return False
-    if k == 3:
-        return True
-    if k % 3 == 0:
-        return False
-
-    # Check divisors of form 6k±1 up to √k
     i = 5
     while i * i <= k:
         if k % i == 0 or k % (i + 2) == 0:
@@ -31,19 +26,24 @@ def is_prime(k: int) -> bool:
 
 
 def nth_prime(n: int) -> int:
+    """Return the nth prime number (1-based).
+
+    Args:
+        n: The index of the prime number to return.
+
+    Returns:
+        The nth prime number.
+
+    Raises:
+        ValueError: If n is not a positive integer.
+    """
+    if n <= 0:
+        msg = f'expected a positive integer, got {n}'
+        raise ValueError(msg)
     if n == 1:
         return 2
-
-    count = 1  # We've already counted 2
-    candidate = 3
-
-    while count < n:
-        if is_prime(candidate):
-            count += 1
-        if count < n:  # Only increment if we haven't found it yet
-            candidate += 2  # Skip even numbers
-
-    return candidate
+    odd_primes = (k for k in count(3, 2) if _is_prime(k))
+    return next(islice(odd_primes, n - 2, None))
 
 
 tests = [
