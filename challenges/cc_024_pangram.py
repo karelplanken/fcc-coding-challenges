@@ -25,7 +25,7 @@ def is_pangram(sentence: str, letters: str) -> bool:
             characters.
     """
     if letters and not (letters.islower() and letters.isalpha()):
-        msg = f'letters must be a string of lowercase letters: {letters}'
+        msg = f'letters must be a string of lowercase letters: {letters!r}'
         raise ValueError(msg)
 
     # Extract alphabetic characters and convert to lowercase

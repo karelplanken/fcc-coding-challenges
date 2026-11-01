@@ -3,39 +3,37 @@
 # SpOoKy~CaSe
 # Given a string representing a variable name, convert it to "spooky case" using the
 # following constraints:
-
-# Replace all underscores (_), and hyphens (-) with a tilde (~).
-# Capitalize the first letter of the string, and every other letter after that. Ignore
-# the tilde character when counting. Make all other letters lowercase.
+#
+# - Replace all underscores (_), and hyphens (-) with a tilde (~).
+# - Capitalize the first letter of the string, and every other letter after that. Ignore
+#   the tilde character when counting. Make all other letters lowercase.
+#
 # For example, given hello_world, return HeLlO~wOrLd.
+from itertools import cycle
+
 from pytest import mark
 
-# def spookify(boo: str) -> str:
-#     spooky_cased = []
-#     count = 1
-#     for char in boo.replace('-', '~').replace('_', '~'):
-#         if char.isalpha():
-#             spooky_cased.append(char.upper() if count % 2 == 1 else char.lower())
-#             count += 1
-#         else:
-#             spooky_cased.append(char)
-#     return ''.join(spooky_cased)
+_TILDE_TABLE = str.maketrans({'_': '~', '-': '~'})
 
 
 def spookify(boo: str) -> str:
-    result = []
-    count = 1
+    """Convert a variable name to spooky case.
 
-    for char in boo:
-        if char in '_-':
-            result.append('~')
-        elif char.isalpha():
-            result.append(char.upper() if count % 2 == 1 else char.lower())
-            count += 1
-        else:
-            result.append(char)  # handles any other characters
+    Underscores and hyphens become tildes. Letters alternate upper/lower case,
+    starting with upper; only letters advance the alternation, and all other
+    characters pass through unchanged.
 
-    return ''.join(result)
+    Args:
+        boo: Variable name to convert.
+
+    Returns:
+        The spooky case version of the variable name.
+    """
+    case = cycle((str.upper, str.lower))
+    return ''.join(
+        next(case)(char) if char.isalpha() else char
+        for char in boo.translate(_TILDE_TABLE)
+    )
 
 
 tests = [

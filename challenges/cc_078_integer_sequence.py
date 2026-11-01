@@ -3,12 +3,27 @@
 # Integer Sequence
 # Given a positive integer, return a string with all of the integers from 1 up to, and
 # including, the given number, in numerical order.
-
+#
 # For example, given 5, return "12345".
 from pytest import mark
 
 
 def sequence(n: int) -> str:
+    """Return the integers from 1 to n concatenated into a single string.
+
+    Args:
+        n: A positive integer.
+
+    Returns:
+        The decimal representations of 1 through n, joined without separators.
+
+    Raises:
+        ValueError: If `n` is not positive.
+    """
+    if n <= 0:
+        msg = f'n must be positive, got {n}'
+        raise ValueError(msg)
+
     return ''.join(map(str, range(1, n + 1)))
 
 

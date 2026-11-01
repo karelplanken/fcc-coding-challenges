@@ -3,16 +3,35 @@
 # Complementary DNA
 # Given a string representing a DNA sequence, return its complementary strand using the
 # following rules:
-
-# DNA consists of the letters "A", "C", "G", and "T".
-# The letters "A" and "T" complement each other.
-# The letters "C" and "G" complement each other.
+#
+# - DNA consists of the letters "A", "C", "G", and "T".
+# - The letters "A" and "T" complement each other.
+# - The letters "C" and "G" complement each other.
+#
 # For example, given "ACGT", return "TGCA".
 from pytest import mark
 
+_COMPLEMENT = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+_DNA_BASES = frozenset(_COMPLEMENT)
+_COMPLEMENT_TABLE = str.maketrans(_COMPLEMENT)
+
 
 def complementary_dna(strand: str) -> str:
-    return strand.translate(str.maketrans('ATGC', 'TACG'))
+    """Return the complementary DNA strand.
+
+    Args:
+        strand: A DNA sequence consisting only of the uppercase bases A, C, G and T.
+
+    Returns:
+        The complementary strand, with A and T swapped and C and G swapped.
+
+    Raises:
+        ValueError: If `strand` contains any character other than A, C, G or T.
+    """
+    if invalid := set(strand) - _DNA_BASES:
+        msg = f'invalid DNA base(s) {sorted(invalid)}; expected only A, C, G, T'
+        raise ValueError(msg)
+    return strand.translate(_COMPLEMENT_TABLE)
 
 
 tests = [

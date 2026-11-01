@@ -3,42 +3,66 @@
 # Navigator
 # On October 28, 1994, Netscape Navigator was released, helping millions explore the
 # early web.
-
+#
 # Given an array of browser commands you executed on Netscape Navigator, return the
 # current page you are on after executing all the commands using the following rules:
-
-# You always start on the "Home" page, which will not be included in the commands array.
-# Valid commands are:
-# "Visit Page": Where "Page" is the name of the page you are visiting. For example, "
-# Visit About" takes you to the "About" page. When you visit a new page, make sure to
+#
+# - You always start on the "Home" page, which will not be included in the commands
+#   array.
+# - Valid commands are:
+#   - "Visit Page": Where "Page" is the name of the page you are visiting. For example,
+# "Visit About" takes you to the "About" page. When you visit a new page, make sure to
 # discard any forward history you have.
-# "Back": Takes you to the previous page in your history or stays on the current page
-# if there isn't one.
-# "Forward": Takes you forward in the history to the page you came from or stays on the
-# current page if there isn't one.
+#   - "Back": Takes you to the previous page in your history or stays on the current
+# page if there isn't one.
+#   - "Forward": Takes you forward in the history to the page you came from or stays on
+# the current page if there isn't one.
+#
 # For example, given ["Visit About Us", "Back", "Forward"], return "About Us".
 from pytest import mark
 
+_START_PAGE = 'Home'
+_VISIT_PREFIX = 'Visit '
+_BACK_COMMAND = 'Back'
+_FORWARD_COMMAND = 'Forward'
+
 
 def navigate(commands: list[str]) -> str:
-    path = ['Home']
-    current_idx = 0
+    """Return the current page after executing all commands.
+
+    Page names are taken verbatim after 'Visit ', so a whitespace-only name
+    (e.g. 'Visit  ', page ' ') is accepted; only an empty name is rejected.
+
+    Args:
+        commands: Browser commands, executed in order.
+
+    Returns:
+        The name of the page shown after the last command.
+
+    Raises:
+        ValueError: If a command is not 'Back', 'Forward' or 'Visit <page>'.
+    """
+    history = [_START_PAGE]
+    current = 0
 
     for command in commands:
-        # Next page and delete forward history:
-        if command.startswith('Visit '):
-            page_name = command[6:]
-            path = path[: current_idx + 1]
-            path.append(page_name)
-            current_idx += 1
-        elif command == 'Back':
-            # Decrement current_idx if possible:
-            current_idx = max(0, current_idx - 1)
-        elif command == 'Forward':
-            # Increment current_idx if possible:
-            current_idx = min(current_idx + 1, len(path) - 1)
+        if command == _BACK_COMMAND:
+            current = max(current - 1, 0)
+        elif command == _FORWARD_COMMAND:
+            current = min(current + 1, len(history) - 1)
+        elif command.startswith(_VISIT_PREFIX):
+            page = command.removeprefix(_VISIT_PREFIX)
+            if not page:
+                msg = f'missing page name: {command!r}'
+                raise ValueError(msg)
+            del history[current + 1 :]  # visiting discards forward history
+            history.append(page)
+            current += 1
+        else:
+            msg = f'invalid command: {command!r}'
+            raise ValueError(msg)
 
-    return path[current_idx]
+    return history[current]
 
 
 tests = [

@@ -3,38 +3,52 @@
 # Speak Wisely, You Must
 # Given a sentence, return a version of it that sounds like advice from a wise teacher
 # using the following rules:
-
-# Words are separated by a single space.
-# Find the first occurrence of one of the following words in the sentence: "have",
-# "must", "are", "will", "can".
-# Move all words before and including that word to the end of the sentence and:
-# Preserve the order of the words when you move them.
-# Make them all lowercase.
-# And add a comma and space before them.
-# Capitalize the first letter of the new first word of the sentence.
-# All given sentences will end with a single punctuation mark. Keep the original
-# punctuation of the sentence and move it to the end of the new sentence.
-# Return the new sentence, make sure there's a single space between each word and no
-# spaces at the beginning or end of the sentence.
+#
+# - Words are separated by a single space.
+# - Find the first occurrence of one of the following words in the sentence: "have",
+#   "must", "are", "will", "can".
+# - Move all words before and including that word to the end of the sentence and:
+#   - Preserve the order of the words when you move them.
+#   - Make them all lowercase.
+#   - And add a comma and space before them.
+# - Capitalize the first letter of the new first word of the sentence.
+# - All given sentences will end with a single punctuation mark. Keep the original
+#   punctuation of the sentence and move it to the end of the new sentence.
+# - Return the new sentence, make sure there's a single space between each word and no
+#   spaces at the beginning or end of the sentence.
+#
 # For example, given "You must speak wisely." return "Speak wisely, you must."
 from pytest import mark
 
+_AUXILIARY_VERBS = frozenset({'have', 'must', 'are', 'will', 'can'})
+
 
 def wise_speak(sentence: str) -> str:
-    AUXILIARY_VERBS = ('have', 'must', 'are', 'will', 'can')
+    """Return a version of the sentence that sounds like advice from a wise teacher.
 
-    punctuation = sentence[-1]
-    words = sentence[:-1].split()
+    The sentence is split after the first word found in _AUXILIARY_VERBS
+    (case-insensitive). The words up to and including that word are lowercased and
+    moved to the end, after a comma. The first letter of the new opening word is
+    capitalized and the original final punctuation is kept. If no such word is present,
+    or it is the last word, the sentence is returned unchanged.
 
-    # Find split point
-    for i, word in enumerate(words):
-        if word.lower() in AUXILIARY_VERBS:
-            before, after = words[: i + 1], words[i + 1 :]
-            after_part = ' '.join(after).capitalize()
-            before_part = ' '.join(before).lower()
-            return f'{after_part}, {before_part}{punctuation}'
+    Args:
+        sentence: The sentence to transform, ending in a single punctuation mark.
 
-    return sentence  # No auxiliary verb found
+    Returns:
+        The transformed sentence.
+    """
+    body, punctuation = sentence[:-1], sentence[-1]
+    words = body.split()
+    split_at = next(
+        (i for i, word in enumerate(words) if word.lower() in _AUXILIARY_VERBS), None
+    )
+    if split_at is None or split_at == len(words) - 1:
+        return sentence
+
+    head = ' '.join(words[: split_at + 1]).lower()
+    tail = ' '.join(words[split_at + 1 :])
+    return f'{tail[:1].upper()}{tail[1:]}, {head}{punctuation}'
 
 
 tests = [

@@ -2,36 +2,34 @@
 
 # String Count
 # Given two strings, determine how many times the second string appears in the first.
-
-# The pattern string can overlap in the first string. For example, "aaa" contains "aa"
-# twice. The first two a's and the second two.
+#
+# - The pattern string can overlap in the first string. For example, "aaa" contains "aa"
+#   twice. The first two a's and the second two.
 from pytest import mark
 
 
 def count(text: str, parameter: str) -> int:
-    parameter_length = len(parameter)
-    return sum(
-        1
-        for i in range(len(text) - parameter_length + 1)
-        if parameter == text[i : parameter_length + i]
-    )
+    """Count occurrences of parameter in text, including overlapping ones.
 
+    Args:
+        text: The string to search in.
+        parameter: The substring to search for.
 
-# Speed champion alternative:
-# def count(text: str, parameter: str) -> int:
-#     """Fastest for most cases - uses optimized built-in method."""
-#     if not parameter:
-#         return 0
+    Returns:
+        The number of (possibly overlapping) occurrences of parameter in text.
 
-#     count = 0
-#     start = 0
-#     while True:
-#         pos = text.find(parameter, start)
-#         if pos == -1:
-#             break
-#         count += 1
-#         start = pos + 1
-#     return count
+    Raises:
+        ValueError: If parameter is an empty string.
+    """
+    if not parameter:
+        msg = 'parameter must be a non-empty string'
+        raise ValueError(msg)
+    occurrences = 0
+    index = text.find(parameter)
+    while index != -1:
+        occurrences += 1
+        index = text.find(parameter, index + 1)
+    return occurrences
 
 
 tests = [

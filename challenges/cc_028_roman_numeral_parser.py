@@ -54,7 +54,7 @@ def parse_roman_numeral(numeral: str) -> int:
 
     for char in reversed(numeral):
         if (value := _ROMAN_VALUES.get(char)) is None:
-            msg = f'invalid Roman numeral character: {char!r}'
+            msg = f'invalid Roman numeral character: {char}'
             raise ValueError(msg)
 
         total += value if value >= prev_value else -value

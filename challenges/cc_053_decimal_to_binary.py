@@ -2,55 +2,51 @@
 
 # Decimal to Binary
 # Given a non-negative integer, return its binary representation as a string.
-
-# A binary number uses only the digits 0 and 1 to represent any number. To convert a
-# decimal number to binary, repeatedly divide the number by 2 and record the remainder.
-# Repeat until the number is zero. Read the remainders last recorded to first.
-# For example, to convert 12 to binary:
-
+#
+# A binary decimal uses only the digits 0 and 1 to represent any decimal. To convert a
+# decimal decimal to binary, repeatedly divide the decimal by 2 and record the
+# remainder.
+# Repeat until the decimal is zero. Read the remainders last recorded to first. For
+# example, to convert 12 to binary:
+#
+# mathml
 # 12 ÷ 2 = 6 remainder 0
 # 6 ÷ 2 = 3 remainder 0
 # 3 ÷ 2 = 1 remainder 1
 # 1 ÷ 2 = 0 remainder 1
+#
 # 12 in binary is 1100.
 from pytest import mark
 
 
-# Iterative approach:
 def to_binary(decimal: int) -> str:
+    """Convert a non-negative integer to its binary string representation.
+
+    Args:
+        decimal: A non-negative integer.
+
+    Returns:
+        The binary string representation of the input integer.
+
+    Raises:
+        ValueError: If the input integer is negative.
+    """
+    if decimal < 0:
+        msg = f'input must be a non-negative integer, got {decimal}'
+        raise ValueError(msg)
+
     if decimal == 0:
         return '0'
 
-    bin_list = []
-    while decimal > 0:
-        decimal, remainder = divmod(decimal, 2)
-        bin_list.append(remainder)
+    # format(decimal, 'b') is the production answer (linear, runs in C);
+    # the challenge asks for the algorithm, so it is implemented manually.
+    digits: list[str] = []
+    while decimal:
+        digits.append('1' if decimal & 1 else '0')
+        decimal >>= 1
 
-    return ''.join(map(str, reversed(bin_list)))
+    return ''.join(reversed(digits))
 
-
-# Solution using recursion:
-# def to_binary(decimal: int) -> str:
-#     if decimal == 0:
-#         return '0'
-
-#     def get_binary_string(decimal: int, binary_string: str = '') -> str:
-#         if decimal == 0:
-#             return binary_string
-
-#         quotient, remainder = divmod(decimal, 2)
-#         return get_binary_string(quotient, str(remainder) + binary_string)
-
-#     return get_binary_string(decimal)
-
-
-# Solution using built-in function:
-# def to_binary(decimal: int) -> str:
-#     return bin(decimal)[2:]
-
-# Solution using string formatting:
-# def to_binary(decimal: int) -> str:
-#     return f'{decimal:b}'
 
 tests = [
     (5, '101'),
