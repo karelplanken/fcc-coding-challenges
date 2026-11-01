@@ -3,32 +3,44 @@
 # Signature Validation
 # Given a message string, a secret key string, and a signature number, determine if the
 # signature is valid using this encoding method:
-
-# Letters in the message and secret key have these values:
-# a to z have values 1 to 26 respectively.
-# A to Z have values 27 to 52 respectively.
-# All other characters have no value.
-# Compute the signature by taking the sum of the message plus the sum of the secret key.
-# For example, given the message "foo" and the secret key "bar", the signature would
-# be 57:
-
+#
+# - Letters in the message and secret key have these values:
+#   - a to z have values 1 to 26 respectively.
+#   - A to Z have values 27 to 52 respectively.
+# - All other characters have no value.
+# - Compute the signature by taking the sum of the message plus the sum of the secret
+#   key.
+#
+# For example, given the message "foo" and the secret key "bar", the signature would be
+# 57:
+#
+# md
 # f (6) + o (15) + o (15) = 36
 # b (2) + a (1) + r (18) = 21
 # 36 + 21 = 57
+#
 # Check if the computed signature matches the provided signature.
+from string import ascii_lowercase, ascii_uppercase
+
 from pytest import mark
+
+_LETTER_VALUES = {
+    char: i for i, char in enumerate(ascii_lowercase + ascii_uppercase, start=1)
+}
 
 
 def verify(message: str, key: str, signature: int) -> bool:
-    def get_value(char: str) -> int:
-        if char.isupper():
-            return ord(char) - ord('A') + 27
-        elif char.islower():
-            return ord(char) - ord('a') + 1
-        else:
-            return 0
+    """Check whether the signature matches the given message and key.
 
-    return sum(get_value(char) for char in message + key if char.isalpha()) == signature
+    Args:
+        message: The message whose letters contribute to the signature.
+        key: The secret key whose letters contribute to the signature.
+        signature: The signature to check against.
+
+    Returns:
+        True if the computed signature equals ``signature``, False otherwise.
+    """
+    return sum(_LETTER_VALUES.get(char, 0) for char in message + key) == signature
 
 
 tests = [
