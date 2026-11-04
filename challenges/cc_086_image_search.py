@@ -3,22 +3,31 @@
 # Image Search
 # On November 4th, 2001, Google launched its image search, allowing people to find
 # images using search terms. In this challenge, you will imitate the image search.
-
+#
 # Given an array of image names and a search term, return an array of image names
 # containing the search term.
-
-# Ignore the case when matching the search terms.
-# Return the images in the same order they appear in the input array.
-import re
-
+#
+# - Ignore the case when matching the search terms.
+# - Return the images in the same order they appear in the input array.
 from pytest import mark
 
 
 def image_search(images: list[str], term: str) -> list[str]:
-    # To literal mathch the term, escape special regex characters use:
-    # term = re.escape(term)
-    pattern = re.compile(term, re.IGNORECASE)
-    return [image for image in images if pattern.search(image)]
+    """Return the image names that contain the search term, ignoring case.
+
+    Matching is a literal substring test using Unicode case folding, so
+    regex metacharacters in the term have no special meaning. Input order
+    is preserved. An empty term matches every name.
+
+    Args:
+        images: Image names to search.
+        term: Substring to look for.
+
+    Returns:
+        The matching image names, in their original order.
+    """
+    needle = term.casefold()
+    return [image for image in images if needle in image.casefold()]
 
 
 tests = [
