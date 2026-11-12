@@ -12,7 +12,7 @@ from pytest import mark
 
 
 def _is_prime(k: int) -> bool:
-    """Return True if k is prime, using 6k±1 trial division."""
+    """Return True if ``k`` is prime, using 6k±1 trial division."""
     if k <= 3:
         return k >= 2
     if k % 2 == 0 or k % 3 == 0:
@@ -35,7 +35,7 @@ def nth_prime(n: int) -> int:
         The nth prime number.
 
     Raises:
-        ValueError: If n is not a positive integer.
+        ValueError: If ``n`` is not a positive integer.
     """
     if n <= 0:
         msg = f'expected a positive integer, got {n}'

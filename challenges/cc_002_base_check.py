@@ -34,7 +34,7 @@ def is_valid_number(n: str, base: int) -> bool:
         base: The base in which to check the number.
 
     Returns:
-        True if every character in `n` is a valid digit for `base`, False otherwise.
+        True if every character in ``n`` is a valid digit for ``base``, False otherwise.
 
     Raises:
         ValueError: If the number string is empty or the base is not between 2 and 36.

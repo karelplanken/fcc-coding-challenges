@@ -44,7 +44,7 @@ def _exact(value: int | float) -> Fraction:
         value: The number to convert.
 
     Returns:
-        The exact rational value of `value`, as written in decimal.
+        The exact rational value of ``value``, as written in decimal.
     """
     # str() first: Fraction(0.1) would capture the binary float, not 1/10.
     return Fraction(str(value))
@@ -69,7 +69,7 @@ def number_of_videos(
         "Invalid video unit" / "Invalid drive unit" if a unit is not recognised.
 
     Raises:
-        ValueError: If video_size is not positive or drive_size is negative.
+        ValueError: If ``video_size`` is not positive or ``drive_size`` is negative.
     """
     if video_unit not in _BYTES_PER_VIDEO_UNIT:
         return 'Invalid video unit'

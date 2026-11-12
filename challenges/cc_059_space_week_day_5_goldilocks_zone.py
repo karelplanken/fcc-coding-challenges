@@ -48,7 +48,7 @@ def goldilocks_zone(mass: float) -> list[float]:
         rounded to two decimal places.
 
     Raises:
-        ValueError: If mass is not a finite, positive number.
+        ValueError: If ``mass`` is not a finite, positive number.
     """
     if not (math.isfinite(mass) and mass > 0):
         msg = f'mass must be a finite, positive number, got {mass!r}'

@@ -35,7 +35,7 @@ def classification(temp: int) -> str:
         The stellar classification letter (O, B, A, F, G, K or M).
 
     Raises:
-        ValueError: If temp is negative.
+        ValueError: If ``temp`` is negative.
     """
     if temp < 0:
         msg = f'Temperature cannot be negative: {temp} K'

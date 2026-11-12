@@ -38,7 +38,7 @@ def moon_phase(date_string: str) -> str:
 
     Args:
         date_string: An ISO 8601 calendar date, typically "YYYY-MM-DD". Any
-            form accepted by `datetime.date.fromisoformat` is allowed (on
+            form accepted by ``datetime.date.fromisoformat`` is allowed (on
             Python 3.11+ this includes "YYYYMMDD" and week dates such as
             "2000-W01-4").
 

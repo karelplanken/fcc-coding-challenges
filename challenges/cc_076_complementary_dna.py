@@ -26,7 +26,7 @@ def complementary_dna(strand: str) -> str:
         The complementary strand, with A and T swapped and C and G swapped.
 
     Raises:
-        ValueError: If `strand` contains any character other than A, C, G or T.
+        ValueError: If ``strand`` contains any character other than A, C, G or T.
     """
     if invalid := set(strand) - _DNA_BASES:
         msg = f'invalid DNA base(s) {sorted(invalid)}; expected only A, C, G, T'

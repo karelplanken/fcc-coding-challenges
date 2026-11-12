@@ -50,7 +50,7 @@ def mile_pace(miles: float, duration: str) -> str:
         Average time per mile in "MM:SS" format.
 
     Raises:
-        ValueError: If miles is not greater than zero.
+        ValueError: If ``miles`` is not greater than zero.
     """
     if not miles > 0:
         msg = 'miles must be greater than zero'

@@ -7,7 +7,7 @@ from pytest import mark
 
 
 def sum_of_squares(n: int) -> int:
-    """Calculates the sum of squares from 1 to n.
+    """Calculates the sum of squares from 1 to ``n``.
 
     Uses the mathematical formula for the sum of squares, which is faster than
     iterating over each number, squaring it, and adding the results.
@@ -16,7 +16,7 @@ def sum_of_squares(n: int) -> int:
         n: A positive integer up to 1,000.
 
     Returns:
-        The sum of squares from 1 to n.
+        The sum of squares from 1 to ``n``.
     """
     return n * (n + 1) * (2 * n + 1) // 6
 

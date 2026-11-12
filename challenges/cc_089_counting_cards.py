@@ -19,7 +19,7 @@ DECK_SIZE = 52
 
 
 def combinations(cards: int) -> int:
-    """Return the number of unordered hands of `cards` cards from a standard deck.
+    """Return the number of unordered hands of ``cards`` cards from a standard deck.
 
     Args:
         cards: Number of cards to pick, from 0 to 52 inclusive. Picking 0
@@ -29,7 +29,7 @@ def combinations(cards: int) -> int:
         The binomial coefficient C(52, cards).
 
     Raises:
-        ValueError: If `cards` is outside the range 0 to 52.
+        ValueError: If ``cards`` is outside the range 0 to 52.
     """
     if not 0 <= cards <= DECK_SIZE:
         msg = f'cards must be between 0 and {DECK_SIZE}, got {cards}.'

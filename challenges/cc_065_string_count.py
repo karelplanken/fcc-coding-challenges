@@ -9,17 +9,17 @@ from pytest import mark
 
 
 def count(text: str, parameter: str) -> int:
-    """Count occurrences of parameter in text, including overlapping ones.
+    """Count occurrences of ``parameter`` in ``text``, including overlapping ones.
 
     Args:
         text: The string to search in.
         parameter: The substring to search for.
 
     Returns:
-        The number of (possibly overlapping) occurrences of parameter in text.
+        The number of (possibly overlapping) occurrences of ``parameter`` in ``text``.
 
     Raises:
-        ValueError: If parameter is an empty string.
+        ValueError: If ``parameter`` is an empty string.
     """
     if not parameter:
         msg = 'parameter must be a non-empty string'

@@ -12,16 +12,16 @@ from pytest import mark
 
 
 def is_perfect_square(n: int) -> bool:
-    """Determine if n is a perfect square.
+    """Determine if ``n`` is a perfect square.
 
-    Uses exact integer arithmetic, so it is correct for arbitrarily large n.
+    Uses exact integer arithmetic, so it is correct for arbitrarily large ``n``.
     Non-integer input (including floats and None) raises a TypeError.
 
     Args:
         n: The integer to check.
 
     Returns:
-        True if n is a perfect square, False otherwise.
+        True if ``n`` is a perfect square, False otherwise.
     """
     if n < 0:
         return False

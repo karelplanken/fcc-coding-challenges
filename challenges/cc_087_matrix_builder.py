@@ -21,10 +21,10 @@ def build_matrix(rows: int, cols: int) -> list[list[int]]:
         cols: The number of columns in the matrix.
 
     Returns:
-        A list of `rows` independent lists, each holding `cols` zeros.
+        A list of ``rows`` independent lists, each holding ``cols`` zeros.
 
     Raises:
-        ValueError: If rows or cols is negative.
+        ValueError: If ``rows`` or ``cols`` is negative.
     """
     if rows < 0 or cols < 0:
         msg = f'rows and cols must be non-negative, got rows={rows}, cols={cols}.'

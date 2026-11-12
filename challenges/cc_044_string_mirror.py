@@ -10,7 +10,7 @@ from pytest import mark
 
 
 def is_mirror(str1: str, str2: str) -> bool:
-    """Determine if str2 is a mirror of str1.
+    """Determine if ``str2`` is a mirror of ``str1``.
 
     Letters are compared case-sensitively; any character for which
     ``str.isalpha()`` is False is ignored (Unicode letters count).

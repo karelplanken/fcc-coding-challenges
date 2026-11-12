@@ -40,8 +40,8 @@ def tribonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
         A list containing the Tribonacci sequence of the given length.
 
     Raises:
-        ValueError: If `start_sequence` does not contain exactly three numbers or if
-            `length` is negative.
+        ValueError: If ``start_sequence`` does not contain exactly three numbers or if
+            ``length`` is negative.
     """
     if not start_sequence or len(start_sequence) != 3:
         msg = 'start_sequence must contain exactly three numbers'
@@ -66,8 +66,8 @@ def tribonacci_sequence(start_sequence: list[int], length: int) -> list[int]:
 #         A list containing the Tribonacci sequence of the given length.
 
 #     Raises:
-#         ValueError: If `start_sequence` does not contain exactly three numbers or if
-#         `length` is negative.
+#         ValueError: If ``start_sequence`` does not contain exactly three numbers or if
+#         ``length`` is negative.
 #     """
 #     if not start_sequence or len(start_sequence) != 3:
 #         msg = 'start_sequence must contain exactly three numbers'

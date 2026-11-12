@@ -58,10 +58,10 @@ def hex_to_decimal(hex_str: str) -> int:
         hex_str: A hexadecimal number using the digits 0-9 and A-F.
 
     Returns:
-        The integer value of `hex_str`.
+        The integer value of ``hex_str``.
 
     Raises:
-        ValueError: If `hex_str` is empty or contains characters other
+        ValueError: If ``hex_str`` is empty or contains characters other
             than 0-9 or A-F.
     """
     if not hex_str:

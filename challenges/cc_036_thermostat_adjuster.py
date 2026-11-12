@@ -18,10 +18,10 @@ def adjust_thermostat(temp: int | float, target: int | float) -> str:
         target: Target temperature.
 
     Returns:
-        'heat' if temp is below target, 'cool' if above, 'hold' if equal.
+        'heat' if ``temp`` is below ``target``, 'cool' if above, 'hold' if equal.
 
     Raises:
-        ValueError: If temp or target is NaN (or otherwise fails all three
+        ValueError: If ``temp`` or ``target`` is NaN (or otherwise fails all three
             comparisons against a valid number).
 
     Note:

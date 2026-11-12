@@ -20,7 +20,7 @@ def _exact(value: int | float) -> Fraction:
         value: The number to convert.
 
     Returns:
-        The exact rational value of `value`, as written in decimal.
+        The exact rational value of ``value``, as written in decimal.
     """
     # str() first: Fraction(0.1) would capture the binary float, not 1/10.
     return Fraction(str(value))
@@ -37,7 +37,7 @@ def number_of_photos(photo_size_mb: int | float, drive_size_gb: int | float) -> 
         The number of whole photos the drive can store (0 if none fit).
 
     Raises:
-        ValueError: If photo_size_mb is not positive or drive_size_gb is
+        ValueError: If ``photo_size_mb`` is not positive or ``drive_size_gb`` is
             negative.
     """
     if photo_size_mb <= 0:

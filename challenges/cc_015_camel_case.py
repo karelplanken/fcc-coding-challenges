@@ -18,7 +18,7 @@ from pytest import mark
 def to_camel_case(s: str) -> str:
     """Convert a string to camel case.
 
-    Assumes that `s` contains only letters, spaces, dashes, and underscores.
+    Assumes that ``s`` contains only letters, spaces, dashes, and underscores.
 
     Args:
         s: The string to convert.

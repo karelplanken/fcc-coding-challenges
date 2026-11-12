@@ -31,7 +31,7 @@ def burn_candles(candles: int, leftovers_needed: int) -> int:
         Integer representing the total number of candles burned.
 
     Raises:
-        ValueError: If leftovers_needed is less than 2.
+        ValueError: If ``leftovers_needed`` is less than 2.
     """
     if leftovers_needed < 2:
         msg = f'leftovers_needed must be at least 2, got {leftovers_needed}'

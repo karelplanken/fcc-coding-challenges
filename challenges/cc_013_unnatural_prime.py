@@ -20,7 +20,7 @@ def is_prime(n: int) -> bool:
         n: Integer to check for primality.
 
     Returns:
-        True if n is a prime number, False otherwise.
+        True if ``n`` is a prime number, False otherwise.
     """
     if n < 2:
         return False
@@ -32,13 +32,13 @@ def is_prime(n: int) -> bool:
 
 
 def is_unnatural_prime(n: int) -> bool:
-    """Computes whether n or -n is a prime number.
+    """Computes whether ``n`` or ``-n`` is a prime number.
 
     Args:
         n: An integer to check for primality.
 
     Returns:
-        True if n is a prime number or a negative prime number, False otherwise.
+        True if ``n`` is a prime number or a negative prime number, False otherwise.
     """
     return is_prime(abs(n))
 

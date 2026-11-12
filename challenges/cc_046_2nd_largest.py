@@ -15,7 +15,7 @@ def second_largest(arr: list[int | float]) -> int | float:
         The second largest distinct number.
 
     Raises:
-        ValueError: If `arr` does not contain two distinct numbers.
+        ValueError: If ``arr`` does not contain two distinct numbers.
     """
     distinct = set(arr)
     if len(distinct) < 2:

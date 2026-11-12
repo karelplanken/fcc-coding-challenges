@@ -23,7 +23,7 @@ def format_number(number: str) -> str:
         The number formatted as "+D (DDD) DDD-DDDD".
 
     Raises:
-        ValueError: If number is not exactly eleven ASCII digits.
+        ValueError: If ``number`` is not exactly eleven ASCII digits.
     """
     match = _PHONE_PATTERN.fullmatch(number)
     if match is None:

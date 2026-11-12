@@ -19,7 +19,7 @@ _VOWELS = frozenset('aeiou')  # Set for O(1) lookup
 def repeat_vowels(s: str) -> str:
     """Repeat vowels in a string according to the specified rules.
 
-    Builds a new version of `s` where each vowel is duplicated one more
+    Builds a new version of ``s`` where each vowel is duplicated one more
     time than the previously encountered vowel.
 
     Args:

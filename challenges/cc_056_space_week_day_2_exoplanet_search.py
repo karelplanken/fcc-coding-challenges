@@ -48,7 +48,8 @@ def has_exoplanet(readings: str) -> bool:
         True if the star has an exoplanet, False otherwise.
 
     Raises:
-        ValueError: If readings is empty or contains a character outside 0-9 and A-Z.
+        ValueError: If ``readings`` is empty or contains a character outside
+            0-9 and A-Z.
     """
     if not readings:
         msg = 'readings must not be empty'

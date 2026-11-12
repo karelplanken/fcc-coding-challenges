@@ -26,7 +26,7 @@ _AUXILIARY_VERBS = frozenset({'have', 'must', 'are', 'will', 'can'})
 def wise_speak(sentence: str) -> str:
     """Return a version of the sentence that sounds like advice from a wise teacher.
 
-    The sentence is split after the first word found in _AUXILIARY_VERBS
+    The sentence is split after the first word found in ``_AUXILIARY_VERBS``
     (case-insensitive). The words up to and including that word are lowercased and
     moved to the end, after a comma. The first letter of the new opening word is
     capitalized and the original final punctuation is kept. If no such word is present,

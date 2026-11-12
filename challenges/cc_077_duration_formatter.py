@@ -25,7 +25,7 @@ def format(seconds: int) -> str:
         Duration in "M:SS" format, or "H:MM:SS" when it spans at least one hour.
 
     Raises:
-        ValueError: If seconds is negative.
+        ValueError: If ``seconds`` is negative.
     """
     if seconds < 0:
         msg = f'seconds must be non-negative, got {seconds}'

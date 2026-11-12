@@ -40,7 +40,7 @@ def get_weekday(date_string: str) -> str:
         The weekday name, e.g. 'Thursday', independent of the current locale.
 
     Raises:
-        ValueError: If date_string is not a valid ISO 8601 date.
+        ValueError: If ``date_string`` is not a valid ISO 8601 date.
     """  # noqa: DOC502
     return _WEEKDAYS[date.fromisoformat(date_string).weekday()]
 

@@ -9,16 +9,16 @@ from pytest import mark
 
 
 def sequence(n: int) -> str:
-    """Return the integers from 1 to n concatenated into a single string.
+    """Return the integers from 1 to ``n`` concatenated into a single string.
 
     Args:
         n: A positive integer.
 
     Returns:
-        The decimal representations of 1 through n, joined without separators.
+        The decimal representations of 1 through ``n``, joined without separators.
 
     Raises:
-        ValueError: If `n` is not positive.
+        ValueError: If ``n`` is not positive.
     """
     if n <= 0:
         msg = f'n must be positive, got {n}'

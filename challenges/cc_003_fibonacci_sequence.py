@@ -21,8 +21,8 @@ from pytest import mark
 def _fibonacci_stream(start_sequence: list[int]) -> Iterator[int]:
     """Yield an unbounded Fibonacci sequence continuing from the given seed.
 
-    Assumes that the two numbers in start_sequence are two consecutive numbers in the
-    Fibonacci sequence.
+    Assumes that the two numbers in ``start_sequence`` are two consecutive
+    numbers in the Fibonacci sequence.
 
     Args:
         start_sequence: The first two numbers of the Fibonacci sequence.

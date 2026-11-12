@@ -30,7 +30,7 @@ def digits_or_letters(s: str) -> str:
         letters, or 'tie' if the counts are equal.
 
     Raises:
-        ValueError: If `s` is empty.
+        ValueError: If ``s`` is empty.
     """
     if not s:
         msg = 'input string cannot be empty'
