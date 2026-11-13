@@ -3,58 +3,59 @@
 # Word Search
 # Given a matrix (an array of arrays) of single letters and a word to find, return the
 # start and end indices of the word in the matrix.
-
-# The given matrix will be filled with all lowercase letters (a-z).
-# The word to find will always be in the matrix exactly once.
-# The word to find will always be in a straight line in one of these directions:
-# left to right
-# right to left
-# top to bottom
-# bottom to top
+#
+# - The given matrix will be filled with all lowercase letters (a-z).
+# - The word to find will always be in the matrix exactly once.
+# - The word to find will always be in a straight line in one of these directions:
+#   - left to right
+#   - right to left
+#   - top to bottom
+#   - bottom to top
+#
 # For example, given the matrix:
-
+#
 # [
 #   ["a", "c", "t"],
 #   ["t", "a", "t"],
 #   ["c", "t", "c"]
 # ]
+#
 # And the word "cat", return:
-
+#
 # [[0, 1], [2, 1]]
+#
 # Where [0, 1] are the indices for the "c" (start of the word), and [2, 1] are the
 # indices for the "t" (end of the word).
 from pytest import mark
 
 
+def _locate(line: str, word: str) -> tuple[int, int] | None:
+    """Return (start, end) offsets of word in line, read in either direction."""
+    if (i := line.find(word)) != -1:
+        return i, i + len(word) - 1
+    if (i := line.find(word[::-1])) != -1:  # palindromes resolve forward
+        return i + len(word) - 1, i
+    return None
+
+
 def find_word(matrix: list[list[str]], word: str) -> list[list[int]] | None:
-    rows = len(matrix)
-    cols = len(matrix[0])
+    """Find the word in the matrix and return the start and end indices.
 
-    word_length = len(word)
+    Args:
+        matrix: A 2D list of single lowercase letters.
+        word: The word to find in the matrix.
 
-    # Iterate over rows:
-    for row in range(rows):
-        for col in range(cols - word_length + 1):
-            print(f'{row=}, {col=} end={col + word_length}')
-            m_word = ''.join(matrix[row][col : col + word_length])
-            if m_word == word:
-                # print('found', [row, col], [row, col + word_length - 1])
-                return [[row, col], [row, col + word_length - 1]]
-            elif m_word[::-1] == word:
-                # print('found', [row, col + word_length - 1], [row, col])
-                return [[row, col + word_length - 1], [row, col]]
-
-    # Iterate over columns:
-    for col in range(cols):
-        for row in range(rows - word_length + 1):
-            m_word = ''.join(matrix[i][col] for i in range(row, row + word_length))
-            if m_word == word:
-                # print('found', [row, col], [row + word_length - 1, col])
-                return [[row, col], [row + word_length - 1, col]]
-            elif m_word[::-1] == word:
-                # print('found', [row + word_length - 1, col], [row, col])
-                return [[row + word_length - 1, col], [row, col]]
-
+    Returns:
+        Start and end indices of the word, or None if not found.
+    """
+    for r, row in enumerate(matrix):
+        if span := _locate(''.join(row), word):
+            start, end = span
+            return [[r, start], [r, end]]
+    for c, column in enumerate(zip(*matrix)):
+        if span := _locate(''.join(column), word):
+            start, end = span
+            return [[start, c], [end, c]]
     return None
 
 
