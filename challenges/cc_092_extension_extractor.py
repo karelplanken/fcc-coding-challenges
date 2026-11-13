@@ -2,21 +2,25 @@
 
 # Extension Extractor
 # Given a string representing a filename, return the extension of the file.
-
-# The extension is the part of the filename that comes after the last period (.).
-# If the filename does not contain a period or ends with a period, return "none".
-# The extension should be returned as-is, preserving case.
+#
+# - The extension is the part of the filename that comes after the last period (.).
+# - If the filename does not contain a period or ends with a period, return "none".
+# - The extension should be returned as-is, preserving case.
 from pytest import mark
 
 
 def get_extension(filename: str) -> str:
-    separator = '.'
-    if filename.endswith(separator) or separator not in filename:
-        return 'none'
+    """Return the extension of the given filename.
 
-    _, extension = filename.rsplit(separator, maxsplit=1)
+    Args:
+        filename: Name of the file, possibly without an extension.
 
-    return extension
+    Returns:
+        The text after the last period, or "none" if there is no
+        period or the filename ends with one.
+    """
+    _, separator, extension = filename.rpartition('.')
+    return extension if separator and extension else 'none'
 
 
 tests = [
