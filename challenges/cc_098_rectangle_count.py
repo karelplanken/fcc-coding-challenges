@@ -3,14 +3,24 @@
 # Rectangle Count
 # Given two positive integers representing the width and height of a rectangle,
 # determine how many rectangles can fit in the given one.
-
-# Only count rectangles with integer width and height.
-# For example, given 1 and 3, return 6. Three 1x1 rectangles, two 1x2 rectangles,
-# and one 1x3 rectangle.
+#
+# - Only count rectangles with integer width and height.
+#
+# For example, given 1 and 3, return 6. Three 1x1 rectangles, two 1x2 rectangles, and
+# one 1x3 rectangle.
 from pytest import mark
 
 
 def count_rectangles(width: int, height: int) -> int:
+    """Count the number of rectangles that can fit in a rectangle.
+
+    Args:
+        width: The width of the rectangle.
+        height: The height of the rectangle.
+
+    Returns:
+        The number of rectangles that can fit in the given rectangle.
+    """
     return (width * (width + 1) // 2) * (height * (height + 1) // 2)
 
 
