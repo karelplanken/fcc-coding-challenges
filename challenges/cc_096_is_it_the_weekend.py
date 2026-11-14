@@ -19,7 +19,7 @@ from pytest import mark
 def days_until_weekend(date_string: str) -> str:
     """Return the number of days until the weekend for a date string.
 
-    The date is parsed with :meth:`datetime.date.fromisoformat`, so any ISO
+    The date is parsed with ``datetime.date.fromisoformat``, so any ISO
     8601 calendar or week date it accepts is valid input, not only the
     extended ``YYYY-MM-DD`` form.
 

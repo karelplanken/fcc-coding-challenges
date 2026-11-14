@@ -30,7 +30,7 @@ from pytest import mark
 
 
 def _locate(line: str, word: str) -> tuple[int, int] | None:
-    """Return (start, end) offsets of word in line, read in either direction."""
+    """Return (start, end) offsets of ``word`` in ``line``, read in either direction."""
     if (i := line.find(word)) != -1:
         return i, i + len(word) - 1
     if (i := line.find(word[::-1])) != -1:  # palindromes resolve forward

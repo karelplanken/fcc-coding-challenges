@@ -14,9 +14,9 @@ from pytest import mark
 
 
 def shift_array[T](arr: list[T], n: int) -> list[T]:
-    """Shift a list by n positions, wrapping around.
+    """Shift a list by ``n`` positions, wrapping around.
 
-    A positive n shifts left, a negative n shifts right. The input list is
+    A positive ``n`` shifts left, a negative ``n`` shifts right. The input list is
     not modified.
 
     Args:

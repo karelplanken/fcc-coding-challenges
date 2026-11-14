@@ -19,7 +19,7 @@ def gcd(x: int, y: int) -> int:
         y: second integer
 
     Returns:
-        The greatest common divisor of x and y.
+        The greatest common divisor of ``x`` and ``y``.
     """
     while y != 0:
         x, y = y, x % y
