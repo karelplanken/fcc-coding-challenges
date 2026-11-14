@@ -3,23 +3,48 @@
 # Email Signature Generator
 # Given strings for a person's name, title, and company, return an email signature as a
 # single string using the following rules:
+#
+# - The name should appear first, preceded by a prefix that depends on the first letter
+#   of the name. For names starting with (case-insensitive):
+#   - A-I: Use >> as the prefix.
+#   - J-R: Use -- as the prefix.
+#   - S-Z: Use :: as the prefix.
+# - A comma and space (, ) should follow the name.
+# - The title and company should follow the comma and space, separated by " at " (with
+#   spaces around it).
+#
+# For example, given "Quinn Waverly", "Founder and CEO", and "TechCo" return "--Quinn
+# Waverly, Founder and CEO at TechCo".
+from string import ascii_lowercase
 
-# The name should appear first, preceded by a prefix that depends on the first letter
-# of the name. For names starting with (case-insensitive):
-# A-I: Use >> as the prefix.
-# J-R: Use -- as the prefix.
-# S-Z: Use :: as the prefix.
-# A comma and space (, ) should follow the name.
-# The title and company should follow the comma and space,
-# separated by " at " (with spaces around it).
-# For example, given "Quinn Waverly", "Founder and CEO", and "TechCo"
-# return "--Quinn Waverly, Founder and CEO at TechCo".
 from pytest import mark
 
 
 def generate_signature(name: str, title: str, company: str) -> str:
-    first_letter = name[0].lower()
-    prefix = '>>' if first_letter < 'j' else '--' if first_letter < 's' else '::'
+    """Generate an email signature based on the given name, title, and company.
+
+    Args:
+        name: The person's name.
+        title: The person's title.
+        company: The company the person works for.
+
+    Returns:
+        The email signature.
+
+    Raises:
+        ValueError: If the name is empty or does not start with an ASCII letter.
+    """
+    first_letter = name[:1].lower()
+    if not first_letter or first_letter not in ascii_lowercase:
+        msg = f'Name must start with an ASCII letter: {name!r}'
+        raise ValueError(msg)
+
+    if first_letter <= 'i':
+        prefix = '>>'
+    elif first_letter <= 'r':
+        prefix = '--'
+    else:
+        prefix = '::'
 
     return f'{prefix}{name}, {title} at {company}'
 
