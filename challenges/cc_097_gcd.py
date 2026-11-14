@@ -2,36 +2,29 @@
 
 # GCD
 # Given two positive integers, return their greatest common divisor (GCD).
-
-# The GCD of two integers is the largest number that divides evenly into both numbers
-# without leaving a remainder.
+#
+# - The GCD of two integers is the largest number that divides evenly into both numbers
+#   without leaving a remainder.
+#
 # For example, the divisors of 4 are 1, 2, and 4. The divisors of 6 are 1, 2, 3, and 6.
 # So given 4 and 6, return 2, the largest number that appears in both sets of divisors.
 from pytest import mark
 
 
 def gcd(x: int, y: int) -> int:
-    """Return the greatest common divisor using Euclidean algorithm."""
+    """Return the greatest common divisor using Euclidean algorithm.
+
+    Args:
+        x: first integer
+        y: second integer
+
+    Returns:
+        The greatest common divisor of x and y.
+    """
     while y != 0:
         x, y = y, x % y
     return x
 
-
-# def gcd(a: int, b: int) -> int:
-#     """Return the greatest common divisor using Euclidean algorithm."""
-#     while b:
-#         a, b = b, a % b
-#     return a
-
-# def gcd(x: int, y: int) -> int:
-#     # Pre-sorting is unnecessary because Euclidean algorithm works regardless
-#     # of input order
-#     small, large = (x, y) if y > x else (y, x)
-
-#     while small != 0:
-#         large, small = small, large % small
-
-#     return large
 
 tests = [
     (4, 6, 2),
@@ -49,5 +42,6 @@ def test_gcd(x: int, y: int, expected: int) -> None:
 
 
 if __name__ == '__main__':
-    x, y, expected = tests[0]
-    print(gcd(x, y))
+    # x, y, expected = tests[0]
+    # print(gcd(x, y))
+    print(gcd(10, 0))
