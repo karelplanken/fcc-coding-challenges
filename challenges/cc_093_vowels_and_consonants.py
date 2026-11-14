@@ -3,38 +3,38 @@
 # Vowels and Consonants
 # Given a string, return an array with the number of vowels and number of consonants in
 # the string.
-
-# Vowels consist of a, e, i, o, u in any case.
-# Consonants consist of all other letters in any case.
-# Ignore any non-letter characters.
+#
+# - Vowels consist of a, e, i, o, u in any case.
+# - Consonants consist of all other letters in any case.
+# - Ignore any non-letter characters.
+#
 # For example, given "Hello World", return [3, 7].
+from string import ascii_letters
+
 from pytest import mark
 
+_VOWELS = frozenset('aeiouAEIOU')
+_CONSONANTS = frozenset(ascii_letters) - _VOWELS
 
-# Readable and verbose but efficient:
+
 def count(s: str) -> list[int]:
-    # Sticking with a string is perfectly fine here:
-    VOWELS = 'aeiouAEIOU'
-    # VOWELS = {'a','e', 'i', 'o', 'u','A','E','I','O','U'}
+    """Count the number of vowels and consonants in a string.
 
+    Only ASCII letters are considered. Non-letter characters are ignored.
+
+    Args:
+        s: The string to count vowels and consonants in.
+
+    Returns:
+        A two-element list: the number of vowels, then the number of consonants.
+    """
     vowels = consonants = 0
-
     for char in s:
-        if char in VOWELS:
+        if char in _VOWELS:
             vowels += 1
-        elif char.isalpha():
+        elif char in _CONSONANTS:
             consonants += 1
-
     return [vowels, consonants]
-
-
-# Concise, less efficient (multiple iterations)
-# def count(s: str) -> list[int]:
-#     VOWELS = 'aeiouAEIOU'
-#     return [
-#         sum(1 for char in s if char in VOWELS),
-#         sum(1 for char in s if char not in VOWELS and char.isalpha()),
-#     ]
 
 
 tests = [
