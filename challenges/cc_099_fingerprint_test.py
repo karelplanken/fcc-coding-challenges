@@ -3,15 +3,24 @@
 # Fingerprint Test
 # Given two strings representing fingerprints, determine if they are a match using the
 # following rules:
-
-# Each fingerprint will consist only of lowercase letters (a-z).
-# Two fingerprints are considered a match if:
-# They are the same length.
-# The number of differing characters does not exceed 10% of the fingerprint length.
+#
+# - Each fingerprint will consist only of lowercase letters (a-z).
+# - Two fingerprints are considered a match if:
+#   - They are the same length.
+#   - The number of differing characters does not exceed 10% of the fingerprint length.
 from pytest import mark
 
 
 def is_match(fingerprint_a: str, fingerprint_b: str) -> bool:
+    """Determine if two fingerprints are a match.
+
+    Args:
+        fingerprint_a: The first fingerprint string.
+        fingerprint_b: The second fingerprint string.
+
+    Returns:
+        True if the fingerprints are a match, False otherwise.
+    """
     if len(fingerprint_a) == len(fingerprint_b):
         return (
             sum(
