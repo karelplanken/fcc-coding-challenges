@@ -2,23 +2,25 @@
 
 # 100 Characters
 # Welcome to the 100th Daily Coding Challenge!
-
+#
 # Given a string, repeat its characters until the result is exactly 100 characters long.
-#  If your repetitions go over 100 characters, trim the extra so it's exactly 100.
+# If your repetitions go over 100 characters, trim the extra so it's exactly 100.
+from itertools import cycle, islice
+
 from pytest import mark
 
 
 def one_hundred(chars: str) -> str:
-    length = len(chars)
-    return ''.join(chars[i % length] for i in range(100))
+    """Repeat the characters of a string until the result is 100 characters long.
 
+    Args:
+        chars: The characters to repeat, in order.
 
-# def one_hundred(chars):
-#     repeated = chars * (100 // len(chars) + 1)
-#     return repeated[:100]
-
-# def one_hundred(chars):
-#     return (chars * 100)[:100]
+    Returns:
+        A string of exactly 100 characters made by cycling through ``chars``,
+        or an empty string if ``chars`` is empty.
+    """
+    return ''.join(islice(cycle(chars), 100))
 
 
 tests = [
