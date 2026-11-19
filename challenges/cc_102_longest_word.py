@@ -2,17 +2,32 @@
 
 # Longest Word
 # Given a sentence string, return the longest word in the sentence.
+#
+# - Words are separated by a single space.
+# - Only letters (a-z, case-insensitive) count toward the word's length.
+# - If there are multiple words with the same length, return the first one that appears.
+# - Return the word as it appears in the given string, with punctuation removed.
+import re
 
-# Words are separated by a single space.
-# Only letters (a-z, case-insensitive) count toward the word's length.
-# If there are multiple words with the same length, return the first one that appears.
-# Return the word as it appears in the given string, with punctuation removed.
 from pytest import mark
+
+_NON_LETTER = re.compile(r'[^A-Za-z ]+')
 
 
 def longest_word(sentence: str) -> str:
-    words = [''.join(c for c in word if c.isalpha()) for word in sentence.split()]
-    return max(words, key=len)
+    """Return the longest word in a sentence.
+
+    Length counts ASCII letters (a-z, A-Z) only; all other characters are
+    stripped from the returned word. Ties go to the word that appears first.
+
+    Args:
+        sentence: Words separated by spaces.
+
+    Returns:
+        The longest word with non-letters removed, or an empty string if the
+        sentence contains no words.
+    """
+    return max(_NON_LETTER.sub('', sentence).split(), key=len, default='')
 
 
 tests = [
@@ -25,7 +40,7 @@ tests = [
 ]
 
 
-@mark.parametrize(('sentence', 'expected'), test)
+@mark.parametrize(('sentence', 'expected'), tests)
 def test_longest_word(sentence: str, expected: str) -> None:
     """Test longest_word function."""
     assert longest_word(sentence) == expected
