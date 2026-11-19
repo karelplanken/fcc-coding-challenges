@@ -2,20 +2,21 @@
 
 # Markdown Heading Converter
 # Given a string representing a Markdown heading, return the equivalent HTML heading.
-
+#
 # A valid Markdown heading must:
-
-# Start with zero or more spaces, followed by
-# 1 to 6 hash characters (#) in a row, then
-# At least one space. And finally,
-# The heading text.
+#
+# - Start with zero or more spaces, followed by
+# - 1 to 6 hash characters (#) in a row, then
+# - At least one space. And finally,
+# - The heading text.
+#
 # The number of hash symbols determines the heading level. For example, one hash symbol
 # corresponds to an h1 tag, and six hash symbols correspond to an h6 tag.
-
+#
 # If the given string doesn't have the exact format above, return "Invalid format".
-
+#
 # For example, given "# My level 1 heading", return "<h1>My level 1 heading</h1>".
-
+#
 # Note: The console may not display HTML tags in strings when logging messages. Check
 # the browser console to see logs with tags included.
 import re
@@ -24,17 +25,25 @@ from pytest import mark
 
 
 def convert(heading: str) -> str:
-    pattern = r'(?:\s*)(#+)(?:\s+)(.+)'
+    """Convert Markdown heading to HTML heading.
+
+    Args:
+        heading: A string representing a Markdown heading.
+
+    Returns:
+        The equivalent HTML heading, or "Invalid format" if the input is not a valid
+        Markdown heading.
+    """
+    pattern = r'(?:\s*)(#{1,6})(?:\s+)(.+)'
     match = re.match(pattern, heading)
-    h_level = None
-    if match:
-        level, text = match.groups()
-        h_level = len(level)
 
-    if h_level and h_level <= 6:
-        return f'<h{h_level}>{text}</h{h_level}>'
+    if not match:
+        return 'Invalid format'
 
-    return 'Invalid format'
+    num_hashes, heading_text = match.groups()
+    heading_level = len(num_hashes)
+
+    return f'<h{heading_level}>{heading_text}</h{heading_level}>'
 
 
 tests = [
@@ -55,5 +64,5 @@ def test_convert(heading: str, expected: str) -> None:
 
 
 if __name__ == '__main__':
-    heading, expected = tests[0]
+    heading, expected = tests[5]
     print(convert(heading))
