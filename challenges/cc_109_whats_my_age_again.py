@@ -1,18 +1,17 @@
 """Daily Coding Challenge #109 (2025-11-26) - freeCodeCamp.org."""
 
 # What's My Age Again?
-
-# What's My Age Again?
-
-# Given the date of someone's birthday in the format YYYY-MM-DD, return the person's
-# age as of November 27th, 2025.
-
-# Assume all birthdays are valid dates before November 27th, 2025.
-# Return the age as an integer.
-# Be sure to account for whether the person has already had their birthday in 2025.
+# Given the date of someone's birthday in the format YYYY-MM-DD, return the person's age
+# as of November 27th, 2025.
+#
+# - Assume all birthdays are valid dates before November 27th, 2025.
+# - Return the age as an integer.
+# - Be sure to account for whether the person has already had their birthday in 2025.
 from datetime import date
 
 from pytest import mark
+
+_TODAY = date.fromisoformat('2025-11-26')
 
 
 def calculate_age(birthday: str) -> int:
@@ -20,19 +19,18 @@ def calculate_age(birthday: str) -> int:
 
     Args:
         birthday (str): The birthday in ISO format (YYYY-MM-DD).
-    
+
     Returns:
         int: The person's age in years.
-    
+
     Example:
         >>> calculate_age('1990-05-15')
         33
     """
-    today = date.fromisoformat('2025-11-26')
     birth_date = date.fromisoformat(birthday)
-    age = today.year - birth_date.year
+    age = _TODAY.year - birth_date.year
 
-    if (today.month, today.day) < (birth_date.month, birth_date.day):
+    if (_TODAY.month, _TODAY.day) < (birth_date.month, birth_date.day):
         age -= 1
 
     return age
