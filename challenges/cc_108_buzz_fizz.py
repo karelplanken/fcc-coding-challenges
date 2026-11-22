@@ -1,19 +1,26 @@
 """Daily Coding Challenge #108 (2025-11-26) - freeCodeCamp.org."""
 
 # BuzzFizz
-
-# Given an array, determine if it is a correct FizzBuzz sequence from 1 to the last
-# item in the array. A sequence is correct if:
-
-# Numbers that are multiples of 5 are replaced with "Buzz"
-# Numbers that are multiples of 3 are replaced with "Fizz"
-# Numbers that are multiples of both 3 and 5 are replaced with "FizzBuzz"
-# All other numbers remain as integers in ascending order, starting from 1.
-# The array must start at 1 and have no missing or extra elements.
+# Given an array, determine if it is a correct FizzBuzz sequence from 1 to the last item
+# in the array. A sequence is correct if:
+#
+# - Numbers that are multiples of 3 are replaced with "Fizz"
+# - Numbers that are multiples of 5 are replaced with "Buzz"
+# - Numbers that are multiples of both 3 and 5 are replaced with "FizzBuzz"
+# - All other numbers remain as integers in ascending order, starting from 1.
+# - The array must start at 1 and have no missing or extra elements.
 from pytest import mark
 
 
 def is_fizz_buzz(sequence: list[str | int]) -> bool:
+    """Check if the given sequence is a valid FizzBuzz sequence.
+
+    Args:
+        sequence: Sequence of integers and words to be validated as a FizzBuzz sequence.
+
+    Returns:
+        True if the sequence is a valid FizzBuzz sequence, False otherwise.
+    """
     return all(
         actual
         == (
@@ -29,7 +36,7 @@ def is_fizz_buzz(sequence: list[str | int]) -> bool:
     )
 
 
-tests = [
+tests: list[tuple[list[str | int], bool]] = [
     ([1, 2, 'Fizz', 4], True),
     ([1, 2, 3, 4], False),
     ([1, 2, 'Fizz', 4, 'Buzz', 7], False),
