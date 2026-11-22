@@ -1,25 +1,33 @@
 """Daily Coding Challenge #105 (2025-11-23) - freeCodeCamp.org."""
 
 # Character Count
-
 # Given a sentence string, return an array with a count of each character in
 # alphabetical order.
-
-# Treat upper and lowercase letters as the same letter when counting.
-# Ignore numbers, spaces, punctuation, etc.
-# Return the count and letter in the format "letter count". For instance, "a 3".
-# All returned letters should be lowercase.
-# Do not return a count of letters that are not in the given string.
+#
+# - Treat upper and lowercase letters as the same letter when counting.
+# - Ignore numbers, spaces, punctuation, etc.
+# - Return the count and letter in the format "letter count". For instance, "a 3".
+# - All returned letters should be lowercase.
+# - Do not return a count of letters that are not in the given string.
 from collections import Counter
 
 from pytest import mark
 
 
 def count_characters(sentence: str) -> list[str]:
-    lower_letters_only = [char.lower() for char in sentence if char.isalpha()]
+    """Count characters in a sentence.
+
+    Args:
+        sentence: The sentence to count characters in.
+
+    Returns:
+        The count of each character in alphabetical order.
+    """
     return [
         f'{letter} {count}'
-        for letter, count in sorted(Counter(lower_letters_only).items())
+        for letter, count in sorted(
+            Counter(char.lower() for char in sentence if char.isalpha()).items()
+        )
     ]
 
 
