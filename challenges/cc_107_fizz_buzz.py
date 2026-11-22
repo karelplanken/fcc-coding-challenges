@@ -1,17 +1,24 @@
 """Daily Coding Challenge #107 (2025-11-25) - freeCodeCamp.org."""
 
 # FizzBuzz
-
 # Given an integer (n), return an array of integers from 1 to n (inclusive), replacing
 # numbers that are multiple of:
-
-# 3 with "Fizz".
-# 5 with "Buzz".
-# 3 and 5 with "FizzBuzz".
+#
+# - 3 with "Fizz".
+# - 5 with "Buzz".
+# - 3 and 5 with "FizzBuzz".
 from pytest import mark
 
 
 def fizz_buzz(number: int) -> list[str | int]:
+    """Return a list of integers from 1 to n, replacing multiples of 3 and 5.
+
+    Args:
+        number: The upper limit of the range (inclusive).
+
+    Returns:
+        A list containing integers and strings based on the FizzBuzz rules.
+    """
     return [
         'FizzBuzz'
         if num % 15 == 0
@@ -24,7 +31,7 @@ def fizz_buzz(number: int) -> list[str | int]:
     ]
 
 
-tests = [
+tests: list[tuple[int, list[str | int]]] = [
     (2, [1, 2]),
     (4, [1, 2, 'Fizz', 4]),
     (8, [1, 2, 'Fizz', 4, 'Buzz', 'Fizz', 7, 8]),
