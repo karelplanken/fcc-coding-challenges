@@ -1,18 +1,26 @@
 """Daily Coding Challenge #106 (2025-11-24) - freeCodeCamp.org."""
 
 # Message Validator
-
 # Given a message string and a validation string, determine if the message is valid.
-
-# A message is valid if each word in the message starts with the corresponding
-# letter in the validation string, in order.
-# Letters are case-insensitive.
-# Words in the message are separated by single spaces.
+#
+# - A message is valid if each word in the message starts with the corresponding letter
+#   in the validation string, in order.
+# - Letters are case-insensitive.
+# - Words in the message are separated by single spaces.
 from pytest import mark
 
 
 def is_valid_message(message: str, validation: str) -> bool:
-    words = message.lower().split()
+    """Check if a message is valid based on a validation string.
+
+    Args:
+        message: The message to validate.
+        validation: The letters with which the words in the message should start.
+
+    Returns:
+        True if the message is valid, False otherwise.
+    """
+    words = message.lower().split(' ')
 
     if len(words) != len(validation):
         return False
@@ -20,7 +28,7 @@ def is_valid_message(message: str, validation: str) -> bool:
     validation = validation.lower()
 
     for word, letter in zip(words, validation):
-        if word[0] != letter:
+        if not word.startswith(letter):
             return False
     return True
 
