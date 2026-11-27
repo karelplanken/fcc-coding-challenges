@@ -1,104 +1,19 @@
 """Daily Coding Challenge #111 (2025-11-29) - freeCodeCamp.org."""
 
 # Ball Trajectory
-# Today's challenge is inspired by the video game Pong, which was released
-# November 29, 1972.
-
-# Given a matrix (array of arrays) that includes the location of the ball (2), and
-# the previous location of the ball (1), return the matrix indices for the next
-# location of the ball.
-
-# The ball always moves in a straight line.
-# The movement direction is determined by how the ball moved from 1 to 2.
-# The edges of the matrix are considered walls. If the balls hits a:
-# top or bottom wall, it bounces by reversing its vertical direction.
-# left or right wall, it bounces by reversing its horizontal direction.
-# corner, it bounces by reversing both directions.
-
-
-# from dataclasses import dataclass
-
-
-# @dataclass
-# class Coordinate:
-#     x: int
-#     y: int
-
-#     def __sub__(self, other: Coordinate) -> tuple[int, int]:
-#         return (self.x - other.x, self.y - other.y)
-
-
-# @dataclass
-# class Velocity:
-#     x: int
-#     y: int
-
-
-# def get_next_location(matrix: list[list[int]]) -> list[int]:
-#     n_cols = len(matrix[0])
-#     n_rows = len(matrix)
-
-#     start_coordinate = Coordinate(0, 0)
-#     end_coordinate = Coordinate(0, 0)
-
-#     for y, row in enumerate(matrix):
-#         for x, column in enumerate(row):
-#             if column == 1:
-#                 start_coordinate = Coordinate(x, y)
-#             if column == 2:
-#                 end_coordinate = Coordinate(x, y)
-
-#     velocity = Velocity(*end_coordinate - start_coordinate)
-
-#     next_coordinate = Coordinate(0, 0)
-
-#     # Horizontal movement
-#     # Travels to the right
-#     if velocity.x > 0:
-#         if end_coordinate.x + velocity.x < n_cols:
-#             # Proceed
-#             next_coordinate.x = end_coordinate.x + velocity.x
-#         else:
-#             # Bounce
-#             next_coordinate.x = (n_cols - 1) - (
-#                 (n_cols - 1) - end_coordinate.x + velocity.x
-#             )
-#     # Travels to the left
-#     elif velocity.x < 0:
-#         if end_coordinate.x + velocity.x >= 0:
-#             # Proceed
-#             next_coordinate.x = end_coordinate.x + velocity.x
-#         else:
-#             # Bounce
-#             next_coordinate.x = -1 * (end_coordinate.x + velocity.x)
-#     else:
-#         # No horizontal movement
-#         next_coordinate.x = end_coordinate.x
-
-#     # Vertical movement
-#     # Travels upwards
-#     if velocity.y < 0:
-#         if end_coordinate.y + velocity.y >= 0:
-#             # Proceed
-#             next_coordinate.y = end_coordinate.y + velocity.y
-#         else:
-#             # Bounce
-#             next_coordinate.y = -1 * (end_coordinate.y + velocity.y)
-#     # Travels downwards
-#     elif velocity.y > 0:
-#         if end_coordinate.y + velocity.y < n_rows:
-#             # Proceed
-#             next_coordinate.y = end_coordinate.y + velocity.y
-#         else:
-#             # Bounce
-#             next_coordinate.y = (n_rows - 1) - (
-#                 (n_rows - 1) - end_coordinate.y + velocity.y
-#             )
-
-#     else:
-#         next_coordinate.y = end_coordinate.y
-
-#     return [next_coordinate.y, next_coordinate.x]
+# Today's challenge is inspired by the video game Pong, which was released November 29,
+# 1972.
+#
+# Given a matrix (array of arrays) that includes the location of the ball (2), and the
+# previous location of the ball (1), return the matrix indices for the next location of
+# the ball.
+#
+# - The ball always moves in a straight line.
+# - The movement direction is determined by how the ball moved from 1 to 2.
+# - The edges of the matrix are considered walls. If the ball hits a:
+#   - top or bottom wall, it bounces by reversing its vertical direction.
+#   - left or right wall, it bounces by reversing its horizontal direction.
+#   - corner, it bounces by reversing both directions.
 from dataclasses import dataclass
 
 from pytest import mark
@@ -106,29 +21,73 @@ from pytest import mark
 
 @dataclass
 class Coordinate:
+    """Class to represent a coordinate in the matrix."""
+
     x: int
     y: int
 
     def __sub__(self, other: Coordinate) -> Coordinate:
+        """Subtract two coordinates to get the velocity vector.
+
+        Args:
+            other: The other coordinate to subtract from this one.
+
+        Returns:
+            A new Coordinate representing the difference (velocity) between the two.
+        """
         return Coordinate(self.x - other.x, self.y - other.y)
 
     def __add__(self, other: Coordinate) -> Coordinate:
+        """Add two coordinates to get the next position.
+
+        Args:
+            other: The other coordinate to add to this one.
+
+        Returns:
+            A new Coordinate representing the sum of the two coordinates.
+        """
         return Coordinate(self.x + other.x, self.y + other.y)
 
 
-def find_positions(matrix: list[list[int]]) -> tuple[Coordinate, Coordinate]:
-    """Find the previous (1) and current (2) ball positions."""
+def _find_positions(matrix: list[list[int]]) -> tuple[Coordinate, Coordinate]:
+    """Find the previous (1) and current (2) ball positions.
+
+    Args:
+        matrix: The game area.
+
+    Returns:
+        Tuple containing the previous and current ball positions.
+
+    Raises:
+        ValueError: If the matrix does not contain both 1 and 2.
+    """
+    prev_pos = curr_pos = None
+
     for y, row in enumerate(matrix):
         for x, val in enumerate(row):
             if val == 1:
                 prev_pos = Coordinate(x, y)
             elif val == 2:
                 curr_pos = Coordinate(x, y)
+
+    if not (prev_pos and curr_pos):
+        msg = 'Matrix must contain both 1 (previous position) and 2 (current position).'
+        raise ValueError(msg)
+
     return prev_pos, curr_pos
 
 
-def calculate_next_position(pos: int, velocity: int, max_val: int) -> int:
-    """Calculate next position along one axis with wall bounce logic."""
+def _calculate_next_position(pos: int, velocity: int, max_val: int) -> int:
+    """Calculate the next position of the ball, considering bounces.
+
+    Args:
+        pos: Current position of the ball (x or y coordinate).
+        velocity: The velocity of the ball (change in position).
+        max_val: The maximum value for the position (width or height of the matrix).
+
+    Returns:
+        The next position of the ball after considering bounces.
+    """
     next_pos = pos + velocity
 
     if 0 <= next_pos < max_val:
@@ -142,14 +101,22 @@ def calculate_next_position(pos: int, velocity: int, max_val: int) -> int:
 
 
 def get_next_location(matrix: list[list[int]]) -> list[int]:
+    """Get the next location of the ball in the matrix.
+
+    Args:
+        matrix: The game area.
+
+    Returns:
+        The next y and x coordinates of the ball.
+    """
     n_rows = len(matrix)
     n_cols = len(matrix[0])
 
-    prev_pos, curr_pos = find_positions(matrix)
+    prev_pos, curr_pos = _find_positions(matrix)
     velocity = curr_pos - prev_pos
 
-    next_x = calculate_next_position(curr_pos.x, velocity.x, n_cols)
-    next_y = calculate_next_position(curr_pos.y, velocity.y, n_rows)
+    next_x = _calculate_next_position(curr_pos.x, velocity.x, n_cols)
+    next_y = _calculate_next_position(curr_pos.y, velocity.y, n_rows)
 
     return [next_y, next_x]
 
